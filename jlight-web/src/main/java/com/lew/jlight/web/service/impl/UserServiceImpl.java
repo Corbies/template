@@ -1,6 +1,8 @@
 package com.lew.jlight.web.service.impl;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import com.lew.jlight.core.Response;
@@ -16,76 +18,40 @@ import com.lew.jlight.web.entity.UserRole;
 import com.lew.jlight.web.service.UserService;
 import com.lew.jlight.web.util.DigestUtil;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 @Component
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+    @Resource
     private UserDao userDao;
 
-    @Autowired
+    @Resource
     private RoleDao roleDao;
 
-    @Autowired
+    @Resource
     private UserRoleDao userRoleDao;
 
     @Override
-    public Response listUser(ParamFilter<String, String> param) {
-        Response response = new Response();
+    public List getList(ParamFilter<String, String> param) {
         Page page = param.getPage();
-        List<Map<String, Object>> list = userDao.findMap("getList", param, page);
-        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-        if (list != null && list.size() > 0) {
-            for (Map<String, Object> map : list) {
-                String userId = (String) map.get("userId");
-                List<String> roleIds = userRoleDao.findColumn("getRoleIdByUserId", String.class, userId);
-                StringBuilder buidler = new StringBuilder();
-                for (int i = 0, size = roleIds.size(); i < size; i++) {
-                    String roleName = roleDao.findOneColumn("getRoleNameByRoleId", String.class, roleIds.get(i));
-                    if (i == size - 1) {
-                        buidler.append(roleName);
-                    } else {
-                        buidler.append(roleName + "、");
-                    }
-                }
-                map.put("roleName", buidler.toString());
-                resultList.add(map);
-            }
-        }
-
-        Integer resultCount = userDao.findOneColumn("getCount", Integer.class, param);
-        page.setResultCount(resultCount);
-
-        response.setPage(page);
-        response.setData(resultList);
-        return response;
+        return userDao.findMap("getList", param, page);
     }
 
     @Override
-    public Response updateDefaultPwd(String userIds) {
-        Response response = new Response();
-        if (Strings.isNullOrEmpty(userIds)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("用户编号不能为空");
-            return response;
-        }
+    public void updateDefaultPwd(String userIds) {
+        Preconditions.checkArgument(Strings.isNullOrEmpty(userIds),"用户编号不能为空");
         String[] idArray = userIds.split(",");
-
         for (String userId : idArray) {
             User user = userDao.findUnique("getByUserId", userId);
-            if (user == null) {
-                response.setCode(Response.NOT_FOUND);
-                response.setMsg("用户不存在");
-                return response;
-            }
+            Preconditions.checkNotNull(user,"用户不存在");
         }
         for (String userId : idArray) {
             String defaultPwd = DigestUtil.sha256().digest("123456");
@@ -94,30 +60,14 @@ public class UserServiceImpl implements UserService {
             paramMap.put("userId", userId);
             userDao.update("updateDefaultPwd", paramMap);
         }
-        return response;
     }
-
     @Override
-    public Response updateUser(String roleIds, User user) {
+    public void update(String roleIds, User user) {
         Response response = new Response();
-        if (Strings.isNullOrEmpty(roleIds)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("角色编号不能为空");
-            return response;
-        }
-
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(roleIds),"角色编号不能为空");
         String[] roleIdArry = roleIds.split(",");
-        if (BeanUtil.isEmpty(roleIdArry)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("角色编号不能为空");
-            return response;
-        }
-
-        if (user == null) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("用户对象不能为空");
-            return response;
-        }
+        Preconditions.checkArgument(!BeanUtil.isEmpty(roleIdArry),"角色编号不能为空");
+        Preconditions.checkNotNull(user,"用户对象不能为空");
 
         String userId = user.getUserId();
         // 删除原有角色
@@ -130,18 +80,13 @@ public class UserServiceImpl implements UserService {
                 break;
             }
         }
+        Preconditions.checkNotNull(user,"用户对象不能为空");
         if (!isExist) {
             response.setMsg("角色信息不存在");
-            return response;
         }
 
         User model = userDao.findUnique("getByUserId", userId);
-        if (model == null) {
-            response.setCode(Response.NOT_FOUND);
-            response.setMsg("用户信息不存在");
-            return response;
-        }
-
+        Preconditions.checkNotNull(model,"用户信息不存在");
         for (String roleId : roleIdArry) {
             UserRole userRole = new UserRole();
             userRole.setRoleId(roleId);
@@ -149,10 +94,8 @@ public class UserServiceImpl implements UserService {
             userRole.setCreateTime(new Date());
             userRole.setUpdateTime(new Date());
             userRole.setUserId(userId);
-
             userRoleDao.save("addUserRole", userRole);
         }
-
         String oldPwd = user.getPassword();
         if (model.getPassword().equals(oldPwd)) {
             user.setPassword(oldPwd);
@@ -167,31 +110,15 @@ public class UserServiceImpl implements UserService {
         params.put("trueName", user.getTrueName());
         params.put("isLock", user.getIsLock());
         params.put("userId", user.getUserId());
-
         userDao.update("updateUser", params);
-
-        return response;
     }
 
     @Override
-    public Response addUser(String roleIds, User user) {
-        Response response = new Response();
-        if (Strings.isNullOrEmpty(roleIds)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("角色编号不能为空");
-            return response;
-        }
+    public void add(String roleIds, User user) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(roleIds),"角色编号不能为空");
         String[] roleIdsToUse = roleIds.split(",");
-        if (BeanUtil.isEmpty(roleIdsToUse)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("角色编号不能为空");
-            return response;
-        }
-        if (user == null) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("用户信息不能为空");
-            return response;
-        }
+        Preconditions.checkArgument(!BeanUtil.isEmpty(roleIdsToUse),"角色编号不能为空");
+        Preconditions.checkNotNull(user,"用户信息不能为空");
         boolean isExist = true;
         for (String roleIdToUse : roleIdsToUse) {
             Role role = roleDao.findUnique("getRoleByRoleId", roleIdToUse);
@@ -201,19 +128,10 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        if (!isExist) {
-            response.setCode(Response.NOT_FOUND);
-            response.setMsg("用户对象不存在");
-            return response;
-        }
-
+        Preconditions.checkState(isExist,"用户对象不存在");
         String account = user.getAccount();
         User model = userDao.findUnique("getByAccount", account);
-        if (model != null) {
-            response.setCode(Response.EXSIED);
-            response.setMsg("用户对象已存在");
-            return response;
-        }
+        Preconditions.checkState(model!=null,"用户对象已存在");
 
         String password = user.getPassword();
         password = DigestUtil.sha256().digest(password);
@@ -224,8 +142,8 @@ public class UserServiceImpl implements UserService {
         user.setErrorCount(BigInteger.ZERO.intValue());
         user.setUserId("2");
         user.setPassword(password);
-
         userDao.save("addUser", user);
+
         for (String roleId : roleIdsToUse) {
             UserRole userRole = new UserRole();
             userRole.setRoleId(roleId);
@@ -233,143 +151,71 @@ public class UserServiceImpl implements UserService {
             userRole.setCreateTime(createTime);
             userRole.setUpdateTime(createTime);
             userRole.setUserId(user.getUserId());
-
             userRoleDao.save("addUserRole", userRole);
         }
-        return response;
     }
 
     @Override
-    public Response updatePwd(String oldPwd, String confirmPwd, String newPwd, String userId) {
-        Response response = new Response();
-        if (Strings.isNullOrEmpty(userId)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("用户编号不能为空");
-            return response;
-        }
-
-        if (Strings.isNullOrEmpty(oldPwd)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("旧密码不能为空");
-            return response;
-        }
-        if (Strings.isNullOrEmpty(newPwd)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("新密码不能为空");
-            return response;
-        }
-        if (Strings.isNullOrEmpty(confirmPwd)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("确认密码不能为空");
-            return response;
-        }
-
-        if (!newPwd.equals(confirmPwd)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("新密码与确认密码不一致");
-            return response;
-        }
+    public void updatePwd(String oldPwd, String confirmPwd, String newPwd, String userId) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId),"用户编号不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(oldPwd),"旧密码不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(newPwd),"新密码不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(confirmPwd),"确认密码不能为空");
+        Preconditions.checkArgument(!newPwd.equals(confirmPwd),"新密码与确认密码不一致");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(newPwd),"新密码不能为空");
 
         User user = userDao.findUnique("getByUserId", userId);
-        if (user == null) {
-            response.setCode(Response.NOT_FOUND);
-            response.setMsg("用户对象不存在");
-            return response;
-        }
-
-        if (!user.getPassword().equals(DigestUtil.sha256().digest(oldPwd))) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("原密码不正确");
-            return response;
-        }
+        Preconditions.checkNotNull(user,"用户对象不存在");
+        Preconditions.checkArgument(!user.getPassword().equals(DigestUtil.sha256().digest(oldPwd)),"原密码不正确");
 
         String newPassword = DigestUtil.sha256().digest(newPwd);
         Map<String, String> paramMap = Maps.newHashMap();
         paramMap.put("newPassword", newPassword);
         paramMap.put("userId", userId);
         userDao.update("updatePwd", paramMap);
-
-        return response;
     }
 
     @Override
-    public Response deleteUser(String userIds) {
-        Response response = new Response();
-        if (Strings.isNullOrEmpty(userIds)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("用户编号不能为空");
-            return response;
-        }
-
+    public void delete(String userIds) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(userIds),"用户编号不能为空");
         String[] idArray = userIds.split(",");
         for (String userId : idArray) {
             User user = userDao.findUnique("getByUserId", userId);
-            if (user == null) {
-                response.setCode(Response.NOT_FOUND);
-                response.setMsg("用户对象不存在");
-                return response;
-            }
+            Preconditions.checkNotNull(user,"用户对象不存在");
         }
-
         for (String userId : idArray) {
             userDao.update("deleteByUserId", userId);
             userRoleDao.update("deleteUserRoleByUserId", userId);
         }
-        return response;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Response getUserDetail(String userId) {
-        Response response = new Response();
-        if (Strings.isNullOrEmpty(userId)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("用户编号不能为空");
-            return response;
-        }
-
+    public Map getDetail(String userId) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId),"用户编号不能为空");
         Map<String, Object> resultMap = Maps.newHashMap();
-        Map<String, Object> userMap = userDao.findOneColumn("getUserDetail", Map.class, userId);
-        if (userMap == null) {
-            response.setCode(Response.NOT_FOUND);
-            response.setMsg("用户对象不存在");
-            return response;
-        }
-
+        Map userMap = userDao.findOneColumn("getUserDetail", Map.class, userId);
+        Preconditions.checkNotNull(userMap,"用户对象不存在");
         List<String> roleIds = userRoleDao.findColumn("getRoleIdByUserId", String.class, userId);
-
         resultMap.put("user", userMap);
         resultMap.put("roleIds", roleIds);
-        response.setData(resultMap);
-        return response;
+        return resultMap;
     }
 
     @Override
-    public Response getUserByUserId(String userId) {
-        Response response = new Response();
-        if (Strings.isNullOrEmpty(userId)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("用户编号不能为空");
-            return response;
-        }
-        User user = userDao.findUnique("getByUserId", userId);
-        response.setData(user);
-
-        return response;
+    public User getByUserId(String userId) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId),"用户编号不能为空");
+        return userDao.findUnique("getByUserId", userId);
     }
 
     @Override
-    public Response getUserByAccount(String account) {
-        Response response = new Response();
-        if (Strings.isNullOrEmpty(account)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("帐号不能为空");
-            return response;
-        }
-        User user = userDao.findUnique("getByAccount", account);
-        response.setData(user);
+    public User getByAccount(String account) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(account),"用户编号不能为空");
+        return userDao.findUnique("getByAccount", account);
+    }
 
-        return response;
+    @Override
+    public List<String> getPermission(String account) {
+        return Lists.newArrayList();
     }
 
 }

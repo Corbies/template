@@ -13,76 +13,72 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 
 
 @Controller
 @RequestMapping("role")
 public class RoleController {
 
+    @Resource
     private RoleService roleService;
 
-    /**
-     * 角色管理---角色列表
-     */
     @ResponseBody
-    public Object list(@RequestBody String json) {
-        ParamFilter<String, String> filter = new ParamFilter<String, String>();
-
+    @RequestMapping("list")
+    public Response list(@RequestBody String json) {
+        ParamFilter<String, String> filter = new ParamFilter<>();
         Map<String, String> param = JsonUtil.parseStringMap(json);
+        assert param != null;
         Object queryParam = param.get("param");
         Page page = JsonUtil.parseMapToObj(param.get("page"), Page.class);
         filter.setPage(page);
         if (queryParam != null) {
             filter.putAll(BeanUtil.toMap(queryParam));
         }
-
-        Response response = roleService.listRole(filter);
-        return response;
+        List<Role> roleList=  roleService.getList(filter);
+        return new Response(roleList);
     }
 
-    /**
-     * 角色管理--角色添加
-     */
     @ResponseBody
+    @RequestMapping("add")
     public Object add(@RequestBody String json) {
         Role role = JsonUtil.parseObj(json, Role.class);
-        Response response = roleService.addRole(role);
-        return response;
+        roleService.add(role);
+        return new Response();
     }
 
-    /**
-     * 角色管理--角色编辑
-     */
     @ResponseBody
-    public Object edit(@RequestBody String json) {
+    @RequestMapping("update")
+    public Response update(@RequestBody String json) {
         Role role = JsonUtil.parseObj(json, Role.class);
-        Response response = roleService.editRole(role);
-        return response;
+        roleService.update(role);
+        return new Response();
     }
 
-    public Object delete(@RequestBody String json) {
+    @ResponseBody
+    @RequestMapping("delete")
+    public Response delete(@RequestBody String json) {
         Map<String, String> param = JsonUtil.parseStringMap(json);
         String roleIds = BeanUtil.isEmpty(param) ? null : param.get("roleIds");
-
-        Response response = roleService.deleteRole(roleIds);
-        return response;
+        roleService.delete(roleIds);
+        return new Response();
     }
 
-    /**
-     * 角色管理---角色详细
-     */
-    public Object detail(@RequestBody String roleId) {
-        Response response = roleService.detailRole(roleId);
-        return response;
+
+    @ResponseBody
+    @RequestMapping("detail")
+    public Response detail(@RequestBody String roleId) {
+         roleService.getDetail(roleId);
+        return new Response();
     }
 
-    /**
-     * 角色名称映射
-     */
-    public Object getRoleMap() {
-        Response response = roleService.getRoleMap();
-        return response;
+    @ResponseBody
+    @RequestMapping("getRoleMap")
+    public Response getRoleMap() {
+        Map roleMap = roleService.getRoleMap();
+        return new Response(roleMap);
     }
 }

@@ -2,6 +2,7 @@ package com.lew.jlight.core;
 
 
 import com.lew.jlight.core.page.Page;
+import com.lew.jlight.core.util.BeanUtil;
 
 public class Response implements ResponseCode {
 

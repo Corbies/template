@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 
 import com.lew.jlight.core.util.BeanUtil;
 import com.lew.jlight.web.entity.JSTree;
-import com.lew.jlight.web.entity.Resources;
+import com.lew.jlight.web.entity.Menu;
 import com.lew.jlight.web.entity.SelectTree;
 
 import java.math.BigInteger;
@@ -51,8 +51,8 @@ public abstract class ResourceTreeUtil {
         return jstreeList;
     }
 
-    public List<SelectTree> getSelectTree(List<Resources> list, Integer parentId) {
-        List<Resources> returnList = getChildResourceEntitys(list, parentId);
+    public List<SelectTree> getSelectTree(List<Menu> list, Integer parentId) {
+        List<Menu> returnList = getChildResourceEntitys(list, parentId);
         recursionForSelect(returnList);
         return selectTree;
     }
@@ -60,18 +60,18 @@ public abstract class ResourceTreeUtil {
     /**
      * 递归列表
      */
-    private void recursionForSelect(List<Resources> list) {
+    private void recursionForSelect(List<Menu> list) {
         String str = "";
         for (int i = 0; i < selectCnt; i++) {
             str += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         }
-        for (Resources re : list) {
+        for (Menu re : list) {
             if (null == re.getParentId()) {
                 str = "";
                 selectCnt = 0;
             }
             SelectTree se = new SelectTree();
-            se.setId(re.getResId());
+            se.setId(re.getMenuId());
             se.setText(str + re.getName());
             se.setName(re.getName());
             selectTree.add(se);
@@ -83,11 +83,11 @@ public abstract class ResourceTreeUtil {
     }
 
 
-    public List<Resources> getChildResourceEntitys(List<Resources> list, Integer parentId) {
-        List<Resources> returnList = new ArrayList<>();
-        Iterator<Resources> iterator;
+    public List<Menu> getChildResourceEntitys(List<Menu> list, Integer parentId) {
+        List<Menu> returnList = new ArrayList<>();
+        Iterator<Menu> iterator;
         for (iterator = list.iterator(); iterator.hasNext(); ) {
-            Resources t = iterator.next();
+            Menu t = iterator.next();
             // 一、根据传入的某个父节点ID,遍历该父节点的所有子节点
             if (valueOf(t.getParentId()) == parentId) {
                 recursionFn(list, t);
@@ -100,13 +100,13 @@ public abstract class ResourceTreeUtil {
     /**
      * 递归列表
      */
-    private void recursionFn(List<Resources> list, Resources t) {
-        List<Resources> childList = getChildList(list, t);// 得到子节点列表
+    private void recursionFn(List<Menu> list, Menu t) {
+        List<Menu> childList = getChildList(list, t);// 得到子节点列表
 //		t.setChildren( childList );
         // 判断是否有子节点
         childList.stream().filter(tChild -> hasChild(list, tChild)).forEach(tChild -> {
             // 判断是否有子节点
-            for (Resources n : childList) {
+            for (Menu n : childList) {
                 recursionFn(list, n);
             }
         });
@@ -115,14 +115,14 @@ public abstract class ResourceTreeUtil {
     /**
      * 得到子节点列表
      */
-    private List<Resources> getChildList(List<Resources> list, Resources t) {
-        return list.stream().filter(n -> t.getType() != 2).filter(n -> Objects.equals(n.getParentId(), t.getResId())).collect(Collectors.toList());
+    private List<Menu> getChildList(List<Menu> list, Menu t) {
+        return list.stream().filter(n -> t.getType() != 2).filter(n -> Objects.equals(n.getParentId(), t.getMenuId())).collect(Collectors.toList());
     }
 
     /**
      * 判断是否有子节点
      */
-    private boolean hasChild(List<Resources> list, Resources t) {
+    private boolean hasChild(List<Menu> list, Menu t) {
         return getChildList(list, t).size() > 0;
     }
 

@@ -1,21 +1,23 @@
 package com.lew.jlight.web.service;
 
 
-import com.lew.jlight.core.Response;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Role;
 
+import java.util.List;
+import java.util.Map;
+
 public interface RoleService {
 
-    Response addRole(Role role);
+    void add(Role role);
 
-    Response deleteRole(String roleIds);
+    void delete(String roleIds);
 
-    Response editRole(Role role);
+    void update(Role role);
 
-    Response listRole(ParamFilter<String, String> param);
+    List<Role> getList(ParamFilter<String, String> param);
 
-    Response detailRole(String roleId);
+    Role getDetail(String roleId);
 
-    Response getRoleMap();
+    Map getRoleMap();
 }

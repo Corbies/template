@@ -1,99 +1,99 @@
+var _ctx = "";
 var base = angular.module( "base", []);
 base.factory("$jsonToFormData",function() {
 	function transformRequest( data, getHeaders ) {
 		var headers = getHeaders();
-		headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		headers["content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
 		return $.param(data);
 	}
 	return( transformRequest );
 })
 .service('baseService', ['$http','$q','$jsonToFormData', function($http, $q, $jsonToFormData) {
-    var service = {
-    		get: function(url){
-    			var deferred = $q.defer();
-    			$http.get(url).success(function(response,status){
-    				if(response.code==1){
+	return {
+		get: function (url) {
+			var deferred = $q.defer();
+			$http.get(url).success(function (response) {
+				if (response.code == 1) {
+					alertError();
+					return;
+				}
+				if (response.code == 0) {
+					deferred.resolve(response);
+				} else {
+					deferred.reject(response);
+				}
+			})
+				.error(function (response, status) {
+					deferred.reject(status);
+					// 根据 状态全局提示
+				});
+			return deferred.promise;
+		},
+		postForm: function (url, param) {
+			var deferred = $q.defer();
+			$.post(url, param)
+				.success(function (response) {
+					//系统发生内部错误
+					if (response.code == 1) {
 						alertError();
 						return;
 					}
-					if(response.code==0){
-						deferred.resolve(response);
-					}else{
-						deferred.reject(response);
-					}
-        		})
-        		.error(function(response,status){
-        			deferred.reject(status);
-        			// 根据 状态全局提示
-        		});
-    			return deferred.promise;
-    		},
-    		postForm: function(url, param){
-    			var deferred = $q.defer();
-    			$http.post(url,param,{transformRequest:$jsonToFormData}).success(function(response,status){
-    				//系统发生内部错误
-    				if(response.code==1){
-						alertError();
-						return;
-					}
-    				//系统正常执行
-					if(response.code==0){
+					//系统正常执行
+					if (response.code == 0) {
 						deferred.resolve(response);
 					}
-				 })
-				 .error(function(response,status){
-					 deferred.reject(status);
-					 //TODO 根据返回的错误状态(status)显示对应的全局提示
-				 });
-    			return deferred.promise;
-    		},
-    		post: function(url, param){
-    			var deferred = $q.defer();
-    			if(!param){
-    				param = {};
-    			}
-    			$http.post(url, param).success(function(response, status){
-    					//系统发生内部错误
-    					if(response.code==1){
-    						alertError();
-    						return;
-    					}
-    					//系统正常执行
-    					if(response.code==0){
-    						deferred.resolve(response);
-    					}else{
-    						deferred.reject(response);
-    					}
-    				})
-    				.error(function(response, status){
-    					deferred.reject(status);
-    				});
-    			return deferred.promise;
-    		},
-    		postWithPage: function(url,requestPage,param){
-    			var deferred = $q.defer();
-    			param.page = requestPage;
-    			param = angular.extend(param);
-    			$http.post(url, param).success(function(response, status){
-	    				//系统发生内部错误
-	    				if(response.code==1){
-							alertError();
-							return;
-						}
-	    				//系统正常执行
-						if(response.code==0){
-							deferred.resolve(response);
-						}else{
-    						deferred.reject(response);
-    					}
-    				})
-    				.error(function(response, status){
-    					deferred.reject(status);
-    				});
-    			return deferred.promise;
-    		},
-        };
-    return service;
+				})
+				.error(function (response, status) {
+					deferred.reject(status);
+					//TODO 根据返回的错误状态(status)显示对应的全局提示
+				});
+			return deferred.promise;
+		},
+		post: function (url, param) {
+			var deferred = $q.defer();
+			if (!param) {
+				param = {};
+			}
+			$http.post(url, param).success(function (response) {
+				//系统发生内部错误
+				if (response.code == 1) {
+					alertError();
+					return;
+				}
+				//系统正常执行
+				if (response.code == 0) {
+					deferred.resolve(response);
+				} else {
+					deferred.reject(response);
+				}
+			}).error(function (response, status) {
+					deferred.reject(status);
+				});
+			return deferred.promise;
+		},
+		postWithPage: function (url, requestPage, param) {
+			var deferred = $q.defer();
+			param.page = requestPage;
+			param = angular.extend(param);
+			$http.post(url, param).success(function (response) {
+				//系统发生内部错误
+				if (response.code == 1) {
+					alertError();
+					return;
+				}
+				//系统正常执行
+				if (response.code == 0) {
+					deferred.resolve(response);
+				} else {
+					deferred.reject(response);
+				}
+			})
+				.error(function (response, status) {
+					deferred.reject(status);
+				});
+			return deferred.promise;
+		}
+	};
 }])
 /**
  * 分页指令
@@ -246,6 +246,6 @@ base.factory("$jsonToFormData",function() {
 function alertError(){
 	layer.alert("系统发生错误，请联系管理员！\r\n", {
 		title : '提示框',
-		icon : 0,
+		icon : 0
 	});
 }

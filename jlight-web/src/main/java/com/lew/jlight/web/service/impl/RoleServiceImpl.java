@@ -1,49 +1,39 @@
 package com.lew.jlight.web.service.impl;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
-import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.RoleDao;
-import com.lew.jlight.web.dao.RoleResDao;
+import com.lew.jlight.web.dao.RoleMenuDao;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.service.RoleService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 @Component
 public class RoleServiceImpl implements RoleService {
 
-    @Autowired
+    @Resource
     private RoleDao roleDao;
-
-    private RoleResDao roleResDao;
+    @Resource
+    private RoleMenuDao roleMenuDao;
 
     @Override
-    public Response addRole(Role role) {
-        Response response = new Response();
-        if (role == null) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("角色信息不能为空");
-            return response;
-        }
-
+    public void add(Role role) {
+        Preconditions.checkNotNull(role,"角色信息不能为空");
         String sign = role.getSign();
         Role model = roleDao.findUnique("getRoleBySign", sign);
-        if (model != null) {
-            response.setCode(Response.EXSIED);
-            response.setMsg("角色对象已存在");
-            return response;
-        }
+        Preconditions.checkArgument(model!=null,"角色信息不能为空");
 
         Date date = new Date();
         role.setCreateTime(date);
@@ -51,60 +41,35 @@ public class RoleServiceImpl implements RoleService {
         role.setIsDelete(BigInteger.ZERO.intValue());
         role.setRoleId("2");
         roleDao.save("addRole", role);
-
-        return response;
     }
 
     @Override
-    public Response deleteRole(String roleIds) {
-        Response response = new Response();
-        if (Strings.isNullOrEmpty(roleIds)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("角色编号不能为空");
-            return response;
-        }
-
+    public void delete(String roleIds) {
+        Preconditions.checkArgument(Strings.isNullOrEmpty(roleIds),"角色编号不能为空");
         String[] idArray = roleIds.split(",");
         for (String roleId : idArray) {
             Role model = roleDao.findUnique("getRoleByRoleId", roleId);
-            if (model == null) {
-                response.setCode(Response.NOT_FOUND);
-                response.setMsg("角色对象不存在");
-                return response;
-            }
+            Preconditions.checkNotNull(model,"角色对象不存在");
         }
-
         for (String roleId : idArray) {
             roleDao.update("deleteByRoleId", roleId);
-            roleResDao.update("deleteByRoleId", roleId);
+            roleMenuDao.update("deleteByRoleId", roleId);
         }
-
-        return response;
     }
 
     @Override
-    public Response editRole(Role role) {
-        Response response = new Response();
-        if (role == null) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("角色信息不能为空");
-            return response;
-        }
+    public void update(Role role) {
+        Preconditions.checkNotNull(role,"角色信息不能为空");
+
         Role model = roleDao.findUnique("getRoleByRoleId", role.getRoleId());
-        if (model == null) {
-            response.setCode(Response.NOT_FOUND);
-            response.setMsg("角色对象不存在");
-            return response;
-        }
+        Preconditions.checkNotNull(model,"角色对象不存在");
+
         Map<String, Object> param = Maps.newHashMap();
         param.put("sign", role.getSign());
         param.put("roleId", role.getRoleId());
         model = roleDao.findUnique("getRoleBySignAndNoRoleId", param);
-        if (model != null && role.getSign().equals(model.getSign())) {
-            response.setCode(Response.EXSIED);
-            response.setMsg("角色标识已存在");
-            return response;
-        }
+        Preconditions.checkNotNull(model,"角色对象不存在");
+        Preconditions.checkArgument(!role.getSign().equals(model.getSign()),"角色标识已存在");
 
         param = Maps.newHashMap();
         param.put("sign", role.getSign());
@@ -112,53 +77,26 @@ public class RoleServiceImpl implements RoleService {
         param.put("remark", role.getRemark());
         param.put("updateTime", new Date());
         param.put("roleId", role.getRoleId());
-
         roleDao.update("updateRole", param);
-
-        return response;
     }
 
     @Override
-    public Response listRole(ParamFilter<String, String> param) {
-        Response response = new Response();
+    public List<Role> getList(ParamFilter<String, String> param) {
         Page page = param.getPage();
-        List<Map<String, Object>> roleList = roleDao.findMap("getRoleList", param, page);
-        response.setData(roleList);
-
-        Integer resultCount = roleDao.findOneColumn("getCount", Integer.class, param);
-        page.setResultCount(resultCount);
-
-        response.setPage(page);
-
-        return response;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Response detailRole(String roleId) {
-        Response response = new Response();
-        if (Strings.isNullOrEmpty(roleId)) {
-            response.setCode(Response.INVALID_PARAM);
-            response.setMsg("角色编号不能为空");
-            return response;
-        }
-
-        Map<String, Object> detailMap = roleDao.findOneColumn("getRoleDetail", Map.class, roleId);
-        if (detailMap == null) {
-            response.setCode(Response.NOT_FOUND);
-            response.setMsg("角色对象不存在");
-            return response;
-        }
-
-        response.setData(detailMap);
-        return response;
+         roleDao.findMap("getRoleList", param, page);
+        return null;
     }
 
     @Override
-    public Response getRoleMap() {
-        Response response = new Response();
-        List<Map<String, Object>> roleList = roleDao.findMap("getRoleIdAndName", null);
-        response.setData(roleList);
-        return response;
+    public Role getDetail(String roleId) {
+        Preconditions.checkArgument(Strings.isNullOrEmpty(roleId),"角色编号不能为空");
+        Map detailMap = roleDao.findOneColumn("getRoleDetail", Map.class, roleId);
+        Preconditions.checkNotNull(detailMap,"角色对象不存在");
+        return null;
+    }
+
+    @Override
+    public Map getRoleMap() {
+        return null;
     }
 }

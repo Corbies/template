@@ -1,33 +1,31 @@
 package com.lew.jlight.web.service;
 
 
-import com.lew.jlight.core.Response;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.User;
 
+import java.util.List;
+import java.util.Map;
+
 public interface UserService {
 
-    Response listUser(ParamFilter<String, String> param);
+    List getList(ParamFilter<String, String> param);
 
+    void updateDefaultPwd(String userIds);
 
-    Response updateDefaultPwd(String userIds);
+    void update(String roleIds, User user);
 
+    void add(String roleIds, User user);
 
-    Response updateUser(String roleIds, User user);
+    void updatePwd(String oldPwd, String confirmPwd, String newPwd, String userId);
 
+    void delete(String userIds);
 
-    Response addUser(String roleIds, User user);
+    Map getDetail(String userId);
 
+    User getByUserId(String userId);
 
-    Response updatePwd(String oldPwd, String confirmPwd, String newPwd, String userId);
+    User getByAccount(String account);
 
-    Response deleteUser(String userIds);
-
-
-    Response getUserDetail(String userId);
-
-    Response getUserByUserId(String userId);
-
-    Response getUserByAccount(String account);
-
+    List<String> getPermission(String account);
 }
