@@ -13,7 +13,7 @@ indexApp.controller('indexCtrl', ['$rootScope', '$scope','indexService',function
 	   layer.confirm('是否确定退出系统？', {
 		   btn: ['是','否'] 
 		}, function(){
-		  location.href= _ctx + "/rest/logout";
+		  location.href= _ctx + "/logout";
 		 });
 	}
 	

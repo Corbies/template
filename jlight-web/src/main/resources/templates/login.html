@@ -1,29 +1,28 @@
 <!DOCTYPE html>
-<html ng-app="loginApp" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>登录</title>
     <link rel="stylesheet" th:href="@{/favicon.ico}"/>
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
 </head>
-<body class="login" ng-controller="loginCtrl" ng-keyup="enterKeyup($event)">
+<body class="login">
 <div class="login_logo" style="margin-top: 68px;">
     <img src="" th:attr="src=@{/images/logo.png}"/>
 </div>
 <div class="login_m">
-    <form action="/doLogin" th:attr="action=@{/doLogin}" method="POST">>
+    <form  th:attr="action=@{/login}" method="POST">
     <div class="login_boder">
         <div class="login_padding">
-            <span id="errorMsg" ng-bind="errorMsg"></span>
+            <!--/*@thymesVar id="msg" type="templates"*/-->
+            <span id="errorMsg" th:text="${msg}"></span>
             <h2>用户名</h2>
             <label>
-                <input type="text" id="username" name="account" ng-model="user.account"
-                       class="txt_input txt_input2"/>
+                <input type="text" id="username" name="account" class="txt_input txt_input2"/>
             </label>
             <h2>密码</h2>
             <label>
-                <input type="password" name="password" id="userpwd" ng-model="user.password"
-                       class="txt_input"/>
+                <input type="password" name="password" id="userpwd" class="txt_input"/>
             </label>
             <div class="rem_sub">
                 <label>
@@ -35,12 +34,5 @@
     </div>
     </form>
 </div>
-<script th:src="@{/js/lib/jquery/jquery-1.8.3.min.js}"></script>
-<script th:src="@{/assets/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/lib/angular/angular.min.js}"></script>
-<script th:src="@{/js/BaseService.js}"></script>
-<script th:src="@{/js/system/controller/LoginCtrl.js}"></script>
-<script th:src="@{/js/system/service/LoginService.js}"></script>
-<script th:src="@{/assets/layer/layer.js}"></script>
 </body>
 </html>

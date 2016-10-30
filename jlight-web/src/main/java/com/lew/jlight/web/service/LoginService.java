@@ -5,6 +5,6 @@ import com.lew.jlight.core.Response;
 
 public interface LoginService {
 
-	boolean doLogin(String account, String password, String clientIp)  throws Exception;
+	boolean doLogin(String account, String password, String clientIp);
 	
 }

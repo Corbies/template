@@ -1,4 +1,4 @@
-package com.lew.jlight.web.handler;
+package com.lew.jlight.web.exception.handler;
 
 import com.lew.jlight.core.Response;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@ControllerAdvice
+@ControllerAdvice()
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)

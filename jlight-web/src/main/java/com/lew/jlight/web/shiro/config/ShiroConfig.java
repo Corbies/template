@@ -14,7 +14,6 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import java.util.Map;
@@ -22,7 +21,7 @@ import java.util.Map;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
-@Component
+@Configuration
 public class ShiroConfig {
 
     @Bean
@@ -53,7 +52,6 @@ public class ShiroConfig {
         chains.put("/login", "anon");
         chains.put("/doLogin", "anon");
         chains.put("/unauthor", "anon");
-        chains.put("/logout", "logout");
         //静态资源过滤
         chains.put("/assets/**", "anon");
         chains.put("/css/**", "anon");
@@ -78,14 +76,11 @@ public class ShiroConfig {
     @Bean(name = "securityManager")
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
-        manager.setRealm(userRealm());
+        manager.setRealm(getUserRealm());
         manager.setSessionManager(defaultWebSessionManager());
         return manager;
     }
 
-    /**
-     * @see DefaultWebSessionManager
-     */
     @Bean(name = "sessionManager")
     public DefaultWebSessionManager defaultWebSessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
@@ -99,9 +94,8 @@ public class ShiroConfig {
 
     @Bean
     @DependsOn(value = "lifecycleBeanPostProcessor")
-    public UserRealm userRealm() {
-        UserRealm userRealm = new UserRealm();
-        return userRealm;
+    public UserRealm getUserRealm() {
+        return new UserRealm();
     }
 
     @Bean

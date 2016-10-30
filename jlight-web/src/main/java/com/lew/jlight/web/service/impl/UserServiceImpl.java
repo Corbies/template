@@ -39,6 +39,10 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserRoleDao userRoleDao;
 
+    public UserServiceImpl(){
+        System.out.println("sss");
+    }
+
     @Override
     public List getList(ParamFilter<String, String> param) {
         Page page = param.getPage();
