@@ -14,6 +14,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import java.util.Map;
@@ -21,7 +22,7 @@ import java.util.Map;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
-@Configuration
+@Component
 public class ShiroConfig {
 
     @Bean
@@ -53,10 +54,16 @@ public class ShiroConfig {
         chains.put("/doLogin", "anon");
         chains.put("/unauthor", "anon");
         chains.put("/logout", "logout");
+        //静态资源过滤
         chains.put("/assets/**", "anon");
         chains.put("/css/**", "anon");
         chains.put("/images/**", "anon");
         chains.put("/js/**", "anon");
+
+        //错误页面过滤
+        chains.put("/401.html", "anon");
+        chains.put("/404.html", "anon");
+
         chains.put("/**", "authc,perms");
         bean.setFilterChainDefinitionMap(chains);
         return bean;

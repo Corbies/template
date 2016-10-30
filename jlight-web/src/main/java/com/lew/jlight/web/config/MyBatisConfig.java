@@ -1,10 +1,8 @@
 package com.lew.jlight.web.config;
 
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -14,13 +12,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-class MyBatisConfig implements TransactionManagementConfigurer {
+public class MyBatisConfig implements TransactionManagementConfigurer {
 
-    @Autowired
+    @Resource
     private DataSource dataSource;
 
     @Bean(name = "sqlSessionFactory")

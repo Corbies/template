@@ -11,6 +11,7 @@ public class MvcServletRegistration{
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
         ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
         registration.getUrlMappings().clear();
+        dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
         return registration;
     }
 }

@@ -10,6 +10,7 @@ public class Response implements ResponseCode {
 
     private Page page;
 
+    //默认为0表示响应正常
     private int code = 0;
 
     private String msg;

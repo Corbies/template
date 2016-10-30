@@ -1,6 +1,5 @@
 package com.lew.jlight.web.controller;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import com.lew.jlight.web.service.LoginService;
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 @Controller
 @RequestMapping
@@ -26,8 +27,8 @@ public class LoginController {
 
     @RequestMapping("doLogin")
     public String doLogin( String account, String password) throws Exception {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(account), "account should not be empty or null");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(password), "password should not be empty or null");
+        checkArgument(!Strings.isNullOrEmpty(account), "account should not be empty or null");
+        checkArgument(!Strings.isNullOrEmpty(password), "password should not be empty or null");
 
         password = DigestUtil.sha256().digest(password);
         boolean result = loginService.doLogin(account, password, ServletUtil.getIpAddr());
