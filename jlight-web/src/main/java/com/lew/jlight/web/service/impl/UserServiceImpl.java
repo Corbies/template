@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.BeanUtil;
+import com.lew.jlight.core.util.DigestUtil;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.RoleDao;
 import com.lew.jlight.web.dao.UserDao;
@@ -16,7 +17,6 @@ import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.entity.UserRole;
 import com.lew.jlight.web.service.UserService;
-import com.lew.jlight.web.util.DigestUtil;
 
 import org.springframework.stereotype.Component;
 

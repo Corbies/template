@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lew.jlight.web.entity.RoleMenu">
-    <resultMap type="com.lew.jlight.web.entity.RoleMenu" id="RoleRes">
+    <resultMap type="com.lew.jlight.web.entity.RoleMenu" id="RoleMenu">
         <result column="role_id" property="roleId"/>
         <result column="menu_id" property="menuId"/>
         <result column="is_delete" property="isDelete"/>
@@ -19,8 +19,8 @@
         values(#{roleId},#{menuId},#{isDelete},#{createBy},#{createTime},#{updateBy},#{updateTime},#{remark})
     </insert>
 
-    <select id="getResIdsByRoleId" parameterType="java.lang.String" resultType="String">
-        select distinct(menu_id) as resId from sys_role_menu where is_delete = 0 and role_id =
+    <select id="getListByRoleId" parameterType="java.lang.String" resultMap="RoleMenu">
+        select distinct(menu_id) as menuId from sys_role_menu where is_delete = 0 and role_id =
         #{roleId}
     </select>
 

@@ -1,10 +1,18 @@
 package com.lew.jlight.web.controller;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 
+import com.lew.jlight.core.util.DigestUtil;
+import com.lew.jlight.web.entity.Role;
+import com.lew.jlight.web.entity.User;
+import com.lew.jlight.web.entity.UserRole;
 import com.lew.jlight.web.service.LoginService;
-import com.lew.jlight.web.util.DigestUtil;
+import com.lew.jlight.web.service.RoleService;
+import com.lew.jlight.web.service.UserRoleService;
+import com.lew.jlight.web.service.UserService;
 import com.lew.jlight.web.util.ServletUtil;
+import com.lew.jlight.web.util.UserContextUtil;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -21,6 +29,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -31,6 +42,16 @@ public class LoginController {
 
     @Resource
     private LoginService loginService;
+
+    @Resource
+    private UserRoleService userRoleService;
+
+    @Resource
+    private UserService userService;
+
+
+    @Resource
+    private RoleService roleService;
 
     @RequestMapping("login")
     public String login() {
@@ -48,6 +69,20 @@ public class LoginController {
             loginService.doLogin(account, password, ServletUtil.getIpAddr());
             subject.login(token);
             if (subject.isAuthenticated()) {
+                User user = userService.getByAccount(account);
+                String userId = user.getUserId();
+                List<UserRole> userRoleList = userRoleService.getListByUserId(userId);
+                Map<String,String> roleMap = Maps.newHashMap();
+                userRoleList.forEach(userRole -> {
+                    Role role = roleService.getDetail(userRole.getRoleId());
+                    roleMap.put(userRole.getRoleId(),role.getName());
+                });
+                if(userRoleList.size()>0){
+                    String roleId = userRoleList.get(0).getRoleId();
+                    UserContextUtil.setAttribute("roleId",roleId);
+                }
+                UserContextUtil.setAttribute("roleMap",roleMap);
+                UserContextUtil.setAttribute("userId",userId);
                 return "redirect:/index";
             }
         } catch (IncorrectCredentialsException e) {

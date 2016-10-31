@@ -5,15 +5,13 @@ import com.lew.jlight.core.BaseEntity;
 import java.util.List;
 
 public class MenuTitle extends BaseEntity {
-	private static final long serialVersionUID = -96863757036309152L;
-
 	private String name;
 
 	private String titleId;
 
 	private Integer seq;
 
-	private List<Menu> resources;
+	private List<Menu> menuList;
 
 	public Integer getSeq( ) {
 		return seq;
@@ -23,12 +21,11 @@ public class MenuTitle extends BaseEntity {
 		this.seq = seq;
 	}
 
-	public List<Menu> getResources( ) {
-		return resources;
+	public List<Menu> getMenuList() {
+		return menuList;
 	}
-
-	public void setResources( List<Menu> resources ) {
-		this.resources = resources;
+	public void setMenuList(List<Menu> menuList) {
+		this.menuList = menuList;
 	}
 
 	public String getTitleId( ) {

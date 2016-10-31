@@ -1,4 +1,4 @@
-package com.lew.jlight.web.util;
+package com.lew.jlight.core.util;
 
 import com.google.common.base.Strings;
 
@@ -8,9 +8,7 @@ import java.security.MessageDigest;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * 摘要算法(非对称加密算法)封装类 封装了MD5、SHA算法
- */
+
 public class DigestUtil {
     private static final String ALGORITHM_MD5 = "MD5";
     private static final String ALGORITHM_SHA = "SHA";
@@ -86,12 +84,6 @@ public class DigestUtil {
         }
     }
 
-    /**
-     * 计算输入数据的哈希值
-     *
-     * @param buffer 要计算其哈希代码的输入
-     * @return 计算所得的哈希代码
-     */
     public byte[] compute(byte[] buffer) {
         if (buffer == null) {
             throw new IllegalArgumentException("Argument buffer must not be null.");

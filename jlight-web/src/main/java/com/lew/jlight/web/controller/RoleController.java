@@ -78,7 +78,6 @@ public class RoleController {
     @ResponseBody
     @RequestMapping("getRoleMap")
     public Response getRoleMap() {
-        Map roleMap = roleService.getRoleMap();
-        return new Response(roleMap);
+        return new Response();
     }
 }

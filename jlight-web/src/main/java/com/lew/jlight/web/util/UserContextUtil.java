@@ -1,19 +1,22 @@
 package com.lew.jlight.web.util;
 
 
-import com.google.common.base.Strings;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 
 public abstract class UserContextUtil {
 
-
-    public static void clearSessionValueObject() {
-        String token = getToken();
-        CookieUtil.removeCookie("", null, null, false);
-        //clear data from cache
+    public static Session getSession(){
+        Subject currentSubjetct = SecurityUtils.getSubject();
+        return currentSubjetct.getSession();
     }
 
-    private static String getToken() {
-        //get token from cache
-        return CookieUtil.getCookieByName("", null, null);
+    public static Object getAttribute(String key){
+        return getSession().getAttribute(key);
+    }
+
+    public static void setAttribute(String key,Object value){
+         getSession().setAttribute(key,value);
     }
 }

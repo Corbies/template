@@ -55,16 +55,17 @@
             </div>
             <!-- #sidebar-shortcuts -->
             <ul class="nav nav-list" id="nav_list">
-                <li ng-repeat="resource in resourceList">
+                <li th:each="menu : ${menuList}">
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-edit"></i>
-                        <span class="menu-text" ng-bind="resource.name"></span>
+                        <span class="menu-text" th:text="${menu.name}"></span>
                         <b class="arrow icon-angle-down"></b>
                     </a>
                     <ul class="submenu">
-                        <li class="home" ng-repeat="subResource in resource.menu">
-                            <a href="javascript:void(0)" name="{{subResource.url}}" title="{{subResource.name}}" class="iframeurl">
-                                <i class="icon-double-angle-right"></i><p  ng-bind="subResource.name"></p>
+                        <li class="home" th:each="subMenu : ${menu.menuList}">
+                            <a href="javascript:void(0)" name="" th:attr="name=${subMenu.url}"  title=""  th:attr="title=${subMenu.name}"  class="iframeurl">
+                                <i class="icon-double-angle-right"/>
+                                <p th:text="${subMenu.name}"/>
                             </a>
                         </li>
                     </ul>

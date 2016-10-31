@@ -1,10 +1,6 @@
-package com.lew.jlight.web.util;
+package com.lew.jlight.core.util;
 
-/**
- * 十六进制工具类
- *
- * @author Liew Apr 8, 2016
- */
+
 public abstract class HexUtil {
 
     private static final char[] DIGITS = {
@@ -12,9 +8,7 @@ public abstract class HexUtil {
             '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
     };
 
-    /**
-     * 对十六进制的字符串解码，获得其值的 byte 数组
-     */
+
     public static byte[] decodeHexString(String hexString) {
         if (hexString == null) {
             throw new IllegalArgumentException("hexString must not be null!");
@@ -26,7 +20,8 @@ public abstract class HexUtil {
         if (((length % 2) != 0) && ((length % 3) != 2)) {
             throw new IllegalArgumentException("hexString length is invalid!");
         }
-        if (((length >= 2) && (hexString.charAt(0) == '0')) && ((hexString.charAt(1) == 'x') || (hexString.charAt(1) == 'X'))) {
+        if (((length >= 2) && (hexString.charAt(0) == '0')) && ((hexString.charAt(1) == 'x') || (hexString.charAt(
+                1) == 'X'))) {
             length = hexString.length() - 2;
             num = 2;
         }
@@ -49,9 +44,6 @@ public abstract class HexUtil {
     }
 
 
-    /**
-     * 将指定的十六进制的 ch 转换为十进制的 int 值
-     */
     private static int toHexDigit(char ch) {
         if ((ch <= '9') && (ch >= '0')) {
             return (ch - '0');
@@ -88,9 +80,7 @@ public abstract class HexUtil {
         return out;
     }
 
-    /**
-     * 十六进制数值数组
-     */
+
     public static char[] encodeHex(byte[] data) {
         int l = data.length;
         char[] out = new char[l << 1];
@@ -103,13 +93,6 @@ public abstract class HexUtil {
         return out;
     }
 
-
-    /**
-     * 将十六进制的字符串表示形式转换为它的等效 64 位整数(long)。
-     * 如果字符串中含有除 0-9, A-F, a-f 之外的字符，则会跳过
-     *
-     * @param s 要转换的十六进制的字符串
-     */
     public static long parseLong(CharSequence s) {
         long out = 0;
         byte shifts = 0;
@@ -133,12 +116,6 @@ public abstract class HexUtil {
         return out;
     }
 
-    /**
-     * 将十六进制的字符串表示形式转换为它的等效 16 位整数(short)。
-     * 如果字符串中含有除 0-9, A-F, a-f 之外的字符，则会跳过
-     *
-     * @param s 要转换的十六进制的字符串
-     */
     public static short parseShort(String s) {
         short out = 0;
         byte shifts = 0;

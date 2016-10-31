@@ -19,5 +19,5 @@ public interface RoleService {
 
     Role getDetail(String roleId);
 
-    Map getRoleMap();
+    Map getRoleMap(String userId);
 }

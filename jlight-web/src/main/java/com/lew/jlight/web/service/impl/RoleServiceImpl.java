@@ -89,14 +89,14 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role getDetail(String roleId) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(roleId),"角色编号不能为空");
-        Map detailMap = roleDao.findOneColumn("getRoleDetail", Map.class, roleId);
-        Preconditions.checkNotNull(detailMap,"角色对象不存在");
-        return null;
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(roleId),"角色编号不能为空");
+        Role role = roleDao.findUnique("getRoleByRoleId", roleId);
+        Preconditions.checkNotNull(role,"角色对象不存在");
+        return role;
     }
 
     @Override
-    public Map getRoleMap() {
+    public Map getRoleMap(String userId) {
         return null;
     }
 }

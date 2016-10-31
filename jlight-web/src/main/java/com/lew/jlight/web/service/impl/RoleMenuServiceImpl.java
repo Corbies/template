@@ -59,7 +59,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
             if (resources != null && resources.size() > 0) {
                 Collections.sort(resources, resourceComparator);
             }
-            title.setResources(resources);
+            title.setMenuList(resources);
             title.setName(parentResource.getName());
             title.setSeq(parentResource.getSeq());
             title.setTitleId(parentResource.getMenuId());

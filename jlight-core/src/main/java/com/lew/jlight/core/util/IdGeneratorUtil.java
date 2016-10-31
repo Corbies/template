@@ -1,4 +1,4 @@
-package com.lew.jlight.web.util;
+package com.lew.jlight.core.util;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
