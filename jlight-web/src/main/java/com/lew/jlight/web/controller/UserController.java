@@ -10,6 +10,7 @@ import com.lew.jlight.web.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -20,12 +21,6 @@ import javax.annotation.Resource;
 import static com.lew.jlight.core.util.BeanUtil.isEmpty;
 import static com.lew.jlight.core.util.BeanUtil.toMap;
 
-
-/**
- * 用户控制器
- *
- * @author Liew May 11, 2016
- */
 @Controller
 @RequestMapping("user")
 public class UserController {
@@ -33,9 +28,14 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @RequestMapping(value = "list",method = RequestMethod.GET)
+    public String list() {
+        return "userList";
+    }
+
     @ResponseBody
     @RequestMapping("list")
-    public Response list(String json) {
+    public Response list(@RequestBody  String json) {
         ParamFilter<String, String> filter = new ParamFilter<>();
         Map<String, String> param = JsonUtil.parseStringMap(json);
         assert param != null;
@@ -100,7 +100,7 @@ public class UserController {
         String newPwd = param.get("newPwd");
         String confirmPwd = param.get("confirmPwd");
 
-       userService.updatePwd(oldPwd, newPwd, confirmPwd, "");
+        userService.updatePwd(oldPwd, newPwd, confirmPwd, "");
         return new Response("更改密码成功");
     }
 

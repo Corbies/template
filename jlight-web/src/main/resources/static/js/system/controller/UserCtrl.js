@@ -2,7 +2,6 @@ var userApp = angular.module('userApp', ['base']);
 userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($rootScope,$scope,userService) {
 	
 	$('#multiselect').multiselect({});
-	
 	//搜索参数
 	$scope.requestParam = {};
 	$scope.role = {	};

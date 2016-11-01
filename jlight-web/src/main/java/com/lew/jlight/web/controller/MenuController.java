@@ -1,8 +1,5 @@
 package com.lew.jlight.web.controller;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.BeanUtil;
@@ -14,6 +11,7 @@ import com.lew.jlight.web.service.MenuService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -22,11 +20,16 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 @Controller
-@RequestMapping("resources")
+@RequestMapping("menu")
 public class MenuController {
 
     @Resource
     private MenuService menuService;
+
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list() {
+        return "menuList";
+    }
 
     @ResponseBody
     @RequestMapping("list")
@@ -48,7 +51,7 @@ public class MenuController {
     @RequestMapping("add")
     public Response add(@RequestBody String json) {
         Menu menu = JsonUtil.parseObj(json, Menu.class);
-       menuService.add(menu);
+        menuService.add(menu);
         return new Response("添加成功");
     }
 
@@ -72,7 +75,7 @@ public class MenuController {
     public Response delete(@RequestBody String json) {
         Map<String, String> param = JsonUtil.parseStringMap(json);
         String resIds = BeanUtil.isEmpty(param) ? null : param.get("resIds");
-       menuService.delete(resIds);
+        menuService.delete(resIds);
         return new Response("删除成功");
     }
 
@@ -87,7 +90,7 @@ public class MenuController {
     @ResponseBody
     @RequestMapping("get")
     public Response getSelectResTree() {
-       menuService.getSelectResTree();
+        menuService.getSelectResTree();
         return null;
     }
 

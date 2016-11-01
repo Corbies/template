@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
-import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.RoleDao;
 import com.lew.jlight.web.dao.RoleMenuDao;
@@ -82,9 +81,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> getList(ParamFilter<String, String> param) {
-        Page page = param.getPage();
-         roleDao.findMap("getRoleList", param, page);
-        return null;
+        return roleDao.find("getRoleList", param, param.getPage());
     }
 
     @Override

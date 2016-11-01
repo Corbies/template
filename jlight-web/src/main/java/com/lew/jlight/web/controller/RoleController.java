@@ -11,6 +11,7 @@ import com.lew.jlight.web.service.RoleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -25,6 +26,11 @@ public class RoleController {
 
     @Resource
     private RoleService roleService;
+
+    @RequestMapping(value = "list",method = RequestMethod.GET)
+    public String list(){
+        return "roleList";
+    }
 
     @ResponseBody
     @RequestMapping("list")

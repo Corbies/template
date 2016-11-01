@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2016-10-31 22:37:39
+Date: 2016-11-01 22:01:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -69,24 +69,24 @@ CREATE TABLE `sys_menu` (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('1', '1', '系统基础管理', null, '0', '', '1', '1', '0', null, '0', '0', '2016-05-16 17:10:44', '0', '2016-06-02 21:01:12', null);
-INSERT INTO `sys_menu` VALUES ('2', '2', '用户管理', '/user/list', '0', '', '1', '2', '1', '系统基础管理', '0', '0', '2016-05-06 14:34:37', '0', '2016-06-02 22:44:56', '用户管理');
-INSERT INTO `sys_menu` VALUES ('3', '3', '角色管理', '/role/list', '0', '', '1', '3', '1', '系统基础管理', '0', '0', '2016-05-06 14:35:24', '0', '2016-05-17 14:14:34', '角色管理');
-INSERT INTO `sys_menu` VALUES ('4', '4', '资源管理', '/resources/list', '0', '', '1', '4', '1', '系统基础管理', '0', '0', '2016-05-06 14:35:51', '0', '2016-05-15 21:23:15', '菜单管理');
-INSERT INTO `sys_menu` VALUES ('19', '5', '系统监控管理', null, '0', null, '1', '5', '0', null, '0', null, '2016-05-22 11:17:51', null, '2016-06-02 23:09:38', null);
+INSERT INTO `sys_menu` VALUES ('1', '1', '系统管理', null, '0', '', '1', '1', '0', null, '0', '0', '2016-05-16 17:10:44', '0', '2016-06-02 21:01:12', null);
+INSERT INTO `sys_menu` VALUES ('2', '2', '用户管理', '/user/list', '0', '', '1', '2', '1', '基础管理', '0', '0', '2016-05-06 14:34:37', '0', '2016-06-02 22:44:56', '用户管理');
+INSERT INTO `sys_menu` VALUES ('3', '3', '角色管理', '/role/list', '0', '', '1', '3', '1', '基础管理', '0', '0', '2016-05-06 14:35:24', '0', '2016-05-17 14:14:34', '角色管理');
+INSERT INTO `sys_menu` VALUES ('4', '4', '菜单管理', '/menu/list', '0', '', '1', '4', '1', '基础管理', '0', '0', '2016-05-06 14:35:51', '0', '2016-05-15 21:23:15', '菜单管理');
+INSERT INTO `sys_menu` VALUES ('19', '5', '监控管理', null, '0', null, '1', '5', '0', null, '0', null, '2016-05-22 11:17:51', null, '2016-06-02 23:09:38', null);
 INSERT INTO `sys_menu` VALUES ('26', '12', '添加', '/user/add', '1', null, '1', null, '2', '用户管理', '0', null, '2016-06-02 21:00:09', null, '2016-06-02 21:00:09', '添加用户');
 INSERT INTO `sys_menu` VALUES ('27', '13', '修改', '/user/edit', '1', null, '1', null, '2', '用户管理', '0', null, '2016-06-02 22:39:47', null, '2016-06-02 22:39:47', '编辑用户');
 INSERT INTO `sys_menu` VALUES ('29', '14', '添加', '/role/add', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-09 00:04:16', null, '2016-06-09 00:04:16', '');
-INSERT INTO `sys_menu` VALUES ('30', '15', '权限列表', '/resources/listTree', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-26 12:11:17', null, '2016-06-26 12:11:17', '获取权限树');
+INSERT INTO `sys_menu` VALUES ('30', '15', '权限列表', '/menu/listTree', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-26 12:11:17', null, '2016-06-26 12:11:17', '获取权限树');
 INSERT INTO `sys_menu` VALUES ('31', '16', '分配权限', '/roleRes/save', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-26 12:11:55', null, '2016-06-26 12:11:55', '保存分配的权限');
-INSERT INTO `sys_menu` VALUES ('32', '17', '添加', '/resources/add', '1', null, '1', null, '4', '资源管理', '0', null, '2016-06-26 15:51:06', null, '2016-06-26 15:51:06', '添加资源');
-INSERT INTO `sys_menu` VALUES ('33', '18', '修改', '/resources/edit', '1', null, '1', null, '4', '资源管理', '0', null, '2016-06-26 15:52:13', null, '2016-06-26 15:52:13', '修改资源');
-INSERT INTO `sys_menu` VALUES ('34', '19', '删除', '/resources/delete', '1', null, '1', null, '4', '资源管理', '0', null, '2016-06-26 15:53:14', null, '2016-06-26 15:53:14', '删除资源');
+INSERT INTO `sys_menu` VALUES ('32', '17', '添加', '/menu/add', '1', null, '1', null, '4', '资源管理', '0', null, '2016-06-26 15:51:06', null, '2016-06-26 15:51:06', '添加资源');
+INSERT INTO `sys_menu` VALUES ('33', '18', '修改', '/menu/edit', '1', null, '1', null, '4', '资源管理', '0', null, '2016-06-26 15:52:13', null, '2016-06-26 15:52:13', '修改资源');
+INSERT INTO `sys_menu` VALUES ('34', '19', '删除', '/menu/delete', '1', null, '1', null, '4', '资源管理', '0', null, '2016-06-26 15:53:14', null, '2016-06-26 15:53:14', '删除资源');
 INSERT INTO `sys_menu` VALUES ('35', '20', '删除', '/user/delete', '1', null, '1', null, '2', '用户管理', '0', null, '2016-06-26 15:56:07', null, '2016-06-26 15:56:07', '删除用户');
 INSERT INTO `sys_menu` VALUES ('36', '21', '修改', '/role/edit', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-26 15:56:54', null, '2016-06-26 15:56:54', '修改角色');
 INSERT INTO `sys_menu` VALUES ('37', '22', '删除', '/role/delete', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-26 15:57:14', null, '2016-06-26 15:57:14', '删除角色');
-INSERT INTO `sys_menu` VALUES ('38', '23', '登录日志管理', '/log/list', '0', null, '1', null, '5', '系统监控管理', '0', null, '2016-06-26 16:07:57', null, '2016-06-26 16:07:57', '登录日志');
-INSERT INTO `sys_menu` VALUES ('39', '24', '操作日志管理', '/log/operate', '0', null, '1', null, '5', '系统监控管理', '0', null, '2016-06-26 16:11:30', null, '2016-06-26 16:11:30', null);
+INSERT INTO `sys_menu` VALUES ('38', '23', '登录日志', '/log/list', '0', null, '1', null, '5', '监控管理', '0', null, '2016-06-26 16:07:57', null, '2016-06-26 16:07:57', '登录日志');
+INSERT INTO `sys_menu` VALUES ('39', '24', '操作日志', '/log/operate', '0', null, '1', null, '5', '监控管理', '0', null, '2016-06-26 16:11:30', null, '2016-06-26 16:11:30', null);
 
 -- ----------------------------
 -- Table structure for sys_param
@@ -224,8 +224,8 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-10-31 22:37:03', '127.0.0.1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
-INSERT INTO `sys_user` VALUES ('31', '2', 'test', '测试员', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, '751185330@qq.com', '18218676908', '0', '0', null, null, '0', '2016-06-09 21:53:21', null, '2016-06-09 21:53:21', null, null);
+INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-01 22:01:03', '127.0.0.1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
+INSERT INTO `sys_user` VALUES ('31', '2', 'test', '测试员', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, '751185330@qq.com', '18218676908', '0', '0', '2016-11-01 22:00:54', '127.0.0.1', '0', '2016-06-09 21:53:21', null, '2016-06-09 21:53:21', null, null);
 
 -- ----------------------------
 -- Table structure for sys_user_role

@@ -20,9 +20,8 @@
         values(#{roleId},#{name},#{sign},#{isDelete},#{createBy},#{createTime},#{updateBy},#{updateTime},#{remark})
     </insert>
 
-    <select id="getRoleList" resultType="Map">
-        select role_id as roleId, name ,sign ,remark ,create_time as createTime , update_time as
-        updateTime from sys_role where is_delete = 0
+    <select id="getRoleList" resultMap="Role">
+        select * from sys_role where is_delete = 0
         <if test="@Ognl@isNotEmpty(roleId)">
             and role_id like '%${roleId}%'
         </if>
@@ -33,7 +32,7 @@
             and name like '%${name}%'
         </if>
         <if test="@Ognl@isNotEmpty(page)">
-            limit (page.pageNo - 1) * page.pageSize , page.pageNo * page.pageSize
+            limit #{page.firstIndex}, #{page.lastIndex}
         </if>
 
     </select>
