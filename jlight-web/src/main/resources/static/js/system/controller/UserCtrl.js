@@ -22,29 +22,12 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 		if(userId && sign==0){
 			userService.detail(userId).then(function(response){
 				var isLock = response.data.user.isLock;
-				response.data.user.isLock = isLock.toString();
 				$scope.user = response.data.user;
-				$scope.roleIds = response.data.roleIds;
-				var includeRolesMap = [];
-				var excludeRolesMap = [];
-				$.each($scope.roleMap,function(i,e){
-					var roleId = e.roleId;
-					if($scope.roleIds.indexOf(roleId)>=0){
-						var roleObj = {'roleId':roleId,'name':e.name};
-						includeRolesMap.push(roleObj);
-					}else{
-						var roleObj = {'roleId':roleId,'name':e.name};
-						excludeRolesMap.push(roleObj);
-					}
-				});
-				$scope.roleMap = excludeRolesMap;
-				$scope.includeRoleMap =includeRolesMap;
-			},function(response){
-				
+				$scope.user.isLock = isLock.toString();
 			});
 		}else{
 			$scope.user = {
-					isLock :'0'
+				isLock :'0'
 			};
 		}
 		layer.open({
@@ -65,13 +48,6 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 				}
 				if ($("#password").val() == "") {
 					layer.alert('密码不能为空!', {
-						title : '提示框',
-						icon : 0,
-					});
-					return false;
-				}
-				if ($("#select_Roles").val() == "") {
-					layer.alert('用角色不能为空!', {
 						title : '提示框',
 						icon : 0,
 					});
@@ -105,29 +81,26 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 						var selectVal = $(this).val();
 						roleIds.push(selectVal);
 					});
-					if(!user || roleIds.length==0){
-						layer.msg('角色不能为空,必须选择！', {
+					if(!user){
+						layer.msg('用户不能为空！', {
 							time : 1000,
 							icon : 1
 						});
 						return;
 					}
 					user.isLock = parseInt(user.isLock);
-					var json = {'user':user,'roleIds':roleIds.toString()};
 					if(!userId){
-						userService.addUser(json).then(function(response){
-							layer.alert('添加成功！', {
+						userService.addUser(user).then(function(response){
+							layer.alert(response.msg, {
 								title : '提示框',
 								icon : 1,
 							},function(){
 								window.location.reload();
 							});
 							layer.close(index);
-						},function(response){
-
 						});
 					}else{
-						userService.editUser(json).then(function(response){
+						userService.editUser(user).then(function(response){
 							layer.alert('修改成功！', {
 								title : '提示框',
 								icon : 1,
@@ -163,16 +136,12 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 		}
 		layer.confirm('是否重置密码，重置后原密码将失效？', {
 			btn : [ '重置', '取消' ]
-		//按钮
 		}, function() {
-			var json = {"userIds" : userIds.toString()};
-			userService.resetPwd(json).then(function(response){
-				layer.msg('重置成功！', {
+			userService.resetPwd(userIds).then(function(response){
+				layer.msg(response.msg, {
 					time : 1000,
 					icon : 1
 				});
-			},function(response){
-				
 			});
 		});
 	}
@@ -197,18 +166,14 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 		}
 		layer.confirm('是否删除用户？', {
 			btn : [ '确定', '取消' ]
-		//按钮
 		}, function() {
-			var json = {"userIds":userIds.toString()};
-			userService.deleteUser(json).then(function(){
-				layer.msg('删除成功！', {
+			userService.deleteUser(userIds).then(function(resp){
+				layer.msg(resp.msg, {
 					time : 1000,
 					icon : 1
 				},function(){
 					window.location.reload();
 				});
-			},function(){
-				
 			});
 		});
 	}

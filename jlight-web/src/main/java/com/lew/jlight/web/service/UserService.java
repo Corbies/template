@@ -11,15 +11,15 @@ public interface UserService {
 
     List getList(ParamFilter<String, String> param);
 
-    void updateDefaultPwd(String userIds);
+    void updateDefaultPwd(String[] userIds);
 
-    void update(String roleIds, User user);
+    void update(User user);
 
-    void add(String roleIds, User user);
+    void add(User user);
 
     void updatePwd(String oldPwd, String confirmPwd, String newPwd, String userId);
 
-    void delete(String userIds);
+    void delete(String[] userIds);
 
     Map getDetail(String userId);
 

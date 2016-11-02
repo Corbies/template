@@ -2,7 +2,6 @@ package com.lew.jlight.core;
 
 
 import com.lew.jlight.core.page.Page;
-import com.lew.jlight.core.util.BeanUtil;
 
 public class Response implements ResponseCode {
 
@@ -22,7 +21,9 @@ public class Response implements ResponseCode {
         this.data = data;
     }
 
-
+    public Response(String msg) {
+        this.msg = msg;
+    }
     public int getCode() {
         return code;
     }

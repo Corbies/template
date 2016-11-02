@@ -95,10 +95,7 @@
                         <tbody>
                         <tr ng-repeat="role in data">
                             <td>
-                                <label>
-                                    <input name="subRoleChkbox_{{$index}}" value="{{role.roleId}}"
-                                           type="checkbox" class="ace subRoleChkbox"/>
-                                </label>
+                                <input name="subRoleChkbox_{{$index}}" value="{{role.roleId}}" type="checkbox" class="ace subRoleChkbox"/>
                                 <span class="lbl" style="cursor:pointer;"></span>
                             </td>
                             <td ng-bind="role.roleId"></td>

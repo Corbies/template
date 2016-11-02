@@ -8,11 +8,6 @@
     <link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}"/>
     <link rel="stylesheet" th:href="@{/assets/select-mutiple/css/select-multiple.css}"/>
     <title>用户管理</title>
-    <style type="text/css">
-        .user_Manager_style .add_user_style li {
-            height: 23px !important;
-        }
-    </style>
 </head>
 <body ng-controller="userCtrl">
 <div class="page-content">
@@ -57,6 +52,7 @@
                     </button>
                     <button type="button" class="btn btn-danger" ng-click="deleteUser()">删除</button>
                     <button type="button" class="btn btn-pink" ng-click="resetPwd()">重置密码</button>
+                    <button type="button" class="btn btn-pink" ng-click="resetPwd()">角色分配</button>
                 </ul>
                 <div id="Add_user_style" style="display: none">
                     <div class="add_user_style clearfix">
@@ -103,49 +99,10 @@
                                 </label>
                                 <i style="color: #F60;">*</i>
                             </li>
-                            <label class="label_name"
-                                   style="position:relative;left:36px;">角色</label>
-                            <div class="row" style="width:505px;position:relative;left:32px;">
-                                <div class="col-xs-5">
-                                    <label for="multiselect"></label>
-                                    <select name="from[]" id="multiselect" class="form-control"
-                                            size="8" multiple="multiple">
-                                        <option ng-repeat="map in roleMap" value="{{map.roleId}}"
-                                                ng-bind="map.name"></option>
-                                    </select>
-                                </div>
-
-                                <div class="col-xs-2">
-                                    <button type="button" id="multiselect_rightAll"
-                                            class="btn btn-block"><i
-                                            class="glyphicon glyphicon-forward"></i></button>
-                                    <button type="button" id="multiselect_rightSelected"
-                                            class="btn btn-block"><i
-                                            class="glyphicon glyphicon-chevron-right"></i></button>
-                                    <button type="button" id="multiselect_leftSelected"
-                                            class="btn btn-block"><i
-                                            class="glyphicon glyphicon-chevron-left"></i></button>
-                                    <button type="button" id="multiselect_leftAll"
-                                            class="btn btn-block"><i
-                                            class="glyphicon glyphicon-backward"></i></button>
-                                </div>
-
-                                <div class="col-xs-5">
-                                    <label for="multiselect_to"></label>
-                                    <select name="to[]" id="multiselect_to" class="form-control"
-                                            size="8" multiple="multiple">
-                                        <option ng-repeat="role in includeRoleMap"
-                                                value="{{role.roleId}}"
-                                                ng-bind="role.name"></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <li style="width:510px;position:relative;right:14px;">
+                            <li style="width:524px;position:relative;right:14px;">
                                 <label class="label_name">备注</label>
-                                <label for="remark"></label><input name="remark"
-                                                                   ng-model="user.remark"
-                                                                   type="text" style="width:427px;"
-                                                                   id="remark"/>
+                                <textarea name="remark" ng-model="user.remark" type="text" style="width:443px;" id="remark" rows="4" cols="25">
+                                </textarea>
                             </li>
                         </ul>
                     </div>
@@ -159,11 +116,7 @@
                     <thead>
                     <tr>
                         <th>
-                            <label for="userCheckBox_All"></label><input name="userCheckBox_All"
-                                                                         id="userCheckBox_All"
-                                                                         type="checkbox"
-                                                                         ng-click="selectAll($event)"
-                                                                         class="ace"/>
+                            <input name="userCheckBox_All" id="userCheckBox_All" type="checkbox" ng-click="selectAll($event)" class="ace"/>
                             <span class="lbl" style="cursor:pointer;"></span>
                         </th>
                         <th>编号</th>
@@ -182,10 +135,7 @@
                     <tbody>
                     <tr ng-repeat="model in data">
                         <td>
-                            <label>
-                                <input name="subUserChkBox_{{$index}}" value="{{model.userId}}"
-                                       type="checkbox" class="ace subUserChkbox"/>
-                            </label>
+                            <input name="subUserChkBox_{{$index}}" value="{{model.userId}}" type="checkbox" class="ace subUserChkbox"/>
                             <span class="lbl" style="cursor:pointer;"></span>
                         </td>
                         <td width="60" ng-bind="model.userId"></td>

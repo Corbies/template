@@ -5,10 +5,9 @@ import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.BeanUtil;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +18,6 @@ import javax.annotation.Resource;
 
 public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
 
-    private static final String sqlLog = "mapper key: {}\n \tpreparing sql: {}\n \tparameters: {}";
-    private final static Logger logger = LoggerFactory.getLogger(BaseDao.class);
-
     @Resource
     private SqlSessionTemplate sqlSessionTemplate;
 
@@ -29,12 +25,9 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
     public Serializable save(T entity) {
         String statements = getMapperNamespace() + ".save";
         if (entity != null) {
-            if (entity.getCreateTime() == null) {
-                entity.setCreateTime(new Date());
-            }
-            if (entity.getUpdateTime() == null) {
-                entity.setUpdateTime(new Date());
-            }
+            entity.setCreateTime(new Date());
+            entity.setUpdateTime(new Date());
+            entity.setIsDelete(BigInteger.ZERO.intValue());
         }
         return this.sqlSessionTemplate.insert(statements,entity);
     }
@@ -43,14 +36,21 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
     @Override
     public Serializable save(String key, Object param) {
         String statements = getMapperNamespace() + "." + key;
-        return this.sqlSessionTemplate.insert(statements, param);
+        BaseEntity entity =null;
+        if(param!=null && param instanceof BaseEntity){
+            entity = (BaseEntity) param;
+            entity.setCreateTime(new Date());
+            entity.setUpdateTime(new Date());
+            entity.setIsDelete(BigInteger.ZERO.intValue());
+        }
+        return this.sqlSessionTemplate.insert(statements, entity);
     }
 
 
     @Override
     public void delete(String key, Object param) {
         String statement = getMapperNamespace() + "." + key;
-        int delete = this.sqlSessionTemplate.delete(statement, param);
+        this.sqlSessionTemplate.delete(statement, param);
     }
 
     @Override

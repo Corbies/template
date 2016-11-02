@@ -1,5 +1,7 @@
 package com.lew.jlight.web.controller;
 
+import com.google.common.base.Preconditions;
+
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.JsonUtil;
@@ -51,41 +53,32 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("add")
-    public Response add(@RequestBody Map<String, String> param) {
-        String roleIds = !isEmpty(param) ? param.get("roleIds") : null;
-        Object userObj = param.get("user");
-        String userJson = userObj == null ? null : userObj.toString();
-        User user = JsonUtil.parseObj(userJson, User.class);
-        userService.add(roleIds, user);
+    public Response add(@RequestBody User user) {
+        Preconditions.checkNotNull(user,"用户不能为空");
+        userService.add(user);
         return new Response("添加成功");
     }
 
 
     @ResponseBody
     @RequestMapping("edit")
-    public Response edit(@RequestBody Map<String, String> param) {
-        String roleIds = !isEmpty(param) ? param.get("roleIds") : null;
-        Object userObj = param.get("user");
-        String userJson = userObj == null ? null : userObj.toString();
-        User user = JsonUtil.parseObj(userJson, User.class);
-        userService.update(roleIds, user);
+    public Response edit(@RequestBody User user) {
+        userService.update( user);
         return new Response("修改成功");
     }
 
     @ResponseBody
     @RequestMapping("delete")
-    public Response delete(@RequestBody String json) {
-        Map<String, String> param = JsonUtil.parseStringMap(json);
-        String userIds = isEmpty(param) ? null : param.get("userIds");
+    public Response delete(@RequestBody String[] userIds) {
+        Preconditions.checkArgument((userIds!=null && userIds.length>0),"用户编号不能为空");
         userService.delete(userIds);
         return new Response("删除成功");
     }
 
     @ResponseBody
     @RequestMapping("resetPwd")
-    public Response resetPwd(@RequestBody String json) {
-        Map<String, String> param = JsonUtil.parseStringMap(json);
-        String userIds = isEmpty(param) ? null : param.get("userIds");
+    public Response resetPwd(@RequestBody String[] userIds) {
+        Preconditions.checkArgument((userIds!=null && userIds.length>0),"用户编号不能为空");
         userService.updateDefaultPwd(userIds);
         return new Response("重置成功");
     }

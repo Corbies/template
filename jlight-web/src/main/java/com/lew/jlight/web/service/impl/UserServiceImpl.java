@@ -5,23 +5,18 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import com.lew.jlight.core.Response;
+import com.lew.jlight.core.IdGenerator;
 import com.lew.jlight.core.page.Page;
-import com.lew.jlight.core.util.BeanUtil;
 import com.lew.jlight.core.util.DigestUtil;
 import com.lew.jlight.mybatis.ParamFilter;
-import com.lew.jlight.web.dao.RoleDao;
 import com.lew.jlight.web.dao.UserDao;
 import com.lew.jlight.web.dao.UserRoleDao;
-import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.User;
-import com.lew.jlight.web.entity.UserRole;
 import com.lew.jlight.web.service.UserService;
 
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,9 +27,6 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserDao userDao;
-
-    @Resource
-    private RoleDao roleDao;
 
     @Resource
     private UserRoleDao userRoleDao;
@@ -50,113 +42,47 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateDefaultPwd(String userIds) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(userIds),"用户编号不能为空");
-        String[] idArray = userIds.split(",");
-        for (String userId : idArray) {
+    public void updateDefaultPwd(String[] userIds) {
+        Preconditions.checkArgument((userIds!=null && userIds.length>0),"用户编号不能为空");
+        for (String userId : userIds) {
             User user = userDao.findUnique("getByUserId", userId);
             Preconditions.checkNotNull(user,"用户不存在");
         }
-        for (String userId : idArray) {
+        for (String userId : userIds) {
             String defaultPwd = DigestUtil.sha256().digest("123456");
-            Map<String, String> paramMap = Maps.newHashMapWithExpectedSize(2);
+            Map<String, String> paramMap = Maps.newHashMap();
             paramMap.put("defaultPwd", defaultPwd);
             paramMap.put("userId", userId);
             userDao.update("updateDefaultPwd", paramMap);
         }
     }
     @Override
-    public void update(String roleIds, User user) {
-        Response response = new Response();
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(roleIds),"角色编号不能为空");
-        String[] roleIdArry = roleIds.split(",");
-        Preconditions.checkArgument(!BeanUtil.isEmpty(roleIdArry),"角色编号不能为空");
+    public void update( User user) {
         Preconditions.checkNotNull(user,"用户对象不能为空");
-
-        String userId = user.getUserId();
-        // 删除原有角色
-        userRoleDao.update("deleteUserRoleByUserId", userId);
-        boolean isExist = true;
-        for (String roleId : roleIdArry) {
-            Role role = roleDao.findUnique("getRoleByRoleId", roleId);
-            if (role == null) {
-                isExist = false;
-                break;
-            }
-        }
-        Preconditions.checkNotNull(user,"用户对象不能为空");
-        if (!isExist) {
-            response.setMsg("角色信息不存在");
-        }
-
-        User model = userDao.findUnique("getByUserId", userId);
+        User model = userDao.findUnique("getByUserId", user.getUserId());
         Preconditions.checkNotNull(model,"用户信息不存在");
-        for (String roleId : roleIdArry) {
-            UserRole userRole = new UserRole();
-            userRole.setRoleId(roleId);
-            userRole.setIsDelete(BigInteger.ZERO.intValue());
-            userRole.setCreateTime(new Date());
-            userRole.setUpdateTime(new Date());
-            userRole.setUserId(userId);
-            userRoleDao.save("addUserRole", userRole);
-        }
         String oldPwd = user.getPassword();
         if (model.getPassword().equals(oldPwd)) {
             user.setPassword(oldPwd);
         } else {
             user.setPassword(DigestUtil.sha256().digest(oldPwd));
         }
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("account", user.getAccount());
-        params.put("password", user.getPassword());
-        params.put("mobile", user.getMobile());
-        params.put("email", user.getEmail());
-        params.put("trueName", user.getTrueName());
-        params.put("isLock", user.getIsLock());
-        params.put("userId", user.getUserId());
-        userDao.update("updateUser", params);
+        userDao.update("updateUser", user);
     }
 
     @Override
-    public void add(String roleIds, User user) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(roleIds),"角色编号不能为空");
-        String[] roleIdsToUse = roleIds.split(",");
-        Preconditions.checkArgument(!BeanUtil.isEmpty(roleIdsToUse),"角色编号不能为空");
-        Preconditions.checkNotNull(user,"用户信息不能为空");
-        boolean isExist = true;
-        for (String roleIdToUse : roleIdsToUse) {
-            Role role = roleDao.findUnique("getRoleByRoleId", roleIdToUse);
-            if (role == null) {
-                isExist = false;
-                break;
-            }
-        }
-
-        Preconditions.checkState(isExist,"用户对象不存在");
+    public void add(User user) {
+        Preconditions.checkNotNull(user,"用户不能为空");
         String account = user.getAccount();
         User model = userDao.findUnique("getByAccount", account);
-        Preconditions.checkState(model!=null,"用户对象已存在");
-
+        Preconditions.checkArgument(model==null,"用户已存在");
         String password = user.getPassword();
         password = DigestUtil.sha256().digest(password);
-        Date createTime = new Date();
-        user.setIsDelete(BigInteger.ZERO.intValue());
-        user.setCreateTime(createTime);
-        user.setUpdateTime(createTime);
         user.setErrorCount(BigInteger.ZERO.intValue());
-        user.setUserId("2");
+        String id = IdGenerator.getInstance().getStringId();
+        user.setUserId(id);
         user.setPassword(password);
         userDao.save("addUser", user);
-
-        for (String roleId : roleIdsToUse) {
-            UserRole userRole = new UserRole();
-            userRole.setRoleId(roleId);
-            userRole.setIsDelete(BigInteger.ZERO.intValue());
-            userRole.setCreateTime(createTime);
-            userRole.setUpdateTime(createTime);
-            userRole.setUserId(user.getUserId());
-            userRoleDao.save("addUserRole", userRole);
-        }
     }
 
     @Override
@@ -180,14 +106,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String userIds) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(userIds),"用户编号不能为空");
-        String[] idArray = userIds.split(",");
-        for (String userId : idArray) {
+    public void delete(String[] userIds) {
+       Preconditions.checkArgument((userIds!=null && userIds.length>0),"用户编号不能为空");
+        for (String userId : userIds) {
             User user = userDao.findUnique("getByUserId", userId);
             Preconditions.checkNotNull(user,"用户对象不存在");
         }
-        for (String userId : idArray) {
+        for (String userId : userIds) {
             userDao.update("deleteByUserId", userId);
             userRoleDao.update("deleteUserRoleByUserId", userId);
         }
@@ -199,9 +124,7 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> resultMap = Maps.newHashMap();
         Map userMap = userDao.findOneColumn("getUserDetail", Map.class, userId);
         Preconditions.checkNotNull(userMap,"用户对象不存在");
-        List<String> roleIds = userRoleDao.findColumn("getRoleIdByUserId", String.class, userId);
         resultMap.put("user", userMap);
-        resultMap.put("roleIds", roleIds);
         return resultMap;
     }
 
