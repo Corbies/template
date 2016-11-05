@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2016-11-01 22:01:19
+Date: 2016-11-05 10:48:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -134,7 +134,7 @@ CREATE TABLE `sys_role` (
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES ('1', '1', '超级管理员', 'admin', '0', '2016-04-15 11:21:00', '0', '2016-06-01 16:06:00', '0', '系统超级管理员');
-INSERT INTO `sys_role` VALUES ('18', '2', '测试角色', 'test', '0', '2016-06-01 16:06:28', null, '2016-06-07 20:46:15', null, null);
+INSERT INTO `sys_role` VALUES ('18', '2', '普通用户', 'member', '0', '2016-06-01 16:06:28', null, '2016-06-07 20:46:15', null, null);
 INSERT INTO `sys_role` VALUES ('19', '3', '开发一', 'dev_1', '0', '2016-10-22 10:52:10', null, '2016-10-22 10:52:10', null, null);
 INSERT INTO `sys_role` VALUES ('20', '4', '开发2', '开发_2', '0', '2016-10-22 10:52:21', null, '2016-10-22 10:52:21', null, null);
 INSERT INTO `sys_role` VALUES ('21', '5', '开发3', '开发_3', '0', '2016-10-22 10:52:33', null, '2016-10-22 10:52:33', null, null);
@@ -219,13 +219,12 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id_idx` (`user_id`),
   UNIQUE KEY `account_idx` (`account`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-01 22:01:03', '127.0.0.1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
-INSERT INTO `sys_user` VALUES ('31', '2', 'test', '测试员', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, '751185330@qq.com', '18218676908', '0', '0', '2016-11-01 22:00:54', '127.0.0.1', '0', '2016-06-09 21:53:21', null, '2016-06-09 21:53:21', null, null);
+INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-05 10:21:46', '127.0.0.1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
 
 -- ----------------------------
 -- Table structure for sys_user_role
