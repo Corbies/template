@@ -1,5 +1,20 @@
 package com.lew.jlight.web.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.druid.util.StringUtils;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.BeanUtil;
@@ -7,18 +22,6 @@ import com.lew.jlight.core.util.JsonUtil;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Menu;
 import com.lew.jlight.web.service.MenuService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
 
 @Controller
 @RequestMapping("menu")
@@ -46,28 +49,43 @@ public class MenuController {
         List<Menu> menuList = menuService.getList(filter);
         return new Response(menuList);
     }
-
-
+    
+    /**
+     * 添加和更新
+     * @param json
+     * @return
+     */
     @ResponseBody
     @RequestMapping("add")
     public Response add(@RequestBody String json) {
         Menu menu = JsonUtil.parseObj(json, Menu.class);
-        menuService.add(menu);
-        return new Response("添加成功");
+        Response response = new Response();
+        try{
+    	  if( StringUtils.isEmpty(menu.getMenuId())){
+			menuService.add(menu);
+          	response.setMsg("添加成功");
+          }else{
+        	menuService.update(menu);
+            response.setMsg("更新成功");
+          }
+        }catch(Exception e){
+        	response.setCode(1);
+        	response.setMsg("操作失败");
+        }
+        return response;
     }
-
-    @ResponseBody
-    @RequestMapping("edit")
-    public Response edit(@RequestBody String json) {
+    
+    @PostMapping("edit")
+    public @ResponseBody Response edit(@RequestBody String json) {
         Menu menu = JsonUtil.parseObj(json, Menu.class);
         menuService.update(menu);
         return new Response("修改成功");
     }
 
+    @GetMapping("detail")
     @ResponseBody
-    @RequestMapping("detail")
-    public Response detail(@RequestBody String resId) {
-        Menu menu = menuService.detail(resId);
+    public Response detail(String menuId) {
+        Menu menu = menuService.detail(menuId);
         return new Response(menu);
     }
 
@@ -93,6 +111,16 @@ public class MenuController {
     public Response getSelectResTree() {
         menuService.getSelectResTree();
         return null;
+    }
+    
+    /**
+     * 获取菜单资源
+     * @return
+     */
+    @RequestMapping("getTree")
+    public @ResponseBody Object getTree() {
+        Response response = menuService.getTree();
+        return response.getData();
     }
 
 }

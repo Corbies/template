@@ -37,7 +37,7 @@ public abstract class ResourceTreeUtil {
             String isSelectd = (String) resMap.get("selectedId");
 
             JSTree jstree = new JSTree();
-            jstree.setId(resMap.get("resId").toString());
+            jstree.setId(resMap.get("menuId").toString());
             jstree.setParent(BigInteger.ZERO.toString().equals(parentId) ? "#" : resMap.get("parentId").toString());
             jstree.setText(resMap.get("name").toString());
             jstree.setIcon(BeanUtil.isEmpty(resMap.get("icon")) ? "fa fa-cog" : resMap.get("icon").toString());

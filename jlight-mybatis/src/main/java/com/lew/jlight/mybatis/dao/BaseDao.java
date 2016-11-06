@@ -1,11 +1,5 @@
 package com.lew.jlight.mybatis.dao;
 
-import com.lew.jlight.core.BaseEntity;
-import com.lew.jlight.core.page.Page;
-import com.lew.jlight.core.util.BeanUtil;
-
-import org.mybatis.spring.SqlSessionTemplate;
-
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
@@ -14,6 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
+import org.mybatis.spring.SqlSessionTemplate;
+
+import com.lew.jlight.core.BaseEntity;
+import com.lew.jlight.core.page.Page;
+import com.lew.jlight.core.util.BeanUtil;
 
 
 public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
@@ -114,6 +114,11 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
     public <R> List<R> findColumn(String key, Class<R> returnClass) {
         String statement = getMapperNamespace() + "." + key;
         return this.sqlSessionTemplate.selectList(statement);
+    }
+    
+    @Override
+    public List<Map<String, Object>> findMap(String key) {
+        return this.findMap(key, null, null);
     }
 
     @Override

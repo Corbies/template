@@ -29,8 +29,8 @@
 
     <update id="update" parameterType="com.lew.jlight.web.entity.Menu">
         update sys_menu set
-        name=#{name},parent_id=#{parentId},url=#{url},type=#{type},is_show=#{isShow},remark=#{remark}
-        where menu_id = #{menuId} and is_delete=0
+        name=#{name},url=#{url},type=#{type},is_show=#{isShow},icon=#{icon},remark=#{remark}
+        where menu_id = #{menuId}
     </update>
 
     <select id="getMenuList" parameterType="java.util.Map" resultMap="Menu">
@@ -84,8 +84,11 @@
     <select id="getMenuTree" parameterType="java.lang.String" resultType="Map">
         select DISTINCT(t1.menu_id) as menuId,t1.parent_id as parentId ,t1.name ,t1.icon,t3.menu_id as
         selectedId
-        from sys_menu t1 left join sys_menu t2 on t1.parent_id = t2.res_id
-        left join sys_role_menu t3 on t1.menu_id = t3.menu_id and t3.role_id= #{roleId}
+        from sys_menu t1 left join sys_menu t2 on t1.parent_id = t2.menu_id
+        left join sys_role_menu t3 on t1.menu_id = t3.menu_id
+        <if test="@Ognl@isNotEmpty(roleId)">
+         and t3.role_id= #{roleId}
+        </if>
     </select>
 
     <select id="getMenuByAccount" parameterType="java.lang.String" resultMap="Menu">

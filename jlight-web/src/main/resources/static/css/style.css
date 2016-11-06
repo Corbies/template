@@ -731,3 +731,7 @@ body:nth-of-type(1) .table-responsive .table {
     margin-right: 30px;
     color: #438EB9
 }
+
+form .ng-invalid-custom-validate{
+	border:2px solid #ec6868;
+}
