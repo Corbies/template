@@ -148,11 +148,22 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 		});
 	}
 
-
-	$scope.asignRole = function(){
-		$scope.roleIds = response.data.roleIds;
-		userService.getRoleMap().then(function(response){
-			$.each(response.data,function(i,roleMap){
+	$scope.asignRole = function(userId){
+		var selectArray = $("#User_list tbody input:checked");
+		if(!selectArray || selectArray.length!=1){
+			alertDialog("请选择一个用户");
+			return;
+		}
+		var userId;
+		$.each(selectArray,function(i,e){
+			var val = $(this).val();
+			userId =val;
+		});
+		var includeRolesMap = [];
+		var excludeRolesMap = [];
+		userService.getRoleMap(userId).then(function(response){
+			$scope.roleIds = response.data.roleIds;
+			$.each(response.data.roleList,function(i,roleMap){
 				var roleId = roleMap.roleId;
 				if($scope.roleIds.indexOf(roleId)>=0){
 					var roleObj = {'roleId':roleId,'name':roleMap.name};
@@ -174,7 +185,20 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 		   content : $('#asignRole'),
 		   btn : [ '保存', '取消' ],
 		   yes : function(index, layero) {
-
+			   var roleIds = [];
+			   $("#multiselect_to option").each(function(i,e){
+				   var selectVal = $(this).val();
+				   roleIds.push(selectVal);
+			   });
+			   var param = {"roleIds":roleIds,"userId":userId};
+				userService.saveUserRole(param).then(function(response){
+					layer.alert(response.msg, {
+						title : '提示框',
+						icon : 6,
+					},function(){
+						layer.closeAll();
+					});
+				});
 		   }});
 	}
 	

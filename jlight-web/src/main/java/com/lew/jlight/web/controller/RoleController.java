@@ -1,5 +1,9 @@
 package com.lew.jlight.web.controller;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.BeanUtil;
@@ -7,8 +11,8 @@ import com.lew.jlight.core.util.JsonUtil;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.service.RoleService;
+import com.lew.jlight.web.service.UserRoleService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +31,9 @@ public class RoleController {
 
     @Resource
     private RoleService roleService;
+
+    @Resource
+    private UserRoleService userRoleService;
 
     @RequestMapping(value = "list",method = RequestMethod.GET)
     public String list(){
@@ -84,10 +91,15 @@ public class RoleController {
 
     @ResponseBody
     @RequestMapping("getRoleMap")
-    public Response getRoleMap() {
-        List list = roleService.getRoleMap();
+    public Response getRoleMap(@RequestBody String userId) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId),"用户编号不能为空");
         Response response = new Response();
-        response.setData(list);
+        List list = roleService.getRoleMap();
+        Map resultMap = Maps.newHashMap();
+        List< String > roleIds = userRoleService.getRoleIdsByUserId(userId);
+        resultMap.put("roleIds",roleIds);
+        resultMap.put("roleList",list);
+        response.setData(resultMap);
         return response;
     }
 }
