@@ -86,9 +86,12 @@
         selectedId
         from sys_menu t1 left join sys_menu t2 on t1.parent_id = t2.menu_id
         left join sys_role_menu t3 on t1.menu_id = t3.menu_id
-        <if test="@Ognl@isNotEmpty(roleId)">
-         and t3.role_id= #{roleId}
-        </if>
+        and t3.role_id= #{roleId}
+    </select>
+    
+    <select id="getAllMenuTree" parameterType="java.lang.String" resultType="Map">
+        select DISTINCT(t1.menu_id) as menuId,t1.parent_id as parentId ,t1.name ,t1.icon
+        from sys_menu t1 left join sys_menu t2 on t1.parent_id = t2.menu_id
     </select>
 
     <select id="getMenuByAccount" parameterType="java.lang.String" resultMap="Menu">
@@ -101,6 +104,9 @@
 
     <delete id="deleteByMenuId" parameterType="java.lang.String">
         delete from sys_menu where is_delete = 0 and menu_id = #{menuId}
+    </delete>
+     <delete id="deleteByParentId" parameterType="java.lang.String">
+        delete from sys_menu where is_delete = 0 and parent_id = #{menuId}
     </delete>
 
 </mapper>

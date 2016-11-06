@@ -3,8 +3,6 @@ package com.lew.jlight.web.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -93,7 +91,7 @@ public class MenuController {
     @RequestMapping("delete")
     public Response delete(@RequestBody String json) {
         Map<String, String> param = JsonUtil.parseStringMap(json);
-        String resIds = BeanUtil.isEmpty(param) ? null : param.get("resIds");
+        String resIds = BeanUtil.isEmpty(param) ? null : param.get("menuIds");
         menuService.delete(resIds);
         return new Response("删除成功");
     }
