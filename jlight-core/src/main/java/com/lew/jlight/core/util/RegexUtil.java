@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class RegexUtil {
 
 	public static boolean isEmail( String str ) {
-		boolean result = validByRegex( "(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)*", str );
+		boolean result = validByRegex( "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$", str );
 		return result;
 	}
 
@@ -19,7 +19,7 @@ public class RegexUtil {
 
 
 	public static boolean isPhone( String str ) {
-		boolean result = validByRegex( "(0[0-9]{2,3}\\-)?([2-9][0-9]{6,7})+(\\-[0-9]{1,4})?", str );
+		boolean result = validByRegex("^([a-z0-9A-Z]+[-|\\\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\\\.)+[a-zA-Z]{2,}$", str );
 		return result;
 	}
 
