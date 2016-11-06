@@ -26,4 +26,6 @@ public interface MenuService {
 
 	Menu detail(String menuId);
 
+	Response getTree();
+
 }

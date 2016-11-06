@@ -64,6 +64,8 @@ public interface GenericDao<T extends BaseEntity> {
     /**
      * 查询列表返回List<Map<String,Object>
      */
+    public List<Map<String, Object>> findMap(String key);
+
     public List<Map<String, Object>> findMap(String key, Object param);
 
     public List<Map<String, Object>> findMap(String key, Object param, Page page);

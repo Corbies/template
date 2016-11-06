@@ -18,7 +18,7 @@ base.factory("$jsonToFormData",function() {
 					return;
 				}
 				if (response.code == 0) {
-					deferred.resolve(response);
+					deferred.resolve(response.data);
 				} else {
 					deferred.reject(response);
 				}
@@ -248,4 +248,64 @@ function alertError(){
 		title : '提示框',
 		icon : 0
 	});
+}
+
+
+/**
+ * 外部JS和angular 交互类。
+ * 主要包括两个方法：
+ * 1.获取当前上下文的scope。
+ * 2.设置修改后的scope。
+ */
+var AngularUtil={};
+
+/**
+ * 获取当前Angularjs scope 。
+ */
+AngularUtil.getScope=function(){
+	return angular.element($("[ng-controller]")[0]).scope();
+}
+
+/**
+ * 保存外部js对scope的修改。
+ */
+AngularUtil.setData=function(scope){
+	!scope.$$phase && scope.$digest();
+};
+
+
+/**
+ * 获取当前环境中的 service
+ * serviceName：指定的服务名称。
+ * 这里需要注意的是，只能获取当前ng-controller注入模块中的service。
+ */
+AngularUtil.getService = function(serviceName){
+	if(!this.$injector){
+		this.$injector =angular.element($("[ng-controller]")).injector();
+	}
+	if(this.$injector.has(serviceName)) {
+		return this.$injector.get(serviceName);
+	}
+	else {
+		alert(serviceName+"angular环境中没有找到该service！");
+	}
+};
+/**
+ * 根据jquery表达式获取指定元素上的控件值。
+ * 比如:获取id为 userId的控件的值。
+ * var userId=CustForm.getModelVal("#userId");
+ */
+AngularUtil.getModelVal = function(element){
+	var inputCtrl = $(element).data("$ngModelController");
+	return inputCtrl.$modelValue;
+};
+
+/**
+ * 通过载入方法名，调用scope中的某个方法
+ * @param funStr
+ */
+AngularUtil.triggerScopeFun = function(funStr){
+	var scope  = AngularUtil.getScope();
+	var fun = scope[funStr];
+	if(fun) return fun.call(this,arguments[1]);
 }
