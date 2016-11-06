@@ -18,8 +18,8 @@ import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.entity.UserRole;
 import com.lew.jlight.web.service.UserService;
 import com.lew.jlight.web.util.Constants;
+import com.lew.jlight.web.util.UserContextUtil;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,16 +27,18 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+    @Resource
     private UserDao userDao;
 
-    @Autowired
+    @Resource
     private UserRoleDao userRoleDao;
 
-    @Autowired
+    @Resource
     private RoleDao roleDao;
 
     @Override
@@ -63,7 +65,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User user) {
-        Preconditions.checkNotNull(user, "用户对象不能为空");
+        Preconditions.checkNotNull(user, "用户不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getAccount()), "帐号名不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getPassword()), "密码不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getMobile()), "手机号码不能为空");
+        Preconditions.checkNotNull(user.getIsLock(), "帐号名不能为空");
+        Preconditions.checkArgument(RegexUtil.isMobile(user.getMobile()), "手机号码格式不正确");
+        if (!Strings.isNullOrEmpty(user.getEmail())) {
+            Preconditions.checkArgument(RegexUtil.isEmail(user.getEmail()), "邮箱格式不正确");
+        }
         User model = userDao.findUnique("getByUserId", user.getUserId());
         Preconditions.checkNotNull(model, "用户信息不存在");
         String oldPwd = user.getPassword();
@@ -79,13 +89,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void add(User user) {
         Preconditions.checkNotNull(user, "用户不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getAccount()),"帐号名不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getPassword()),"密码不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getMobile()),"手机号码不能为空");
-        Preconditions.checkNotNull(user.getIsLock(),"帐号名不能为空");
-        Preconditions.checkArgument(RegexUtil.isMobile(user.getMobile()),"手机号码格式不正确");
-        if(!Strings.isNullOrEmpty(user.getEmail())){
-            Preconditions.checkArgument(RegexUtil.isEmail(user.getEmail()),"邮箱格式不正确");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getAccount()), "帐号名不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getPassword()), "密码不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getMobile()), "手机号码不能为空");
+        Preconditions.checkNotNull(user.getIsLock(), "帐号名不能为空");
+        Preconditions.checkArgument(RegexUtil.isMobile(user.getMobile()), "手机号码格式不正确");
+        if (!Strings.isNullOrEmpty(user.getEmail())) {
+            Preconditions.checkArgument(RegexUtil.isEmail(user.getEmail()), "邮箱格式不正确");
         }
 
         String account = user.getAccount();
@@ -109,18 +119,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePwd(String oldPwd, String confirmPwd, String newPwd, String userId) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId), "用户编号不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(oldPwd), "旧密码不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(newPwd), "新密码不能为空");
+    public void updatePwd(String originPwd, String confirmPwd, String newPwd) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(originPwd), "原密码不能为空");
         Preconditions.checkArgument(!Strings.isNullOrEmpty(confirmPwd), "确认密码不能为空");
-        Preconditions.checkArgument(newPwd.equals(confirmPwd), "新密码与确认密码不一致");
-
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(newPwd), "新密码不能为空");
+        Preconditions.checkArgument(confirmPwd.equals(newPwd), "新密码与确认密码不一致");
+        String userId = UserContextUtil.getUserId();
         User user = userDao.findUnique("getByUserId", userId);
         Preconditions.checkNotNull(user, "用户对象不存在");
-        Preconditions.checkArgument(!user.getPassword().equals(DigestUtil.sha256().digest(oldPwd)), "原密码不正确");
+        Preconditions.checkArgument(user.getPassword().equals(DigestUtil.sha256().digest(originPwd)), "原密码不正确");
 
-        String newPassword = DigestUtil.sha256().digest(newPwd);
+        String newPassword = DigestUtil.sha256().digest(confirmPwd);
         Map<String, String> paramMap = Maps.newHashMap();
         paramMap.put("newPassword", newPassword);
         paramMap.put("userId", userId);
@@ -135,8 +144,8 @@ public class UserServiceImpl implements UserService {
             Preconditions.checkNotNull(user, "用户对象不存在");
         }
         for (String userId : userIds) {
-            userDao.update("deleteByUserId", userId);
-            userRoleDao.update("deleteByUserId", userId);
+            userDao.delete("deleteByUserId", userId);
+            userRoleDao.delete("deleteByUserId", userId);
         }
     }
 
@@ -148,12 +157,6 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkNotNull(userMap, "用户对象不存在");
         resultMap.put("user", userMap);
         return resultMap;
-    }
-
-    @Override
-    public User getByUserId(String userId) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId), "用户编号不能为空");
-        return userDao.findUnique("getByUserId", userId);
     }
 
     @Override

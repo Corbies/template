@@ -5,7 +5,6 @@ import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Role;
 
 import java.util.List;
-import java.util.Map;
 
 public interface RoleService {
 
@@ -19,5 +18,5 @@ public interface RoleService {
 
     Role getDetail(String roleId);
 
-    Map getRoleMap(String userId);
+    List getRoleMap();
 }

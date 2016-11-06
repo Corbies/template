@@ -117,17 +117,17 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
     }
     
     @Override
-    public List<Map<String, Object>> findMap(String key) {
+    public List findMap(String key) {
         return this.findMap(key, null, null);
     }
 
     @Override
-    public List<Map<String, Object>> findMap(String key, Object param) {
+    public List findMap(String key, Object param) {
         return this.findMap(key, param, null);
     }
 
     @Override
-    public List<Map<String, Object>> findMap(String key, Object param, Page page) {
+    public List findMap(String key, Object param, Page page) {
         String statement = getMapperNamespace() + "." + key;
         Map<String, Object> filters = new HashMap<>();
         if (param != null) {

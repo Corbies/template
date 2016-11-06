@@ -17,20 +17,20 @@
                 <ul class="search_content clearfix">
                     <li><label class="lf">帐号</label>
                         <label>
-                            <input name="account" ng-model="requestParam.param.account" type="text"
+                            <input name="account" ng-model="queryFilter.account" type="text"
                                    class="text_add"/>
                         </label>
                     </li>
                     <li><label class="lf">姓名</label>
                         <label>
-                            <input name="trueName" ng-model="requestParam.param.trueName"
+                            <input name="trueName" ng-model="queryFilter.trueName"
                                    type="text"
                                    class="text_add"/>
                         </label>
                     </li>
                     <li><label class="lf">手机号码</label>
                         <label>
-                            <input name="mobile" ng-model="requestParam.param.mobile" type="text"
+                            <input name="mobile" ng-model="queryFilter.mobile" type="text"
                                    class="text_add"/>
                         </label>
                     </li>
@@ -46,7 +46,7 @@
                     </button>
                     <button type="button" class="btn btn-danger" ng-click="deleteUser()">删除</button>
                     <button type="button" class="btn btn-pink" ng-click="resetPwd()">重置密码</button>
-                    <button type="button" class="btn btn-pink" ng-click="resetPwd()">角色分配</button>
+                    <button type="button" class="btn btn-pink" ng-click="asignRole()">角色分配</button>
                 </ul>
                 <div id="Add_user_style" style="display: none">
                     <div class="add_user_style clearfix">
@@ -101,6 +101,28 @@
                         </ul>
                     </div>
                 </div>
+
+                <div id="asignRole" style="height:100%;display: none;">
+                    <div class="col-xs-5" style="height: 100%;" >
+                        <select name="from[]" id="multiselect" style="height: 100%;"  class="form-control" size="8" multiple="multiple">
+                            <option ng-repeat="map in roleMap"  value="{{map.roleId}}" ng-bind="map.name"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-xs-2" style="margin: 20% 0;">
+                        <button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                        <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                        <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                        <button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                    </div>
+
+                    <div class="col-xs-5" style="height: 100%;" >
+                        <select name="to[]" style="height: 100%;"  id="multiselect_to" class="form-control" size="8" multiple="multiple">
+                            <option ng-repeat="role in includeRoleMap"  value="{{role.roleId}}" ng-bind="role.name"></option>
+                        </select>
+                    </div>
+                </div>
+
             </div>
         </form>
         <div class="Manager_style">
@@ -143,7 +165,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="hupan_more eg-page"  url="/user/list" request-page-params="requestParam"
+            <div class="hupan_more eg-page"  url="/user/list" request-page-params="queryFilter"
                  click-search="userSearch" return-page-rows="data"></div>
         </div>
     </div>

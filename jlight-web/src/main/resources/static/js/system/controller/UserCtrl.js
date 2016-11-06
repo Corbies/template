@@ -1,24 +1,19 @@
 var userApp = angular.module('userApp', ['base']);
 userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($rootScope,$scope,userService) {
-	
 	$('#multiselect').multiselect({});
 	//搜索参数
-	$scope.requestParam = {};
+	$scope.queryFilter = {};
 	$scope.role = {	};
-	$scope.isLockMap = [{isLock: '0', name: "启用"}, {isLock: '1', name: "停用"}];
+	$scope.isLockMap = [{isLock:0, name: "启用"}, {isLock: 1, name: "停用"}];
 	//添加用户,1为添加，0为修改
 	$scope.updateUser = function(sign){
 		var selectArray = $("#User_list tbody input:checked");
 		if(!selectArray || (selectArray.length!=1 && sign==0)){
-			layer.alert('请选择一个！', {
-				title : '提示框',
-				icon : 1,
-			});
+			alertDialog("请选择一个");
 			return;
 		}
 		var titleName = selectArray && selectArray.length>0 ? '修改用户':'添加用户';
 		var userId = $(selectArray[0]).val();
-		$scope.getRoleMap();
 		if(userId && sign==0){
 			userService.detail(userId).then(function(response){
 				var isLock = response.data.user.isLock;
@@ -40,42 +35,22 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 			btn : [ '保存', '取消' ],
 			yes : function(index, layero) {
 				if ($("#name").val() == "") {
-					layer.alert('登录用户名不能为空!', {
-						title : '提示框',
-						icon : 0,
-					});
-					return false;
+					alertDialog("登录用户名不能为空");
+					return;
 				}
 				if ($("#password").val() == "") {
-					layer.alert('密码不能为空!', {
-						title : '提示框',
-						icon : 0,
-					});
-					return false;
+					alertDialog("密码不能为空");
+					return;
 				}
 				if ($("#phone").val() == "") {
-					layer.alert('电话号码不能为空!', {
-						title : '提示框',
-						icon : 0,
-
-					});
-					return false;
-				}
-				if ($("#user_name").val() == "") {
-					layer.alert('用户名不能为空!', {
-						title : '提示框',
-						icon : 0,
-					});
-					return false;
+					alertDialog("手机号码不能为空");
+					return;
 				}
 				if ($("#select_status").val() == "") {
-					layer.alert('用户状态能为空!', {
-						title : '提示框',
-						icon : 0,
-					});
-					return false;
+					alertDialog("用户状态能为空");
+					return;
 				} else {
-					var user = $scope.user;
+					var user = angular.copy($scope.user);
 					var roleIds = [];
 					$("#multiselect_to option").each(function(i,e){
 						var selectVal = $(this).val();
@@ -88,7 +63,8 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 						});
 						return;
 					}
-					user.isLock = parseInt(user.isLock);
+					var isLockStr = user.isLock;
+					user.isLock = parseInt(isLockStr);
 					if(!userId){
 						userService.addUser(user).then(function(response){
 							layer.alert(response.msg, {
@@ -120,10 +96,7 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 	$scope.resetPwd =function(){
 		var selectArray = $("#User_list tbody input:checked");
 		if(!selectArray || selectArray.length==0){
-			layer.alert('请选择一个！', {
-				title : '提示框',
-				icon : 1,
-			});
+			alertDialog("请选择用户");
 			return;
 		}
 		var userIds = new Array();
@@ -150,10 +123,7 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 	$scope.deleteUser = function(){
 		var selectArray = $("#User_list tbody input:checked");
 		if(!selectArray || selectArray.length==0){
-			layer.alert('请选择一个！', {
-				title : '提示框',
-				icon : 1,
-			});
+			alertDialog("请选择用户");
 			return;
 		}
 		var userIds = new Array();
@@ -177,13 +147,35 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 			});
 		});
 	}
-	
-	$scope.getRoleMap = function(){
+
+
+	$scope.asignRole = function(){
+		$scope.roleIds = response.data.roleIds;
 		userService.getRoleMap().then(function(response){
-			$scope.roleMap = response.data;
-		},function(response){
-			
+			$.each(response.data,function(i,roleMap){
+				var roleId = roleMap.roleId;
+				if($scope.roleIds.indexOf(roleId)>=0){
+					var roleObj = {'roleId':roleId,'name':roleMap.name};
+					includeRolesMap.push(roleObj);
+				}else{
+					var roleObj = {'roleId':roleId,'name':roleMap.name};
+					excludeRolesMap.push(roleObj);
+				}
+			});
+			$scope.roleMap = excludeRolesMap;
+			$scope.includeRoleMap =includeRolesMap;
 		});
+		layer.open({
+		   type : 1,
+		   title : "角色分配",
+		   maxmin : true,
+		   shadeClose : true, //点击遮罩关闭层
+		   area : [ '576px', '468px' ],
+		   content : $('#asignRole'),
+		   btn : [ '保存', '取消' ],
+		   yes : function(index, layero) {
+
+		   }});
 	}
 	
 	$scope.selectAll = function($event){

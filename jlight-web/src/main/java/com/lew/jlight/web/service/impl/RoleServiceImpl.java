@@ -11,8 +11,6 @@ import com.lew.jlight.web.dao.RoleMenuDao;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.service.RoleService;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -24,9 +22,10 @@ import javax.annotation.Resource;
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    @Autowired
+    @Resource
     private RoleDao roleDao;
-    @Autowired
+
+    @Resource
     private RoleMenuDao roleMenuDao;
 
     @Override
@@ -91,7 +90,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Map getRoleMap(String userId) {
-        return null;
+    public List getRoleMap() {
+        return roleDao.findMap( "getRoleIdAndName" );
     }
 }

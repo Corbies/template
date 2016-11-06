@@ -145,7 +145,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> getList(ParamFilter<String, String> param) {
+    public List<Menu> getList(ParamFilter param) {
         Page page = param.getPage();
         return menuDao.find("getMenuList", param, page);
     }

@@ -17,13 +17,11 @@ public interface UserService {
 
     void add(User user);
 
-    void updatePwd(String oldPwd, String confirmPwd, String newPwd, String userId);
+    void updatePwd(String originPwd,String confirmPwd,String newPwd);
 
     void delete(String[] userIds);
 
     Map getDetail(String userId);
-
-    User getByUserId(String userId);
 
     User getByAccount(String account);
 

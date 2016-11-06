@@ -13,14 +13,18 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
 public class MyBatisConfig  {
 
+    @Resource
+    private DataSource dataSource;
+
     @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) {
+    public SqlSessionFactory sqlSessionFactory() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setConfigLocation(new ClassPathResource("mybatis.xml"));
@@ -41,7 +45,7 @@ public class MyBatisConfig  {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+    public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource);
     }
 }

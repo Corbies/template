@@ -25,7 +25,7 @@ import javax.annotation.Resource;
 @RequestMapping("role")
 public class RoleController {
 
-    @Autowired
+    @Resource
     private RoleService roleService;
 
     @RequestMapping(value = "list",method = RequestMethod.GET)
@@ -78,13 +78,16 @@ public class RoleController {
     @ResponseBody
     @RequestMapping("detail")
     public Response detail(@RequestBody String roleId) {
-         roleService.getDetail(roleId);
-        return new Response();
+        Role role = roleService.getDetail(roleId);
+        return new Response(role);
     }
 
     @ResponseBody
     @RequestMapping("getRoleMap")
     public Response getRoleMap() {
-        return new Response();
+        List list = roleService.getRoleMap();
+        Response response = new Response();
+        response.setData(list);
+        return response;
     }
 }
