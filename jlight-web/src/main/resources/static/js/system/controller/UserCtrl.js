@@ -95,9 +95,9 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 								title : '提示框',
 								icon : 1,
 							},function(){
+								layer.close(index);
 								window.location.reload();
 							});
-							layer.close(index);
 						});
 					}else{
 						userService.editUser(user).then(function(response){

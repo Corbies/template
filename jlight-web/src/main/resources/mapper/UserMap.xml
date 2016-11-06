@@ -22,7 +22,7 @@
         <result column="remark" property="remark"/>
     </resultMap>
 
-    <insert id="addUser" parameterType="com.lew.jlight.web.entity.User">
+    <insert id="insert" parameterType="com.lew.jlight.web.entity.User">
         insert into sys_user
         (user_id,account,true_name,password,sex,email,mobile,error_count,is_lock,login_time,login_ip,is_delete,create_by,create_time,update_by,update_time,remark)
         values(#{userId}, #{account}, #{trueName}, #{password}, #{sex}, #{email},

@@ -14,7 +14,7 @@ base.factory("$jsonToFormData",function() {
 			var deferred = $q.defer();
 			$http.get(url).success(function (response) {
 				if (response.code == 1) {
-					alertError();
+					alertError(response.msg);
 					return;
 				}
 				if (response.code == 0) {
@@ -35,7 +35,7 @@ base.factory("$jsonToFormData",function() {
 				.success(function (response) {
 					//系统发生内部错误
 					if (response.code == 1) {
-						alertError();
+						alertError(response.msg);
 						return;
 					}
 					//系统正常执行
@@ -57,7 +57,7 @@ base.factory("$jsonToFormData",function() {
 			$http.post(url, param).success(function (response) {
 				//系统发生内部错误
 				if (response.code == 1) {
-					alertError();
+					alertError(response.msg);
 					return;
 				}
 				//系统正常执行
@@ -78,7 +78,7 @@ base.factory("$jsonToFormData",function() {
 			$http.post(url, param).success(function (response) {
 				//系统发生内部错误
 				if (response.code == 1) {
-					alertError();
+					alertError(response.msg);
 					return;
 				}
 				//系统正常执行
@@ -243,10 +243,10 @@ base.factory("$jsonToFormData",function() {
       };
 }]);
 
-function alertError(){
-	layer.alert("系统发生错误，请联系管理员！\r\n", {
+function alertError(msg){
+	layer.alert(msg+"! \r\n", {
 		title : '提示框',
-		icon : 0
+		icon : 5
 	});
 }
 

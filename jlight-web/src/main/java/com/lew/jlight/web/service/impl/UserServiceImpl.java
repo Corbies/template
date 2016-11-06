@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import com.lew.jlight.core.IdGenerator;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.DigestUtil;
+import com.lew.jlight.core.util.RegexUtil;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.RoleDao;
 import com.lew.jlight.web.dao.UserDao;
@@ -18,18 +19,13 @@ import com.lew.jlight.web.entity.UserRole;
 import com.lew.jlight.web.service.UserService;
 import com.lew.jlight.web.util.Constants;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Resource;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -42,15 +38,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleDao roleDao;
-
-    @Autowired
-    private SqlSessionTemplate sqlSessionTemplate;
-
-    public UserServiceImpl(){
-        boolean isAop = AopUtils.isAopProxy(sqlSessionTemplate);
-        boolean isaa = AopUtils.isCglibProxy(sqlSessionTemplate);
-        boolean isJdk = AopUtils.isJdkDynamicProxy(sqlSessionTemplate);
-    }
 
     @Override
     public List getList(ParamFilter<String, String> param) {
@@ -92,6 +79,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void add(User user) {
         Preconditions.checkNotNull(user, "用户不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getAccount()),"帐号名不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getPassword()),"密码不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getMobile()),"手机号码不能为空");
+        Preconditions.checkNotNull(user.getIsLock(),"帐号名不能为空");
+        Preconditions.checkArgument(RegexUtil.isMobile(user.getMobile()),"手机号码格式不正确");
+        if(!Strings.isNullOrEmpty(user.getEmail())){
+            Preconditions.checkArgument(RegexUtil.isEmail(user.getEmail()),"邮箱格式不正确");
+        }
+
         String account = user.getAccount();
         User model = userDao.findUnique("getByAccount", account);
         Preconditions.checkArgument(model == null, "用户已存在");
@@ -101,17 +97,11 @@ public class UserServiceImpl implements UserService {
         String userId = IdGenerator.getInstance().nextId();
         user.setUserId(userId);
         user.setPassword(password);
-        user.setIsDelete(0);
-        user.setCreateTime(new Date());
-        user.setUpdateTime(new Date());
-        sqlSessionTemplate.insert("com.lew.jlight.web.entity.User.addUser", user);
+        userDao.save(user);
 
         //默认角色为普通用户
         Role role = roleDao.findUnique("getRoleBySign", Constants.MEMBER);
         Preconditions.checkNotNull(role, "默认角色不能为空");
-        if(role!=null){
-            throw new IllegalArgumentException("");
-        }
         UserRole userRole = new UserRole();
         userRole.setRoleId(role.getRoleId());
         userRole.setUserId(userId);
@@ -124,8 +114,7 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(oldPwd), "旧密码不能为空");
         Preconditions.checkArgument(!Strings.isNullOrEmpty(newPwd), "新密码不能为空");
         Preconditions.checkArgument(!Strings.isNullOrEmpty(confirmPwd), "确认密码不能为空");
-        Preconditions.checkArgument(!newPwd.equals(confirmPwd), "新密码与确认密码不一致");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(newPwd), "新密码不能为空");
+        Preconditions.checkArgument(newPwd.equals(confirmPwd), "新密码与确认密码不一致");
 
         User user = userDao.findUnique("getByUserId", userId);
         Preconditions.checkNotNull(user, "用户对象不存在");
@@ -147,7 +136,7 @@ public class UserServiceImpl implements UserService {
         }
         for (String userId : userIds) {
             userDao.update("deleteByUserId", userId);
-            userRoleDao.update("deleteUserRoleByUserId", userId);
+            userRoleDao.update("deleteByUserId", userId);
         }
     }
 

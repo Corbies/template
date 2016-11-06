@@ -13,7 +13,7 @@
         <result column="remark" property="remark"/>
     </resultMap>
 
-    <insert id="addUserRole" parameterType="com.lew.jlight.web.entity.UserRole">
+    <insert id="insert" parameterType="com.lew.jlight.web.entity.UserRole">
         insert into sys_user_role(user_id ,role_id
         ,is_delete,create_by,create_time,update_by,update_time,remark)
         values(#{userId},#{roleId},#{isDelete},#{createBy},#{createTime},#{updateBy},#{updateTime},#{remark})
@@ -23,7 +23,7 @@
         select * from sys_user_role where is_delete = 0 and user_id = #{userId}
     </select>
 
-    <delete id="deleteUserRoleByUserId" parameterType="java.lang.String">
+    <delete id="deleteByUserId" parameterType="java.lang.String">
         delete from sys_user_role where is_delete = 0 and user_id = #{userId}
     </delete>
 </mapper>
