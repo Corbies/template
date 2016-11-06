@@ -27,9 +27,14 @@ userApp.service('userService', ['$http', '$q', 'baseService',
                     return baseService.post(url,userId);
                 },
                 //角色编号名称映射
-                getRoleMap: function() {
+                getRoleMap: function(userId) {
                     var url = _ctx + '/role/getRoleMap';
-                    return baseService.post(url);
+                    return baseService.post(url,userId);
+                },
+                //保存角色编号名称映射
+                saveUserRole: function(param) {
+                    var url = _ctx + '/userRole/add';
+                    return baseService.postForm(url,param);
                 }
             }
         }

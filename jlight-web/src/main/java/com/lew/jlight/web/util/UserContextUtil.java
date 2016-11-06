@@ -12,6 +12,14 @@ public abstract class UserContextUtil {
         return currentSubjetct.getSession();
     }
 
+    public static String getUserId(){
+        return (String) getAttribute("userId");
+    }
+
+    public static String getCurrentRoleId(){
+        return (String) getAttribute("roleId");
+    }
+
     public static Object getAttribute(String key){
         return getSession().getAttribute(key);
     }

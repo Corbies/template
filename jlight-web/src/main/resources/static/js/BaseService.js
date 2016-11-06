@@ -250,6 +250,12 @@ function alertError(msg){
 	});
 }
 
+function alertDialog(msg){
+	layer.alert(msg,{
+		title: '提示框',
+		icon:0,
+	});
+}
 
 /**
  * 外部JS和angular 交互类。
