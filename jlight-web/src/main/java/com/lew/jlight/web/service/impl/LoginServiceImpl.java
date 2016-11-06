@@ -11,17 +11,16 @@ import com.lew.jlight.web.service.LoginService;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-@Component
+@Service
 public class LoginServiceImpl implements LoginService {
 
-    @Resource
+    @Autowired
     private UserDao userDao;
 
     @Override

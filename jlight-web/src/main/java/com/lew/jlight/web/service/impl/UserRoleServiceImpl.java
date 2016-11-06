@@ -5,16 +5,18 @@ import com.lew.jlight.web.dao.UserRoleDao;
 import com.lew.jlight.web.entity.UserRole;
 import com.lew.jlight.web.service.UserRoleService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import javax.annotation.Resource;
 
-@Component
+@Service
 public class UserRoleServiceImpl  implements UserRoleService {
 
-    @Resource
+    @Autowired
     private UserRoleDao userRoleDao;
 
     @Override

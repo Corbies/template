@@ -29,15 +29,15 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
             entity.setUpdateTime(new Date());
             entity.setIsDelete(BigInteger.ZERO.intValue());
         }
-        return this.sqlSessionTemplate.insert(statements,entity);
+        return this.sqlSessionTemplate.insert(statements, entity);
     }
 
 
     @Override
     public Serializable save(String key, Object param) {
         String statements = getMapperNamespace() + "." + key;
-        BaseEntity entity =null;
-        if(param!=null && param instanceof BaseEntity){
+        BaseEntity entity = null;
+        if (param != null && param instanceof BaseEntity) {
             entity = (BaseEntity) param;
             entity.setCreateTime(new Date());
             entity.setUpdateTime(new Date());

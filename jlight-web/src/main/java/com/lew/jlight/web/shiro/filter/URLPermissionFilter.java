@@ -8,6 +8,7 @@ import com.lew.jlight.core.util.BeanUtil;
 import com.lew.jlight.web.service.UserService;
 
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -24,7 +25,7 @@ public class URLPermissionFilter extends PermissionsAuthorizationFilter {
 
     private Set<String> suffixSet = Sets.newHashSet("js",".css",".html",".jpg",".png",".gif", ".jpeg");
 
-    @Resource
+    @Autowired
     private UserService userService;
 
     @Override

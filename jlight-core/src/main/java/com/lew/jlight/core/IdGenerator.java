@@ -1,37 +1,67 @@
 package com.lew.jlight.core;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class IdGenerator {
-    private  AtomicInteger count = new AtomicInteger(0);
-    private final static int maxCount = 999;
+    private final static Logger logger = LoggerFactory.getLogger(IdGenerator.class);
+    private final static int MAX_NUM = 9999;
+    private static int mac = 0;
+    private static String longMac;
+    private final AtomicInteger count = new AtomicInteger(0);
 
     private IdGenerator() {
-
+        mac = this.getMac();
+        longMac = this.getLongMac();
     }
 
     public static IdGenerator getInstance() {
         return GeneratorInstance.idGenerator;
     }
 
-    public  String getStringId() {
-        if (count.incrementAndGet() == maxCount) {
-            count.compareAndSet(maxCount, 0);
+    private String getLongMac() {
+        return null;
+    }
+
+    private int getMac() {
+        try {
+            InetAddress address = InetAddress.getLocalHost();
+            byte[] hardwareAddress = NetworkInterface.getByInetAddress(address).getHardwareAddress();
+            return this.bytesToInt(hardwareAddress);
+        } catch (Exception e) {
+            logger.info("can't found mac address");
+            Random random = new Random();
+            return random.nextInt(9000);
         }
-        long id = System.currentTimeMillis() + count.incrementAndGet();
+    }
+    private  int bytesToInt(byte[] bytes) {
+        int addr = bytes[3] & 0xFF;
+        addr |= ((bytes[2] << 8) & 0xFF00);
+        addr |= ((bytes[1] << 16) & 0xFF0000);
+        addr |= ((bytes[0] << 24) & 0xFF000000);
+        return addr;
+    }
+
+
+    public String nextId() {
+        long id = this.getMac() + System.currentTimeMillis() + count.incrementAndGet();
         return String.valueOf(id);
     }
 
-    public  long getLongId() {
-        if (count.incrementAndGet() == maxCount) {
-            count.compareAndSet(maxCount, 0);
+    private int getAtomicNum() {
+        int num = count.incrementAndGet();
+        if (count.compareAndSet(MAX_NUM, 0)) {
+            num = count.incrementAndGet();
         }
-        long id = System.currentTimeMillis() + count.incrementAndGet();
-        return id;
+        return num;
     }
 
     private static class GeneratorInstance {
         public static IdGenerator idGenerator = new IdGenerator();
     }
-
 }

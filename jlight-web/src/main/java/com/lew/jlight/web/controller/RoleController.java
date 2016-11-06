@@ -8,6 +8,7 @@ import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.service.RoleService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ import javax.annotation.Resource;
 @RequestMapping("role")
 public class RoleController {
 
-    @Resource
+    @Autowired
     private RoleService roleService;
 
     @RequestMapping(value = "list",method = RequestMethod.GET)
