@@ -9,6 +9,7 @@ import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.service.UserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +21,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import static com.lew.jlight.core.util.BeanUtil.isEmpty;
 import static com.lew.jlight.core.util.BeanUtil.toMap;
 
 @Controller
 @RequestMapping("user")
 public class UserController {
 
-    @Resource
+    @Autowired
     private UserService userService;
 
     @RequestMapping(value = "list",method = RequestMethod.GET)

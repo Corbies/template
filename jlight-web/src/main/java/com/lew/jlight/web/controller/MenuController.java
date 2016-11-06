@@ -8,6 +8,7 @@ import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Menu;
 import com.lew.jlight.web.service.MenuService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ import javax.annotation.Resource;
 @RequestMapping("menu")
 public class MenuController {
 
-    @Resource
+    @Autowired
     private MenuService menuService;
 
     @RequestMapping(value = "list", method = RequestMethod.GET)

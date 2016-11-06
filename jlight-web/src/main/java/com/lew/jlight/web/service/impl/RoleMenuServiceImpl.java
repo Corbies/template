@@ -14,7 +14,9 @@ import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.RoleMenu;
 import com.lew.jlight.web.service.RoleMenuService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-@Component
+@Service
 public class RoleMenuServiceImpl implements RoleMenuService {
 
     private static final Comparator<Menu> resourceComparator = (o1, o2) -> {
@@ -36,11 +38,11 @@ public class RoleMenuServiceImpl implements RoleMenuService {
         int seq2 = o2.getSeq() != null ? o2.getSeq() : Integer.MAX_VALUE;
         return (seq1 < seq2 ? -1 : (seq1 == seq2 ? 0 : 1));
     };
-    @Resource
+    @Autowired
     private MenuDao menuDao;
-    @Resource
+    @Autowired
     private RoleMenuDao roleMenuDao;
-    @Resource
+    @Autowired
     private RoleDao roleDao;
 
     @Override

@@ -6,6 +6,7 @@ import com.lew.jlight.core.util.JsonUtil;
 import com.lew.jlight.web.entity.RoleMenu;
 import com.lew.jlight.web.service.RoleMenuService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import javax.annotation.Resource;
 @RequestMapping("roleMenu")
 public class RoleMenuController {
 
-    @Resource
+    @Autowired
     private RoleMenuService roleMenuService;
 
     @ResponseBody

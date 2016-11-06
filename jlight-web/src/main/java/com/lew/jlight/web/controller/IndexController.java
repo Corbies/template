@@ -4,6 +4,7 @@ import com.lew.jlight.web.entity.MenuTitle;
 import com.lew.jlight.web.service.MenuService;
 import com.lew.jlight.web.util.UserContextUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
 @Controller
 public class IndexController {
 
-    @Resource
+    @Autowired
     private MenuService menuService;
 
     @RequestMapping(value ={"/","/index"} )

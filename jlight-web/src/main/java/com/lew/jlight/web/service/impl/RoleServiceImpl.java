@@ -4,27 +4,29 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
+import com.lew.jlight.core.IdGenerator;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.RoleDao;
 import com.lew.jlight.web.dao.RoleMenuDao;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.service.RoleService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-@Component
+@Service
 public class RoleServiceImpl implements RoleService {
 
-    @Resource
+    @Autowired
     private RoleDao roleDao;
-    @Resource
+    @Autowired
     private RoleMenuDao roleMenuDao;
 
     @Override
@@ -33,12 +35,8 @@ public class RoleServiceImpl implements RoleService {
         String sign = role.getSign();
         Role model = roleDao.findUnique("getRoleBySign", sign);
         Preconditions.checkArgument(model!=null,"角色信息不能为空");
-
-        Date date = new Date();
-        role.setCreateTime(date);
-        role.setUpdateTime(date);
-        role.setIsDelete(BigInteger.ZERO.intValue());
-        role.setRoleId("2");
+        String roleId = IdGenerator.getInstance().nextId();
+        role.setRoleId(roleId);
         roleDao.save("addRole", role);
     }
 

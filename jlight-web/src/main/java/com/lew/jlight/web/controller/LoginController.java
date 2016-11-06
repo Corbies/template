@@ -24,15 +24,16 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
+import org.springframework.aop.support.AopUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Resource;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -40,26 +41,28 @@ import static com.google.common.base.Preconditions.checkArgument;
 @RequestMapping
 public class LoginController {
 
-    @Resource
+    @Autowired
     private LoginService loginService;
 
-    @Resource
+    @Autowired
     private UserRoleService userRoleService;
 
-    @Resource
+    @Autowired
     private UserService userService;
 
-
-    @Resource
+    @Autowired
     private RoleService roleService;
 
-    @RequestMapping("login")
+    @GetMapping("login")
     public String login() {
         return "login";
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @PostMapping("login")
     public String doLogin(String account, String password, ModelMap modelMap) throws Exception {
+        boolean isAop = AopUtils.isAopProxy(userService);
+        boolean isaa = AopUtils.isCglibProxy(userService);
+        boolean isJdk = AopUtils.isJdkDynamicProxy(userService);
         checkArgument(!Strings.isNullOrEmpty(account), "account should not be empty or null");
         checkArgument(!Strings.isNullOrEmpty(password), "password should not be empty or null");
         password = DigestUtil.sha256().digest(password);

@@ -15,12 +15,6 @@
         <form id="form1" name="form1" method="post" action="">
             <div class="Manager_style add_user_info search_style">
                 <ul class="search_content clearfix">
-                    <li><label class="lf">用户编号</label>
-                        <label>
-                            <input name="userId" ng-model="requestParam.param.userId" type="text"
-                                   class="text_add"/>
-                        </label>
-                    </li>
                     <li><label class="lf">帐号</label>
                         <label>
                             <input name="account" ng-model="requestParam.param.account" type="text"
@@ -119,7 +113,6 @@
                             <input name="userCheckBox_All" id="userCheckBox_All" type="checkbox" ng-click="selectAll($event)" class="ace"/>
                             <span class="lbl" style="cursor:pointer;"></span>
                         </th>
-                        <th>编号</th>
                         <th>帐号</th>
                         <th width="8%">角色</th>
                         <th>姓名</th>
@@ -138,7 +131,6 @@
                             <input name="subUserChkBox_{{$index}}" value="{{model.userId}}" type="checkbox" class="ace subUserChkbox"/>
                             <span class="lbl" style="cursor:pointer;"></span>
                         </td>
-                        <td width="60" ng-bind="model.userId"></td>
                         <td ng-bind="model.account"></td>
                         <td width="5%" ng-bind="model.roleName"></td>
                         <td ng-bind="model.trueName"></td>
