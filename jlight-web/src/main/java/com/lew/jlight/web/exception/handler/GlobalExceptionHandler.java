@@ -17,6 +17,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Response exceptionHandler(RuntimeException e) {
         Response resp = new Response();
+        resp.setCode(1);
         resp.setMsg(e.getMessage());
         return resp;
     }

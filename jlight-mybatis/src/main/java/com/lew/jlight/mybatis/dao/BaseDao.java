@@ -23,7 +23,7 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
 
     @Override
     public Serializable save(T entity) {
-        String statements = getMapperNamespace() + ".save";
+        String statements = getMapperNamespace() + ".insert";
         if (entity != null) {
             entity.setCreateTime(new Date());
             entity.setUpdateTime(new Date());
