@@ -42,7 +42,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void delete(String roleIds) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(roleIds),"角色编号不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(roleIds),"角色编号不能为空");
         String[] idArray = roleIds.split(",");
         for (String roleId : idArray) {
             Role model = roleDao.findUnique("getRoleByRoleId", roleId);

@@ -57,7 +57,7 @@
     </select>
 
     <select id="getParentIds" resultType="List">
-        select menu_id from sys_menu where parent_id = 0 and is_delete = 0
+        select menu_id from sys_menu where parent_id = "#" and is_delete = 0
     </select>
 
     <select id="getMenuById" parameterType="java.lang.String" resultMap="Menu">

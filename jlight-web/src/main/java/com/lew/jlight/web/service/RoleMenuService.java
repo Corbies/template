@@ -10,4 +10,6 @@ public interface RoleMenuService {
     List<RoleMenu> getList(String roleId);
 
     void update(String roleId, List<String> menuId);
+
+	List<String> getMenuByRole(String roleId);
 }

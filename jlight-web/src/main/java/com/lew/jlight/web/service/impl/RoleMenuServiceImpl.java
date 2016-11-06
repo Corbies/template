@@ -89,7 +89,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
             Set<String> resIdsSet = new HashSet<>();
             resIdsSet.addAll(resIds);
             for (String menuId : resIdsSet) {
-                Menu resModel = menuDao.findUnique("getResourceByResId", menuId);
+                Menu resModel = menuDao.findUnique("getMenuById", menuId);
                 Preconditions.checkNotNull(resModel,"菜单不存在");
 
                 RoleMenu roleMenu = new RoleMenu();
@@ -102,4 +102,10 @@ public class RoleMenuServiceImpl implements RoleMenuService {
             }
         }
     }
+
+	@Override
+	public List<String> getMenuByRole(String roleId) {
+		Preconditions.checkArgument(!Strings.isNullOrEmpty(roleId),"角色不能为空");
+		return roleMenuDao.findColumn("getMenuByRole", String.class, roleId);
+	}
 }

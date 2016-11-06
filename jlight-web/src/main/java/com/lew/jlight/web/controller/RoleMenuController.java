@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 @RequestMapping("roleMenu")
 public class RoleMenuController {
 
-    @Autowired
+    @Resource
     private RoleMenuService roleMenuService;
 
     @ResponseBody
@@ -33,7 +33,12 @@ public class RoleMenuController {
         List<RoleMenu> roleMenuList = roleMenuService.getList(roleId);
         return new Response(roleMenuList);
     }
-
+    
+    /**
+     * 分配角色资源
+     * @param json
+     * @return
+     */
     @ResponseBody
     @RequestMapping("add")
     public Response add(@RequestBody String json) {
@@ -45,4 +50,19 @@ public class RoleMenuController {
        roleMenuService.update(roleId, resIds);
         return new Response();
     }
+    
+    /**
+     * 获取角色对应的资源的编号
+     * @param json
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("getMenuByRole")
+    public Response getMenuByRole(String roleId) {
+        List<String> list = roleMenuService.getMenuByRole(roleId);
+        return new Response(list);
+    }
+    
+    
+    
 }
