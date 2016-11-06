@@ -24,7 +24,7 @@
 	</div>
 	<div id="menu-edit" style="width:80%;display:none">
 		<div style="margin-top:10px;margin-left:20px;" >
-			<button type="button" class="btn btn-primary" ht-save="/menu/add{{params}}" ng-model="resource" >保存</button>
+			<button type="button" class="btn btn-primary" ht-save="/menu/add" ng-model="resource" >保存</button>
 		</div>
 		<form name="form" method="post">
             <div class="add_menu">
@@ -58,7 +58,7 @@
                             <tr>
                                 <td class="label_name">类型</td>
                                 <td>
-                                    <select name="type" ng-model="resource.type" ng-options="type.typeId as type.name for type in resourceType" size="1" id="select_type" title="">
+                                    <select name="type" ng-model="resource.type" ng-options="type.typeId as type.name for type in resourceType" size="1" id="select_type" ht-validate="{required:true}">
                                     </select>
                                     <i style="color: #F60;">*</i>
                                 </td>
@@ -132,26 +132,26 @@ var layerIndex,jstree,currentNode;
 	            "addMenu":{
 	            	"label":"添加同级菜单",
 	            	"action":function(data){
-	            		openMenuEdit("add",getSelectItem(data).id);
+	            		openMenuEdit("add",getSelectItem(data).parent);
 	            	}
 	            },
 	            "addSubMenu":{
 	            	"label":"添加子菜单",
 	            	"action":function(data){
-	            		openMenuEdit("add",getSelectItem(data).parent);
+	            		openMenuEdit("add",getSelectItem(data).id);
 	            	}
 	            },
 	            "moveMenu":{
 	            	"label":"移动菜单",
 	            	"action":function(data){
-	            		
+	            		layer.alert("正在开发中......");
 	            	}
 	            },
 	            "delMenu":{  
 					"separator_before":true,	            	
 	                "label":"删除菜单",  
 	                "action":function(data){  
-	                	getSelectItem(data);
+	                	AngularUtil.triggerScopeFun("deleteByMenuId",getSelectItem(data).id);
 	                }  
 	            }
 	        }} 
@@ -161,20 +161,22 @@ var layerIndex,jstree,currentNode;
 	function getSelectItem(data){
 		var inst = $.jstree.reference(data.reference),
 		    obj = inst.get_node(data.reference);
+		currentNode = obj;
 		return obj;
 	}
 	
 	function openMenuEdit(action,id){
 		var title = action == "edit"? "编辑":"添加";
 		var scope = AngularUtil.getScope();
-		scope.resources = {};	
+		scope.resource = {};	
 		if(action == "edit"){
 			AngularUtil.triggerScopeFun("getByMenuId",id);
 		}
-		// 添加同级菜单
+		// 添加菜单
 		if(action == "add"){
-			scope.resources.parentId = id;
+			scope.resource.parentId = id;
 		}
+		AngularUtil.setData(scope);
 			
 		layerIndex = layer.open({
 			type : 1,

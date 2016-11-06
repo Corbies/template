@@ -1,9 +1,20 @@
 package com.lew.jlight.web.service.impl;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-
 import com.lew.jlight.core.IdGenerator;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
@@ -18,21 +29,6 @@ import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.RoleMenu;
 import com.lew.jlight.web.service.MenuService;
 import com.lew.jlight.web.util.ResourceTreeUtil;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -61,46 +57,30 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void add(Menu menu) {
         Preconditions.checkNotNull(menu, "资源信息不能为空");
-        if (Strings.isNullOrEmpty(menu.getParentId())) {
-            menu.setParentId(String.valueOf(BigInteger.ZERO.intValue()));
-        } else {
-            Menu parentRes = menuDao.findUnique("getResourceByResId", menu.getParentId());
+       if(!Strings.isNullOrEmpty(menu.getParentId())&&!"0".equals(menu.getParentId())){
+            Menu parentRes = menuDao.findUnique("getMenuById", menu.getParentId());
             menu.setParentName(parentRes != null ? parentRes.getName() : null);
         }
         String menuId =IdGenerator.getInstance().nextId();
         menu.setMenuId(menuId);
-        menuDao.save("addMenu", menu);
+        menuDao.save("add", menu);
     }
 
     @Override
     public void delete(String menuIds) {
-        Preconditions.checkArgument(Strings.isNullOrEmpty(menuIds), "菜单编号不能为空");
-
         String[] idArray = menuIds.split(",");
-        for (String resId : idArray) {
-            Menu menu = menuDao.findUnique("getResourceByResId", resId);
-            Preconditions.checkNotNull(menu, "菜单不存在");
-        }
         for (String menuId : idArray) {
-            menuDao.delete("deleteByResId", menuId);
+            menuDao.delete("deleteByMenuId", menuId);
+            menuDao.delete("deleteByParentId", menuId);
         }
     }
 
     @Override
     public void update(Menu menu) {
         Preconditions.checkNotNull(menu, "菜单不能为空");
-        Menu model = menuDao.findUnique("getResourceByResId", menu.getMenuId());
+        Menu model = menuDao.findUnique("getMenuById", menu.getMenuId());
         Preconditions.checkNotNull(model, "菜单不存在");
-
-        Map<String, Object> paramMap = Maps.newHashMap();
-        paramMap.put("resId", menu.getMenuId());
-        paramMap.put("name", menu.getName());
-        paramMap.put("url", menu.getUrl());
-        paramMap.put("isShow", menu.getIsShow());
-        paramMap.put("remark", menu.getRemark());
-        paramMap.put("parentId", menu.getParentId());
-        paramMap.put("type", menu.getType());
-        menuDao.update("updateResource", paramMap);
+        menuDao.update("update", menu);
     }
 
     @Override
@@ -215,6 +195,14 @@ public class MenuServiceImpl implements MenuService {
             response.setCode(Response.INVALID_PARAM);
             response.setMsg("资源编号不能为空");
         }
-        return menuDao.findUnique("getResourceByResId", resId);
+        return menuDao.findUnique("getMenuById", resId);
     }
+
+	@Override
+	public Response getTree() {
+	  Response response = new Response();
+	  List<Map<String, Object>> resList= menuDao.findMap("getAllMenuTree");
+      response.setData(ResourceTreeUtil.generateJSTree(resList));
+      return response;
+	}
 }

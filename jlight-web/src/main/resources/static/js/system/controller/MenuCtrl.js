@@ -13,6 +13,12 @@ resourceApp.controller('resourceCtrl', ['$scope','baseService',function ($scope,
 		});
 	}
 	
+	$scope.deleteByMenuId = function(menuId){
+		baseService.post(_ctx+"/menu/delete",{menuIds:menuId}).then(function(data){
+			$.jstree.reference("#jstree").refresh();
+		});
+	}
+	
 	$scope.$on("afterSaveEvent",function(event,data){
 		if(!data.r){
 			layer.close(layerIndex);
