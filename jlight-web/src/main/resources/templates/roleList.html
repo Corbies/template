@@ -41,35 +41,6 @@
                     <button type="button" class="btn btn-danger" ng-click="deleteRole()">删除</button>
                     <button type="button" class="btn btn-info" ng-click="assignPerission()">权限分配</button>
                 </ul>
-                <div id="Add_Roles_style" style="display: none">
-                    <div class="user_Manager_style ">
-                        <div class="add_user_style">
-                            <ul class="clearfix">
-                                <li>
-                                    <label class="label_name">标识</label>
-                                    <label>
-                                        <input name="key" type="text" ng-model="role.sign" value=""
-                                               class="text_add"/>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="label_name">名称</label>
-                                    <label>
-                                        <input name="name" ng-model="role.name" type="text" value=""
-                                               class="text_add"/>
-                                    </label>
-                                </li>
-                            </ul>
-                            <div class="Remark">
-                                <label class="label_name">备注</label>
-                                <label>
-                                    <textarea name="remark" ng-model="role.remark" cols="" rows=""
-                                              style="width: 456px; height: 100px; padding: 5px;"></textarea>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div id="Assigned_Roles_style" style="display: none">
                     <div id="tree"></div>
                 </div>
@@ -81,7 +52,7 @@
                         <thead>
                         <tr>
                             <th>
-                                <input name="roleChkAll" type="checkbox" ng-click="selectAll($event)" class="ace" title=""/>
+                                <input name="roleChkAll" type="checkbox"  ng-model="selectAll" class="ace" title=""/>
                                 <span class="lbl" style="cursor:pointer;"></span>
                             </th>
                             <th>编号</th>
@@ -89,13 +60,13 @@
                             <th>名称</th>
                             <th>创建日期</th>
                             <th>更新日期</th>
-                            <th>备注</th>
+                            <th>备注 </th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="role in data">
                             <td>
-                                <input name="subRoleChkbox_{{$index}}" value="{{role.roleId}}" type="checkbox" class="ace subRoleChkbox"/>
+                                <input name="subRoleChkbox" value="{{role.roleId}}" ng-model="selectedRoleIds" type="checkbox" ht-checked="selectAll"   class="ace subRoleChkbox"/>
                                 <span class="lbl" style="cursor:pointer;"></span>
                             </td>
                             <td ng-bind="role.roleId"></td>
@@ -112,11 +83,49 @@
             </div>
         </div>
     </form>
+    
+    <form name="form"  >
+    	   <div id="Add_Roles_style" style="display: none">
+                    <div class="user_Manager_style ">
+                        <div class="add_user_style">
+                            <ul class="clearfix">
+                                <li>
+                                    <label class="label_name">标识</label>
+                                    <label>
+                                        <input name="key" type="text" ng-model="role.sign" value=""
+                                               class="text_add" ht-validate="{required:true}" />
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="label_name">名称</label>
+                                    <label>
+                                        <input name="name" ng-model="role.name" type="text" value=""
+                                               class="text_add" ht-validate="{required:true}" />
+                                    </label>
+                                </li>
+                            </ul>
+                            <div class="Remark">
+                                <label class="label_name">备注</label>
+                                <label>
+                                    <textarea name="remark" ng-model="role.remark" cols="" rows=""
+                                              style="width: 456px; height: 100px; padding: 5px;"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-layer-btn"><a class="layui-layer-btn0" ht-save="/role/save" ng-model="role">保存</a><a class="layui-layer-btn1">取消</a></div>
+                </div>
+                
+    </form>
+    
 </div>
 <script th:src="@{/js/lib/jquery/jquery-1.8.3.min.js}"></script>
 <script th:src="@{/assets/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/lib/angular/angular.min.js}"></script>
 <script th:src="@{/js/BaseService.js}"></script>
+<script th:src="@{/js/common/customValid.js}"></script>
+<script th:src="@{/js/common/FormDirective.js}"></script>
+<script th:src="@{/js/common/util.js}"></script>
 <script th:src="@{/js/system/controller/RoleCtrl.js}"></script>
 <script th:src="@{/js/system/service/RoleService.js}"></script>
 <script th:src="@{/js/system/service/RoleResService.js}"></script>
