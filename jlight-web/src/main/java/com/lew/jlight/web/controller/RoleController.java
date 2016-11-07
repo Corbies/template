@@ -111,7 +111,7 @@ public class RoleController {
     @ResponseBody
     @RequestMapping("detail")
     public Response detail(String roleId) {
-        Role role = roleService.getDetail(roleId);
+        Role role = roleService.getByRoleId(roleId);
         return new Response(role);
     }
 

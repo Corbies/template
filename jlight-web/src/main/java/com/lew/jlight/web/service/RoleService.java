@@ -16,7 +16,7 @@ public interface RoleService {
 
     List<Role> getList(ParamFilter<String, String> param);
 
-    Role getDetail(String roleId);
+    Role getByRoleId(String roleId);
 
     List getRoleMap();
 }

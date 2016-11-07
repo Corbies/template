@@ -166,6 +166,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getByUserId(String userId) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId), "用户编号不能为空");
+        return userDao.findUnique("getByUserId", userId);
+    }
+
+    @Override
     public List<String> getPermission(String account) {
         return Lists.newArrayList();
     }

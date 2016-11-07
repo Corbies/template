@@ -3,10 +3,13 @@ package com.lew.jlight.web.controller;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
+import com.lew.jlight.core.IdGenerator;
 import com.lew.jlight.core.util.DigestUtil;
+import com.lew.jlight.web.entity.LoginLog;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.entity.UserRole;
+import com.lew.jlight.web.service.LoginLogService;
 import com.lew.jlight.web.service.LoginService;
 import com.lew.jlight.web.service.RoleService;
 import com.lew.jlight.web.service.UserRoleService;
@@ -35,23 +38,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import static com.google.common.base.Preconditions.checkArgument;
 
 @Controller
 @RequestMapping
 public class LoginController {
 
-    @Autowired
+    @Resource
     private LoginService loginService;
 
-    @Autowired
+    @Resource
     private UserRoleService userRoleService;
 
-    @Autowired
+    @Resource
     private UserService userService;
 
-    @Autowired
+    @Resource
     private RoleService roleService;
+
+    @Resource
+    private LoginLogService loginLogService;
 
     @GetMapping("login")
     public String login() {
@@ -77,13 +85,19 @@ public class LoginController {
                 List<UserRole> userRoleList = userRoleService.getListByUserId(userId);
                 Map<String,String> roleMap = Maps.newHashMap();
                 userRoleList.forEach(userRole -> {
-                    Role role = roleService.getDetail(userRole.getRoleId());
+                    Role role = roleService.getByRoleId(userRole.getRoleId());
                     roleMap.put(userRole.getRoleId(),role.getName());
                 });
                 if(userRoleList.size()>0){
                     String roleId = userRoleList.get(0).getRoleId();
                     UserContextUtil.setAttribute("roleId",roleId);
                 }
+                //记录登录日志
+              /*  String id = IdGenerator.getInstance().nextId();
+                LoginLog loginLog = new LoginLog();
+                loginLog.setLoginLogId(id);
+                loginLogService.add(loginLog);*/
+                //记录登录信息到上下文
                 UserContextUtil.setAttribute("roleMap",roleMap);
                 UserContextUtil.setAttribute("userId",userId);
                 return "redirect:/index";
