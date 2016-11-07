@@ -55,11 +55,6 @@ public class RoleController {
         return new Response(roleList);
     }
     
-    /**
-     * 更新和新郑
-     * @param json
-     * @return
-     */
     @ResponseBody
     @RequestMapping("save")
     public Object save(@RequestBody String json){

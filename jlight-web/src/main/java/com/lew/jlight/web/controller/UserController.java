@@ -26,7 +26,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping(value = "list")
+    @GetMapping("list")
     public String list() {
         return "userList";
     }

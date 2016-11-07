@@ -10,14 +10,10 @@ import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.DigestUtil;
 import com.lew.jlight.core.util.RegexUtil;
 import com.lew.jlight.mybatis.ParamFilter;
-import com.lew.jlight.web.dao.RoleDao;
 import com.lew.jlight.web.dao.UserDao;
 import com.lew.jlight.web.dao.UserRoleDao;
-import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.User;
-import com.lew.jlight.web.entity.UserRole;
 import com.lew.jlight.web.service.UserService;
-import com.lew.jlight.web.util.Constants;
 import com.lew.jlight.web.util.UserContextUtil;
 
 import org.springframework.stereotype.Service;
@@ -37,9 +33,6 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserRoleDao userRoleDao;
-
-    @Resource
-    private RoleDao roleDao;
 
     @Override
     public List getList(ParamFilter<String, String> param) {
@@ -108,14 +101,6 @@ public class UserServiceImpl implements UserService {
         user.setUserId(userId);
         user.setPassword(password);
         userDao.save(user);
-
-        //默认角色为普通用户
-        Role role = roleDao.findUnique("getRoleBySign", Constants.MEMBER);
-        Preconditions.checkNotNull(role, "默认角色不能为空");
-        UserRole userRole = new UserRole();
-        userRole.setRoleId(role.getRoleId());
-        userRole.setUserId(userId);
-        userRoleDao.save(userRole);
     }
 
     @Override

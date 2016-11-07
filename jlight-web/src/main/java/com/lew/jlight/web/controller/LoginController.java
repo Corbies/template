@@ -3,9 +3,7 @@ package com.lew.jlight.web.controller;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
-import com.lew.jlight.core.IdGenerator;
 import com.lew.jlight.core.util.DigestUtil;
-import com.lew.jlight.web.entity.LoginLog;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.entity.UserRole;
@@ -27,8 +25,6 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
-import org.springframework.aop.support.AopUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,9 +46,6 @@ public class LoginController {
     private LoginService loginService;
 
     @Resource
-    private UserRoleService userRoleService;
-
-    @Resource
     private UserService userService;
 
     @Resource
@@ -61,6 +54,9 @@ public class LoginController {
     @Resource
     private LoginLogService loginLogService;
 
+    @Resource
+    private UserRoleService userRoleService;
+
     @GetMapping("login")
     public String login() {
         return "login";
@@ -68,9 +64,6 @@ public class LoginController {
 
     @PostMapping("login")
     public String doLogin(String account, String password, ModelMap modelMap) throws Exception {
-        boolean isAop = AopUtils.isAopProxy(userService);
-        boolean isaa = AopUtils.isCglibProxy(userService);
-        boolean isJdk = AopUtils.isJdkDynamicProxy(userService);
         checkArgument(!Strings.isNullOrEmpty(account), "account should not be empty or null");
         checkArgument(!Strings.isNullOrEmpty(password), "password should not be empty or null");
         password = DigestUtil.sha256().digest(password);
@@ -78,11 +71,14 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
         try {
             loginService.doLogin(account, password, ServletUtil.getIpAddr());
+            User user = userService.getByAccount(account);
+            List<UserRole> userRoleList = userRoleService.getListByUserId(user.getUserId());
+            if(userRoleList==null || userRoleList.size()==0){
+                throw  new UnauthorizedException("帐号未分配角色,请先分配角色");
+            }
             subject.login(token);
             if (subject.isAuthenticated()) {
-                User user = userService.getByAccount(account);
                 String userId = user.getUserId();
-                List<UserRole> userRoleList = userRoleService.getListByUserId(userId);
                 Map<String,String> roleMap = Maps.newHashMap();
                 userRoleList.forEach(userRole -> {
                     Role role = roleService.getByRoleId(userRole.getRoleId());
@@ -115,7 +111,9 @@ public class LoginController {
         } catch (UnknownAccountException e) {
             modelMap.put("msg", "帐号不存在");
         } catch (UnauthorizedException e) {
-            modelMap.put("msg", "您没有得到相应的授权");
+            modelMap.put("msg", e.getMessage());
+        }catch (Exception e){
+            modelMap.put("msg","系统发生错误，请联系管理员");
         }
         return "login";
     }
