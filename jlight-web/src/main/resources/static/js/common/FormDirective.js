@@ -322,10 +322,9 @@ var directive = angular.module("formDirective", [ "base" ])
 			$(element).on("click",function(){
 				var roleIdArr =  $.getChkValueArr(scope.htDel.checkboxName);
 				if(roleIdArr&&roleIdArr.length>0){
-					layer.confirm('是否删除用户角色？', {
+					layer.confirm('是否删除选中的？', {
 						btn : [ '确定', '取消' ]
 					}, function() {
-						 var json = {"roleIds":roleIdArr.join(",")};
 						 var url = _ctx + scope.htDel.url;
 		                 baseService.post(url,roleIdArr).then(function(response){
 							layer.msg('删除成功！', {
