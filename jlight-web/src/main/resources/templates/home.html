@@ -27,19 +27,19 @@
                             <li>
                                 <label class="label_name">用户名</label>
                                 <div class="xinxi">
-                                    <b  ng-bind="infoMap.account"></b>
+                                    <b th:text="${account}" ></b>
                                 </div>
                             </li>
                             <li>
                                 <label class="label_name">角色</label>
                                 <div class="xinxi">
-                                    <b ng-bind="infoMap.roleName"></b>
+                                    <b th:text="${role}" ></b>
                                 </div>
                             </li>
                             <li>
                                 <label class="label_name">最后登录IP</label>
                                 <div class="xinxi">
-                                    <b ng-bind="infoMap.loginIp"></b>
+                                    <b th:text="${lastLoginIp}" ></b>
                                 </div>
                             </li>
                         </ul>
@@ -53,49 +53,49 @@
                             <li>
                                 <label class="label_name">IP地址</label>
                                 <div class="xinxi">
-                                    <b ng-bind="infoMap.hostIp"></b>
+                                    <b th:text="${systemInfo.hostIp}"></b>
                                 </div>
                             </li>
                             <li>
                                 <label class="label_name">主机名</label>
                                 <div class="xinxi">
-                                    <b ng-bind="infoMap.hostName"></b>
+                                    <b th:text="${systemInfo.hostName}"></b>
                                 </div>
                             </li>
                             <li>
                                 <label class="label_name">操作系统</label>
                                 <div class="xinxi">
-                                    <b ng-bind="infoMap.osName"></b>
+                                    <b th:text="${systemInfo.osName}"></b>
                                 </div>
                             </li>
                             <li>
                                 <label class="label_name">系统架构</label>
                                 <div class="xinxi">
-                                    <b ng-bind="infoMap.arch"></b>
+                                    <b th:text="${systemInfo.arch}"></b>
                                 </div>
                             </li>
                             <li>
                                 <label class="label_name">系统版本</label>
                                 <div class="xinxi">
-                                    <b ng-bind="infoMap.osVersion"></b>
+                                    <b th:text="${systemInfo.osVersion}"></b>
                                 </div>
                             </li>
                             <li>
                                 <label class="label_name">处理器个数</label>
                                 <div class="xinxi">
-                                    <b ng-bind="infoMap.processors"></b>
+                                    <b th:text="${systemInfo.processors}"></b>
                                 </div>
                             </li>
                             <li>
                                 <label class="label_name">Java版本</label>
                                 <div class="xinxi">
-                                    <b ng-bind="infoMap.javaVersion"></b>
+                                    <b th:text="${systemInfo.javaVersion}"></b>
                                 </div>
                             </li>
                             <li>
                                 <label class="label_name">Java路径</label>
                                 <div class="xinxi">
-                                    <b ng-bind="infoMap.javaHome"></b>
+                                    <b th:text="${systemInfo.javaHome}"></b>
                                 </div>
                             </li>
                         </ul>

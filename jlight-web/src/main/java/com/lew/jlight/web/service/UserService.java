@@ -25,5 +25,7 @@ public interface UserService {
 
     User getByAccount(String account);
 
+    User getByUserId(String userId);
+
     List<String> getPermission(String account);
 }

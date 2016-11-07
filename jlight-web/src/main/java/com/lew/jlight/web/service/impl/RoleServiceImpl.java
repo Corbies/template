@@ -82,7 +82,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role getDetail(String roleId) {
+    public Role getByRoleId(String roleId) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(roleId),"角色编号不能为空");
         Role role = roleDao.findUnique("getRoleByRoleId", roleId);
         Preconditions.checkNotNull(role,"角色对象不存在");
