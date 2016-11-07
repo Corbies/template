@@ -33,7 +33,7 @@ public class RoleServiceImpl implements RoleService {
         Preconditions.checkNotNull(role,"角色信息不能为空");
         String sign = role.getSign();
         Role model = roleDao.findUnique("getRoleBySign", sign);
-        Preconditions.checkArgument(model!=null,"角色信息不能为空");
+        Preconditions.checkArgument(model==null,"角色编号已经存在");
         String roleId = IdGenerator.getInstance().nextId();
         role.setRoleId(roleId);
         roleDao.save("addRole", role);
@@ -64,8 +64,7 @@ public class RoleServiceImpl implements RoleService {
         param.put("sign", role.getSign());
         param.put("roleId", role.getRoleId());
         model = roleDao.findUnique("getRoleBySignAndNoRoleId", param);
-        Preconditions.checkNotNull(model,"角色对象不存在");
-        Preconditions.checkArgument(!role.getSign().equals(model.getSign()),"角色标识已存在");
+        Preconditions.checkArgument(model==null,"角色标识已存在");
 
         param = Maps.newHashMap();
         param.put("sign", role.getSign());

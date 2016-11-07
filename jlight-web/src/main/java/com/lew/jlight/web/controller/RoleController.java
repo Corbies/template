@@ -1,9 +1,19 @@
 package com.lew.jlight.web.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.BeanUtil;
@@ -12,17 +22,6 @@ import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.service.RoleService;
 import com.lew.jlight.web.service.UserRoleService;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
 
 
 @Controller
@@ -55,6 +54,33 @@ public class RoleController {
         List<Role> roleList=  roleService.getList(filter);
         return new Response(roleList);
     }
+    
+    /**
+     * 更新和新郑
+     * @param json
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("save")
+    public Object save(@RequestBody String json){
+    	Response response = new Response();
+    	String msg = "";
+    	try{
+		  Role role = JsonUtil.parseObj(json, Role.class);
+	      if(Strings.isNullOrEmpty(role.getRoleId())){
+	    	  roleService.add(role);
+	    	  msg = "添加成功";
+	      }else{
+	    	  roleService.update(role);
+	    	  msg = "添加成功";
+	      }
+    	}catch (Exception e) {
+    		response.setCode(Response.ERROR);
+    		msg = "操作失败";
+		}  
+    	response.setMsg(msg);
+	    return response;
+    }
 
     @ResponseBody
     @RequestMapping("add")
@@ -84,7 +110,7 @@ public class RoleController {
 
     @ResponseBody
     @RequestMapping("detail")
-    public Response detail(@RequestBody String roleId) {
+    public Response detail(String roleId) {
         Role role = roleService.getDetail(roleId);
         return new Response(role);
     }
