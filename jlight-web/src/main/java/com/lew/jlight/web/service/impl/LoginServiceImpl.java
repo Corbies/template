@@ -11,16 +11,17 @@ import com.lew.jlight.web.service.LoginService;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 @Service
 public class LoginServiceImpl implements LoginService {
 
-    @Autowired
+    @Resource
     private UserDao userDao;
 
     @Override
@@ -58,6 +59,7 @@ public class LoginServiceImpl implements LoginService {
             //帐号或者密码错误
             throw new IncorrectCredentialsException();
         }
+
         String userId = user.getUserId();
         Map<String,Object> updateParam =Maps.newHashMap();
         updateParam.put("loginTime", new Date());
