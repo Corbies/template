@@ -21,8 +21,6 @@ roleApp.controller('roleCtrl', ['$rootScope', '$scope','baseService','roleServic
 		}else{
 			openLayer(titleName);
 		}
-	
-	
 	}
 	
 	function openLayer(titleName){

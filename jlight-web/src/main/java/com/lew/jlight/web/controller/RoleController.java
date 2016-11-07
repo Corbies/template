@@ -71,7 +71,7 @@ public class RoleController {
 	      }
     	}catch (Exception e) {
     		response.setCode(Response.ERROR);
-    		msg = "操作失败";
+    		msg = e.getMessage();
 		}  
     	response.setMsg(msg);
 	    return response;
