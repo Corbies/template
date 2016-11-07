@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
 import com.lew.jlight.web.shiro.UserRealm;
 import com.lew.jlight.web.shiro.filter.URLPermissionFilter;
 
-import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.AnonymousFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -13,7 +12,6 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import java.util.Map;
@@ -35,7 +33,7 @@ public class ShiroConfig {
     }
 
 
-    @Bean(name = "shiroFilter")
+    @Bean
     public ShiroFilterFactoryBean shiroFilter() {
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
         bean.setSecurityManager(securityManager());
@@ -93,13 +91,13 @@ public class ShiroConfig {
 
 
     @Bean
-    @DependsOn(value = "lifecycleBeanPostProcessor")
     public UserRealm getUserRealm() {
         return new UserRealm();
     }
 
-    @Bean
+    //若返回会导致注解事务失效
+/*    @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
-    }
+    }*/
 }
