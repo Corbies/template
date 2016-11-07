@@ -310,6 +310,42 @@ var directive = angular.module("formDirective", [ "base" ])
 	};
 })
 /**
+ * 删除  ht-del="{url:'/role/delete',checkboxName:'subRoleChkbox'}"
+ */
+.directive("htDel",[ 'baseService', function(baseService) {
+	return {
+		restrict : 'A',
+		scope : {
+			htDel : "="
+		},
+		link : function(scope, element, attrs, ctrl) {
+			$(element).on("click",function(){
+				var roleIdArr =  $.getChkValueArr(scope.htDel.checkboxName);
+				if(roleIdArr&&roleIdArr.length>0){
+					layer.confirm('是否删除用户角色？', {
+						btn : [ '确定', '取消' ]
+					}, function() {
+						 var json = {"roleIds":roleIdArr.join(",")};
+						 var url = _ctx + scope.htDel.url;
+		                 baseService.post(url,roleIdArr).then(function(response){
+							layer.msg('删除成功！', {
+								time : 1000,
+								icon : 1
+							},function(){
+								window.location.reload();
+							});
+						},function(){
+							
+						});
+					});
+				}else{
+					layer.alert('请至少选择一个！');
+				}
+			});
+		}
+	};
+}])
+/**
  *日期控件。
  *控件用法：
  *<input type="text" ht-date="yyyy-MM-dd HH:mm:00" ng-model="date1" />

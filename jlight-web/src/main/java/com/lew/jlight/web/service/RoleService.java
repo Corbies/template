@@ -10,7 +10,7 @@ public interface RoleService {
 
     void add(Role role);
 
-    void delete(String roleIds);
+    void delete(List<String> roleIds);
 
     void update(Role role);
 

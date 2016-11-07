@@ -100,9 +100,8 @@ public class RoleController {
 
     @ResponseBody
     @RequestMapping("delete")
-    public Response delete(@RequestBody String json) {
-        Map<String, String> param = JsonUtil.parseStringMap(json);
-        String roleIds = BeanUtil.isEmpty(param) ? null : param.get("roleIds");
+    public Response delete(@RequestBody List<String> roleIds) {
+        Preconditions.checkArgument((roleIds!=null && roleIds.size()>0), "不能为空");
         roleService.delete(roleIds);
         return new Response();
     }

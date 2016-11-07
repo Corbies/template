@@ -42,30 +42,6 @@ roleApp.controller('roleCtrl', ['$rootScope', '$scope','baseService','roleServic
 		}
 	});
 	
-	$scope.deleteRole = function(){
-		var roleIdArr =  $.getChkValueArr("subRoleChkbox");
-		if(roleIdArr&&roleIdArr.length>0){
-			layer.confirm('是否删除用户角色？', {
-				btn : [ '确定', '取消' ]
-			}, function() {
-				 var json = {"roleIds":roleIdArr.join(",")};
-				 var url = _ctx + '/role/delete';
-                 baseService.post(url,json).then(function(response){
-					layer.msg('删除成功！', {
-						time : 1000,
-						icon : 1
-					},function(){
-						window.location.reload();
-					});
-				},function(){
-					
-				});
-			});
-		}else{
-			layer.alert('请至少选择一个！');
-		}
-	}
-	
 	$scope.assignPerission = function(){
 		var selectArray = $("#Role_list tbody input:checked");
 		if(!selectArray || selectArray.length!=1){
