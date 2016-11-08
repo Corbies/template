@@ -4,7 +4,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
+import com.lew.jlight.core.IdGenerator;
+import com.lew.jlight.web.dao.LoginLogDao;
 import com.lew.jlight.web.dao.UserDao;
+import com.lew.jlight.web.entity.LoginLog;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.service.LoginService;
 
@@ -23,6 +26,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Resource
     private UserDao userDao;
+
+    @Resource
+    private LoginLogDao loginLogDao;
 
     @Override
     public boolean doLogin(String account, String password, String clientIp) {
@@ -67,6 +73,16 @@ public class LoginServiceImpl implements LoginService {
         updateParam.put("errorCount", 0);
         updateParam.put("userId", userId);
         userDao.update("updateLoginInfo", updateParam);
+
+        //记录登录日志
+        String id = IdGenerator.getInstance().nextId();
+        LoginLog loginLog = new LoginLog();
+        loginLog.setLoginLogId(id);
+        loginLog.setLoginAccount(account);
+        loginLog.setLoginTime(new Date());
+        loginLog.setLoginIp(clientIp);
+        loginLogDao.save(loginLog);
+
         return true;
     }
 }

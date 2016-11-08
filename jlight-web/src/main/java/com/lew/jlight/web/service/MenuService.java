@@ -4,7 +4,7 @@ package com.lew.jlight.web.service;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Menu;
-import com.lew.jlight.web.entity.MenuTitle;
+import com.lew.jlight.web.entity.pojo.MenuTitle;
 
 import java.util.List;
 

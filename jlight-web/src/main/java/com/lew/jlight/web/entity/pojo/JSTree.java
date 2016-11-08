@@ -1,4 +1,4 @@
-package com.lew.jlight.web.entity;
+package com.lew.jlight.web.entity.pojo;
 
 import java.io.Serializable;
 

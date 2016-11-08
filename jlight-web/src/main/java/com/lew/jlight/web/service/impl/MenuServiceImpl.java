@@ -24,7 +24,7 @@ import com.lew.jlight.web.dao.MenuDao;
 import com.lew.jlight.web.dao.RoleDao;
 import com.lew.jlight.web.dao.RoleMenuDao;
 import com.lew.jlight.web.entity.Menu;
-import com.lew.jlight.web.entity.MenuTitle;
+import com.lew.jlight.web.entity.pojo.MenuTitle;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.RoleMenu;
 import com.lew.jlight.web.service.MenuService;

@@ -7,7 +7,6 @@ import com.lew.jlight.core.util.DigestUtil;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.entity.UserRole;
-import com.lew.jlight.web.service.LoginLogService;
 import com.lew.jlight.web.service.LoginService;
 import com.lew.jlight.web.service.RoleService;
 import com.lew.jlight.web.service.UserRoleService;
@@ -52,9 +51,6 @@ public class LoginController {
     private RoleService roleService;
 
     @Resource
-    private LoginLogService loginLogService;
-
-    @Resource
     private UserRoleService userRoleService;
 
     @GetMapping("login")
@@ -88,11 +84,6 @@ public class LoginController {
                     String roleId = userRoleList.get(0).getRoleId();
                     UserContextUtil.setAttribute("roleId",roleId);
                 }
-                //记录登录日志
-              /*  String id = IdGenerator.getInstance().nextId();
-                LoginLog loginLog = new LoginLog();
-                loginLog.setLoginLogId(id);
-                loginLogService.add(loginLog);*/
                 //记录登录信息到上下文
                 UserContextUtil.setAttribute("roleMap",roleMap);
                 UserContextUtil.setAttribute("userId",userId);

@@ -15,12 +15,6 @@
         <div class="Role_Manager_style">
             <div class="Manager_style search_style">
                 <ul class="search_content clearfix">
-                    <li><label class="lf">角色编号</label>
-                        <label>
-                            <input name="roleId" ng-model="requestParam.param.roleId" type="text"
-                                   class="text_add"/>
-                        </label>
-                    </li>
                     <li><label class="lf">角色标识</label>
                         <label>
                             <input name="sign" ng-model="requestParam.param.sign" type="text"
@@ -55,7 +49,6 @@
                                 <input name="roleChkAll" type="checkbox"  ng-model="selectAll" class="ace" title=""/>
                                 <span class="lbl" style="cursor:pointer;"></span>
                             </th>
-                            <th>编号</th>
                             <th>标识</th>
                             <th>名称</th>
                             <th>创建日期</th>
@@ -69,7 +62,6 @@
                                 <input name="subRoleChkbox" value="{{role.roleId}}" ng-model="selectedRoleIds" type="checkbox" ht-checked="selectAll"   class="ace subRoleChkbox"/>
                                 <span class="lbl" style="cursor:pointer;"></span>
                             </td>
-                            <td ng-bind="role.roleId"></td>
                             <td ng-bind="role.sign"></td>
                             <td ng-bind="role.name"></td>
                             <td ng-bind="role.createTime | date:'yyyy-MM-dd HH:mm:ss'"></td>

@@ -9,13 +9,12 @@ import com.lew.jlight.web.dao.MenuDao;
 import com.lew.jlight.web.dao.RoleDao;
 import com.lew.jlight.web.dao.RoleMenuDao;
 import com.lew.jlight.web.entity.Menu;
-import com.lew.jlight.web.entity.MenuTitle;
+import com.lew.jlight.web.entity.pojo.MenuTitle;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.RoleMenu;
 import com.lew.jlight.web.service.RoleMenuService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -27,8 +26,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Resource;
 
 @Service
 public class RoleMenuServiceImpl implements RoleMenuService {

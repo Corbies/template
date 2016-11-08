@@ -3,11 +3,10 @@ package com.lew.jlight.web.util;
 import com.google.common.base.Strings;
 
 import com.lew.jlight.core.util.BeanUtil;
-import com.lew.jlight.web.entity.JSTree;
+import com.lew.jlight.web.entity.pojo.JSTree;
 import com.lew.jlight.web.entity.Menu;
-import com.lew.jlight.web.entity.SelectTree;
+import com.lew.jlight.web.entity.pojo.SelectTree;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.lew.jlight.web.controller;
 
-import com.lew.jlight.web.entity.MenuTitle;
+import com.lew.jlight.web.entity.pojo.MenuTitle;
 import com.lew.jlight.web.service.MenuService;
 import com.lew.jlight.web.util.UserContextUtil;
 
@@ -8,11 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-
-import javax.annotation.Resource;
 
 @Controller
 public class IndexController {

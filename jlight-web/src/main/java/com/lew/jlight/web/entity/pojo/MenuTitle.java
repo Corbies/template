@@ -1,6 +1,7 @@
-package com.lew.jlight.web.entity;
+package com.lew.jlight.web.entity.pojo;
 
 import com.lew.jlight.core.BaseEntity;
+import com.lew.jlight.web.entity.Menu;
 
 import java.util.List;
 
