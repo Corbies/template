@@ -7,6 +7,7 @@
         <result column="login_account" property="loginAccount"/>
         <result column="login_time" property="loginTime"/>
         <result column="login_ip" property="loginIp"/>
+        <result column="status" property="status"/>
         <result column="is_delete" property="isDelete"/>
         <result column="create_by" property="createBy"/>
         <result column="create_time" property="createTime"/>
@@ -17,8 +18,8 @@
 
     <insert id="insert" parameterType="com.lew.jlight.web.entity.LoginLog">
         insert into sys_login_log
-        (login_log_id,login_account,login_time,login_ip,is_delete,create_by,create_time,update_by,update_time,remark)
-        values(#{loginLogId}, #{loginAccount}, #{loginTime}, #{loginIp},#{isDelete},#{createBy},#{createTime},#{updateBy},#{updateTime},#{remark})
+        (login_log_id,login_account,login_time,login_ip,status,is_delete,create_by,create_time,update_by,update_time,remark)
+        values(#{loginLogId}, #{loginAccount}, #{loginTime}, #{loginIp},#{status},#{isDelete},#{createBy},#{createTime},#{updateBy},#{updateTime},#{remark})
     </insert>
 
     <select id="getList" parameterType="java.util.Map" resultMap="LoginLog">

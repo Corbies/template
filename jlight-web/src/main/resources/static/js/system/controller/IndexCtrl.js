@@ -16,6 +16,7 @@ indexApp.controller('indexCtrl', ['$rootScope', '$scope','indexService',function
 		title:'修改密码',
 		area: ['300px','300px'],
 		shadeClose: true,
+		content: $('#change_Pass'),
 		btn:['确认修改'],
 		yes:function(index, layero){
 			   if (!$scope.compositePwd || !$scope.compositePwd.originPwd || !$scope.compositePwd.confirmPwd || !$scope.compositePwd.newPwd){

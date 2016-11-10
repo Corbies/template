@@ -65,12 +65,14 @@ public class LoginController {
         password = DigestUtil.sha256().digest(password);
         UsernamePasswordToken token = new UsernamePasswordToken(account, password);
         Subject subject = SecurityUtils.getSubject();
+        String msg = null;
+        ServletUtil.getRequest().setAttribute("account",account);
         try {
             loginService.doLogin(account, password, ServletUtil.getIpAddr());
             User user = userService.getByAccount(account);
             List<UserRole> userRoleList = userRoleService.getListByUserId(user.getUserId());
             if(userRoleList==null || userRoleList.size()==0){
-                throw  new UnauthorizedException("帐号未分配角色,请先分配角色");
+                throw  new UnauthorizedException();
             }
             subject.login(token);
             if (subject.isAuthenticated()) {
@@ -87,25 +89,32 @@ public class LoginController {
                 //记录登录信息到上下文
                 UserContextUtil.setAttribute("roleMap",roleMap);
                 UserContextUtil.setAttribute("userId",userId);
+                UserContextUtil.setAttribute("account",account);
                 return "redirect:/index";
             }
-        } catch (IncorrectCredentialsException e) {
-            modelMap.put("msg", "帐号或者密码错误");
+        } catch (IncorrectCredentialsException | UnknownAccountException e) {
+            msg = "帐号或者密码错误";
+            modelMap.put("msg", msg);
         } catch (ExcessiveAttemptsException e) {
-            modelMap.put("msg", "登录失败次数过多");
+            msg = "登录失败次数过多";
+            modelMap.put("msg", msg);
         } catch (LockedAccountException e) {
-            modelMap.put("msg", "帐号已被锁定");
+            msg = "帐号已被锁定";
+            modelMap.put("msg", msg);
         } catch (DisabledAccountException e) {
-            modelMap.put("msg", "帐号已被禁用");
+            msg="帐号已被禁用";
+            modelMap.put("msg", msg);
         } catch (ExpiredCredentialsException e) {
-            modelMap.put("msg", "帐号已过期");
-        } catch (UnknownAccountException e) {
-            modelMap.put("msg", "帐号不存在");
+            msg = "帐号已过期";
+            modelMap.put("msg", msg);
         } catch (UnauthorizedException e) {
-            modelMap.put("msg", e.getMessage());
+            msg="帐号未分配角色或权限";
+            modelMap.put("msg", msg);
         }catch (Exception e){
-            modelMap.put("msg","系统发生错误，请联系管理员");
+            msg="系统发生错误，请联系管理员";
+            modelMap.put("msg",msg);
         }
+        ServletUtil.getRequest().setAttribute("msg",msg);
         return "login";
     }
 }

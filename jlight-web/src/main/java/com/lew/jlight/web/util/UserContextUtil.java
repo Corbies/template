@@ -16,6 +16,10 @@ public abstract class UserContextUtil {
         return (String) getAttribute("userId");
     }
 
+    public static String getAccount(){
+        return (String) getAttribute("account");
+    }
+
     public static String getCurrentRoleId(){
         return (String) getAttribute("roleId");
     }

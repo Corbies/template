@@ -14,6 +14,8 @@ public class LoginLog extends BaseEntity {
 
     private String loginIp;
 
+    private String status;
+
     public String getLoginLogId() {
         return loginLogId;
     }
@@ -44,5 +46,13 @@ public class LoginLog extends BaseEntity {
 
     public void setLoginIp(String loginIp) {
         this.loginIp = loginIp;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

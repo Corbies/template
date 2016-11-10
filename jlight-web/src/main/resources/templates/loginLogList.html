@@ -42,6 +42,7 @@
                     <tr>
                         <th>登录帐号</th>
                         <th>登录日期</th>
+                        <th>状态</th>
                         <th>登录IP</th>
                         <th>备注</th>
                     </tr>
@@ -50,6 +51,7 @@
                     <tr ng-repeat="model in data">
                         <td ng-bind="model.loginAccount"></td>
                         <td ng-bind="model.loginTime | date:'yyyy-mm-dd hh:mm:ss'"></td>
+                        <td ng-bind="model.status"></td>
                         <td ng-bind="model.loginIp"></td>
                         <td ng-bind="model.remark"></td>
                     </tr>

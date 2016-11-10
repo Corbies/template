@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2016-11-08 23:04:49
+Date: 2016-11-10 22:35:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -51,6 +51,7 @@ CREATE TABLE `sys_login_log` (
   `login_account` varchar(30) NOT NULL,
   `login_time` datetime NOT NULL,
   `login_ip` varchar(255) NOT NULL,
+  `status` varchar(10) NOT NULL,
   `is_delete` int(11) NOT NULL,
   `create_time` datetime NOT NULL,
   `create_by` varchar(255) DEFAULT NULL,
@@ -58,21 +59,14 @@ CREATE TABLE `sys_login_log` (
   `update_by` varchar(255) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_login_log
 -- ----------------------------
-INSERT INTO `sys_login_log` VALUES ('1', '1478620772781', 'admin', '2016-11-08 14:31:47', '127.0.0.1', '0', '2016-11-08 14:31:48', null, '2016-11-08 14:31:48', null, null);
-INSERT INTO `sys_login_log` VALUES ('2', '1478620881946', 'admin', '2016-11-08 14:33:36', '127.0.0.1', '0', '2016-11-08 14:33:36', null, '2016-11-08 14:33:36', null, null);
-INSERT INTO `sys_login_log` VALUES ('3', '1478620953299', 'admin', '2016-11-08 14:34:48', '127.0.0.1', '0', '2016-11-08 14:34:48', null, '2016-11-08 14:34:48', null, null);
-INSERT INTO `sys_login_log` VALUES ('4', '1478621732390', 'admin', '2016-11-08 14:47:47', '127.0.0.1', '0', '2016-11-08 14:47:47', null, '2016-11-08 14:47:47', null, null);
-INSERT INTO `sys_login_log` VALUES ('5', '1478621854121', 'admin', '2016-11-08 14:49:49', '127.0.0.1', '0', '2016-11-08 14:49:49', null, '2016-11-08 14:49:49', null, null);
-INSERT INTO `sys_login_log` VALUES ('6', '1478621900900', 'admin', '2016-11-08 14:50:35', '127.0.0.1', '0', '2016-11-08 14:50:35', null, '2016-11-08 14:50:35', null, null);
-INSERT INTO `sys_login_log` VALUES ('7', '1478621957986', 'admin', '2016-11-08 14:51:32', '127.0.0.1', '0', '2016-11-08 14:51:32', null, '2016-11-08 14:51:32', null, null);
-INSERT INTO `sys_login_log` VALUES ('8', '1478622033481', 'admin', '2016-11-08 14:52:48', '127.0.0.1', '0', '2016-11-08 14:52:48', null, '2016-11-08 14:52:48', null, null);
-INSERT INTO `sys_login_log` VALUES ('9', '1478622105262', 'admin', '2016-11-08 14:54:00', '127.0.0.1', '0', '2016-11-08 14:54:00', null, '2016-11-08 14:54:00', null, null);
-INSERT INTO `sys_login_log` VALUES ('10', '1478622157835', 'admin', '2016-11-08 14:54:52', '127.0.0.1', '0', '2016-11-08 14:54:52', null, '2016-11-08 14:54:52', null, null);
+INSERT INTO `sys_login_log` VALUES ('29', '1478793717465', 'test', '2016-11-10 14:34:13', '0:0:0:0:0:0:0:1', '登录失败', '0', '2016-11-10 14:34:16', null, '2016-11-10 14:34:16', null, '帐号已被锁定');
+INSERT INTO `sys_login_log` VALUES ('30', '1478793721955', 'test', '2016-11-10 14:34:16', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-10 14:34:16', null, '2016-11-10 14:34:16', null, null);
+INSERT INTO `sys_login_log` VALUES ('31', '1478793740355', 'admin', '2016-11-10 14:34:35', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-10 14:34:35', null, '2016-11-10 14:34:35', null, null);
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -97,7 +91,7 @@ CREATE TABLE `sys_menu` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   KEY `idx_res_id` (`menu_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COMMENT='资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COMMENT='资源表';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -106,7 +100,7 @@ INSERT INTO `sys_menu` VALUES ('1', '1', '系统管理', null, '0', '', '1', '1'
 INSERT INTO `sys_menu` VALUES ('2', '2', '用户管理', '/user/list', '0', '', '1', '2', '1', '基础管理', '0', '0', '2016-05-06 14:34:37', '0', '2016-06-02 22:44:56', '用户管理');
 INSERT INTO `sys_menu` VALUES ('3', '3', '角色管理', '/role/list', '0', '', '1', '3', '1', '基础管理', '0', '0', '2016-05-06 14:35:24', '0', '2016-05-17 14:14:34', '角色管理');
 INSERT INTO `sys_menu` VALUES ('4', '4', '菜单管理', '/menu/list', '0', '', '1', '4', '1', '基础管理', '0', '0', '2016-05-06 14:35:51', '0', '2016-05-15 21:23:15', '菜单管理');
-INSERT INTO `sys_menu` VALUES ('19', '5', '监控管理', null, '0', null, '1', '5', '#', null, '0', null, '2016-05-22 11:17:51', null, '2016-06-02 23:09:38', null);
+INSERT INTO `sys_menu` VALUES ('19', '5', '日志管理', null, '0', null, '1', '5', '#', null, '0', null, '2016-05-22 11:17:51', null, '2016-06-02 23:09:38', null);
 INSERT INTO `sys_menu` VALUES ('26', '12', '添加', '/user/add', '1', null, '1', null, '2', '用户管理', '0', null, '2016-06-02 21:00:09', null, '2016-06-02 21:00:09', '添加用户');
 INSERT INTO `sys_menu` VALUES ('27', '13', '修改', '/user/edit', '1', null, '1', null, '2', '用户管理', '0', null, '2016-06-02 22:39:47', null, '2016-06-02 22:39:47', '编辑用户');
 INSERT INTO `sys_menu` VALUES ('29', '14', '添加', '/role/add', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-09 00:04:16', null, '2016-06-09 00:04:16', '');
@@ -120,6 +114,7 @@ INSERT INTO `sys_menu` VALUES ('36', '21', '修改', '/role/edit', '1', null, '1
 INSERT INTO `sys_menu` VALUES ('37', '22', '删除', '/role/delete', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-26 15:57:14', null, '2016-06-26 15:57:14', '删除角色');
 INSERT INTO `sys_menu` VALUES ('38', '23', '登录日志', '/loginLog/list', '0', null, '1', null, '5', '监控管理', '0', null, '2016-06-26 16:07:57', null, '2016-06-26 16:07:57', '登录日志');
 INSERT INTO `sys_menu` VALUES ('39', '24', '操作日志', '/log/operate', '0', null, '1', null, '5', '监控管理', '0', null, '2016-06-26 16:11:30', null, '2016-06-26 16:11:30', null);
+INSERT INTO `sys_menu` VALUES ('41', '1478700606660', '字典管理', '/dict/list', '0', null, '1', null, '1', '系统管理', '0', null, '2016-11-09 12:42:21', null, '2016-11-09 12:42:21', '字典管理');
 
 -- ----------------------------
 -- Table structure for sys_param
@@ -185,40 +180,40 @@ CREATE TABLE `sys_role_menu` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注信息',
   PRIMARY KEY (`id`,`role_id`,`menu_id`),
   KEY `idx_role_id` (`role_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=668 DEFAULT CHARSET=utf8 COMMENT='角色-资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=697 DEFAULT CHARSET=utf8 COMMENT='角色-资源表';
 
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_role_menu` VALUES ('639', '1', '19', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('640', '1', '22', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('641', '1', '17', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('642', '1', '23', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('643', '1', '18', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('644', '1', '24', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('645', '1', '15', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('646', '1', '16', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('647', '1', '13', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('648', '1', '14', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('649', '1', '12', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('650', '1', '21', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('651', '1', '3', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('652', '1', '20', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('653', '1', '2', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('654', '1', '1', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('655', '1', '5', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('656', '1', '4', '0', '2016-06-26 16:16:18', null, '2016-06-26 16:16:18', null, null);
-INSERT INTO `sys_role_menu` VALUES ('657', '1478540596277', '22', '0', '2016-11-07 16:16:05', null, '2016-11-07 16:16:05', null, null);
-INSERT INTO `sys_role_menu` VALUES ('658', '1478540596277', '1', '0', '2016-11-07 16:16:05', null, '2016-11-07 16:16:05', null, null);
-INSERT INTO `sys_role_menu` VALUES ('659', '1478540596277', '12', '0', '2016-11-07 16:16:05', null, '2016-11-07 16:16:05', null, null);
-INSERT INTO `sys_role_menu` VALUES ('660', '1478540596277', '2', '0', '2016-11-07 16:16:05', null, '2016-11-07 16:16:05', null, null);
-INSERT INTO `sys_role_menu` VALUES ('661', '1478540596277', '13', '0', '2016-11-07 16:16:05', null, '2016-11-07 16:16:05', null, null);
-INSERT INTO `sys_role_menu` VALUES ('662', '1478540596277', '3', '0', '2016-11-07 16:16:05', null, '2016-11-07 16:16:05', null, null);
-INSERT INTO `sys_role_menu` VALUES ('663', '1478540596277', '14', '0', '2016-11-07 16:16:05', null, '2016-11-07 16:16:05', null, null);
-INSERT INTO `sys_role_menu` VALUES ('664', '1478540596277', '15', '0', '2016-11-07 16:16:05', null, '2016-11-07 16:16:05', null, null);
-INSERT INTO `sys_role_menu` VALUES ('665', '1478540596277', '16', '0', '2016-11-07 16:16:05', null, '2016-11-07 16:16:05', null, null);
-INSERT INTO `sys_role_menu` VALUES ('666', '1478540596277', '20', '0', '2016-11-07 16:16:05', null, '2016-11-07 16:16:05', null, null);
-INSERT INTO `sys_role_menu` VALUES ('667', '1478540596277', '21', '0', '2016-11-07 16:16:05', null, '2016-11-07 16:16:05', null, null);
+INSERT INTO `sys_role_menu` VALUES ('668', '1', '22', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('669', '1', '12', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('670', '1', '23', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('671', '1', '13', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('672', '1', '24', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('673', '1', '14', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('674', '1', '15', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('675', '1', '16', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('676', '1', '17', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('677', '1', '18', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('678', '1', '19', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('679', '1', '1478624721762', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('680', '1', '1', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('681', '1', '2', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('682', '1', '3', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('683', '1', '4', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('684', '1', '5', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('685', '1', '20', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('686', '1', '21', '0', '2016-11-08 15:37:49', null, '2016-11-08 15:37:49', null, null);
+INSERT INTO `sys_role_menu` VALUES ('687', '1478540596277', '22', '0', '2016-11-09 12:41:23', null, '2016-11-09 12:41:23', null, null);
+INSERT INTO `sys_role_menu` VALUES ('688', '1478540596277', '1', '0', '2016-11-09 12:41:23', null, '2016-11-09 12:41:23', null, null);
+INSERT INTO `sys_role_menu` VALUES ('689', '1478540596277', '12', '0', '2016-11-09 12:41:23', null, '2016-11-09 12:41:23', null, null);
+INSERT INTO `sys_role_menu` VALUES ('690', '1478540596277', '2', '0', '2016-11-09 12:41:23', null, '2016-11-09 12:41:23', null, null);
+INSERT INTO `sys_role_menu` VALUES ('691', '1478540596277', '13', '0', '2016-11-09 12:41:23', null, '2016-11-09 12:41:23', null, null);
+INSERT INTO `sys_role_menu` VALUES ('692', '1478540596277', '3', '0', '2016-11-09 12:41:23', null, '2016-11-09 12:41:23', null, null);
+INSERT INTO `sys_role_menu` VALUES ('693', '1478540596277', '14', '0', '2016-11-09 12:41:23', null, '2016-11-09 12:41:23', null, null);
+INSERT INTO `sys_role_menu` VALUES ('694', '1478540596277', '15', '0', '2016-11-09 12:41:23', null, '2016-11-09 12:41:23', null, null);
+INSERT INTO `sys_role_menu` VALUES ('695', '1478540596277', '16', '0', '2016-11-09 12:41:23', null, '2016-11-09 12:41:23', null, null);
+INSERT INTO `sys_role_menu` VALUES ('696', '1478540596277', '21', '0', '2016-11-09 12:41:23', null, '2016-11-09 12:41:23', null, null);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -252,8 +247,8 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-08 14:54:52', '127.0.0.1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
-INSERT INTO `sys_user` VALUES ('58', '1478540488141', 'test', '测试', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-07 16:16:22', '127.0.0.1', '0', '2016-11-07 16:13:46', null, '2016-11-07 16:13:46', null, null);
+INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-10 14:34:32', '0:0:0:0:0:0:0:1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
+INSERT INTO `sys_user` VALUES ('58', '1478540488141', 'test', '测试', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, '751185330@qq.com', '13428281893', '3', '1', '2016-11-09 12:41:30', '127.0.0.1', '0', '2016-11-07 16:13:46', null, '2016-11-07 16:13:46', null, null);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -278,4 +273,3 @@ CREATE TABLE `sys_user_role` (
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES ('1', '1', '1', '0', '2016-04-15 14:48:11', '0', '2016-04-15 14:48:13', '0', null);
 INSERT INTO `sys_user_role` VALUES ('70', '1478540488141', '1478540596277', '0', '2016-11-07 16:15:52', null, '2016-11-07 16:15:52', null, null);
-SET FOREIGN_KEY_CHECKS=1;
