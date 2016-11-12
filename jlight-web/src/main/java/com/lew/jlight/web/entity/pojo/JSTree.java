@@ -1,10 +1,6 @@
 package com.lew.jlight.web.entity.pojo;
 
-import java.io.Serializable;
-
-public class JSTree implements Serializable {
-
-	private static final long serialVersionUID = 4190480567039270948L;
+public class JSTree {
 
 	private String id;
 
@@ -87,16 +83,5 @@ public class JSTree implements Serializable {
 			this.disabled = disabled;
 		}
 
-		@Override
-		public String toString( ) {
-			return "State [opened=" + opened + ", selected=" + selected + ", disabled=" + disabled + "]";
-		}
-
 	}
-
-	@Override
-	public String toString( ) {
-		return "JSTree [id=" + id + ", parent=" + parent + ", text=" + text + ", icon=" + icon + ", state=" + state + "]";
-	}
-
 }

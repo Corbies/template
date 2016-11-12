@@ -1,10 +1,17 @@
 package com.lew.jlight.web.util;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
+
+import org.springframework.util.StringUtils;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,6 +22,27 @@ import javax.servlet.http.HttpSession;
  * @author liew
  */
 public class ServletUtil {
+
+    private static Set<String> suffixSet = Sets.newHashSet("js",".css",".html",".jpg",".png",".gif", ".jpeg");
+
+    public  static boolean endsWithAny(String string) {
+        if (Strings.isNullOrEmpty(string)) {
+            return false;
+        }
+        for (String str : suffixSet) {
+            if (string.endsWith(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String getRequestUrl(ServletRequest request) {
+        HttpServletRequest req = (HttpServletRequest)request;
+        String queryString = req.getQueryString();
+        queryString = StringUtils.isEmpty(queryString)?"": "?"+queryString;
+        return req.getRequestURI()+queryString;
+    }
 
     /**
      * Constant for the HTTP request object.

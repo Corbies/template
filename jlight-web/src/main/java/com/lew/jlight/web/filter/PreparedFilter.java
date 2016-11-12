@@ -18,20 +18,23 @@ import javax.servlet.http.HttpServletResponse;
 public class PreparedFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("初始化filter");
     }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpReq = (HttpServletRequest) req;
         HttpServletResponse httpResp = (HttpServletResponse) resp;
-
-        ServletUtil.setRequest(httpReq);
-        ServletUtil.setResponse(httpResp);
-        try {
+        String requestUrl = ServletUtil.getRequestUrl(httpReq);
+        if (!ServletUtil.endsWithAny(requestUrl)) {
+            ServletUtil.setRequest(httpReq);
+            ServletUtil.setResponse(httpResp);
+            try {
+                chain.doFilter(req, resp);
+            } finally {
+                ServletUtil.clearServletContext();
+            }
+        }else{
             chain.doFilter(req, resp);
-        } finally {
-            ServletUtil.clearServletContext();
         }
     }
 

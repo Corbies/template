@@ -6,43 +6,44 @@ import com.lew.jlight.web.entity.Menu;
 import java.util.List;
 
 public class MenuTitle extends BaseEntity {
-	private String name;
+    private String name;
 
-	private String titleId;
+    private String titleId;
 
-	private Integer seq;
+    private Integer seq;
 
-	private List<Menu> menuList;
+    private List<Menu> menuList;
 
-	public Integer getSeq( ) {
-		return seq;
-	}
+    public Integer getSeq() {
+        return seq;
+    }
 
-	public void setSeq( Integer seq ) {
-		this.seq = seq;
-	}
+    public void setSeq(Integer seq) {
+        this.seq = seq;
+    }
 
-	public List<Menu> getMenuList() {
-		return menuList;
-	}
-	public void setMenuList(List<Menu> menuList) {
-		this.menuList = menuList;
-	}
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
 
-	public String getTitleId( ) {
-		return titleId;
-	}
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
+    }
 
-	public void setTitleId( String titleId ) {
-		this.titleId = titleId;
-	}
+    public String getTitleId() {
+        return titleId;
+    }
 
-	public String getName( ) {
-		return name;
-	}
+    public void setTitleId(String titleId) {
+        this.titleId = titleId;
+    }
 
-	public void setName( String name ) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

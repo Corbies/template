@@ -48,7 +48,6 @@ public class ShiroConfig {
 
         Map<String, String> chains = Maps.newHashMap();
         chains.put("/login", "anon");
-        chains.put("/doLogin", "anon");
         chains.put("/unauthor", "anon");
         //静态资源过滤
         chains.put("/assets/**", "anon");
