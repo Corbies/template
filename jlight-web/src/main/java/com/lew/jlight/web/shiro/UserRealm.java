@@ -37,6 +37,7 @@ public class UserRealm extends AuthorizingRealm {
         info.setStringPermissions(Sets.newHashSet(userService.getPermission(username)));
         //add Roles String[Set<String> roles]
         //info.setRoles(roles);
+        info.addStringPermission("/index");
         return info;
     }
 

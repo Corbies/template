@@ -106,4 +106,12 @@
             and mobile like '%${mobile}%'
         </if>
     </select>
+    
+     <select id="getPermission" parameterType="java.lang.String" resultType="java.lang.String" >
+    	select m.url from sys_user u 
+		left join sys_user_role ur on u.user_id = ur.user_id
+		left join sys_role_menu rm on ur.role_id = rm.role_id
+		left join sys_menu m on rm.menu_id = m.menu_id
+		where u.account = #{account} and m.url is not null
+    </select>
 </mapper>

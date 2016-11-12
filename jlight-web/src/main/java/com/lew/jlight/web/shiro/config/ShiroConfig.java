@@ -42,8 +42,8 @@ public class ShiroConfig {
         bean.setUnauthorizedUrl("/unauthor");
 
         Map<String, Filter> filters = Maps.newHashMap();
+        filters.put("anon", anonymousFilter());
         filters.put("perms", urlPermissionsFilter());
-        filters.put("anon", new AnonymousFilter());
         bean.setFilters(filters);
 
         Map<String, String> chains = Maps.newHashMap();
@@ -54,6 +54,7 @@ public class ShiroConfig {
         chains.put("/css/**", "anon");
         chains.put("/images/**", "anon");
         chains.put("/js/**", "anon");
+        chains.put("/index", "anon");
 
         //错误页面过滤
         chains.put("/401.html", "anon");
@@ -68,7 +69,13 @@ public class ShiroConfig {
     public URLPermissionFilter urlPermissionsFilter() {
         return new URLPermissionFilter();
     }
-
+    
+    @Bean
+    public AnonymousFilter anonymousFilter(){
+    	AnonymousFilter anon = new AnonymousFilter();
+    	anon.setEnabled(false);
+    	return anon;
+    }
 
     @Bean(name = "securityManager")
     public DefaultWebSecurityManager securityManager() {
