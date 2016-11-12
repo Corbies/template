@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<String> getPermission(String account) {
-        return Lists.newArrayList();
+        return userDao.findColumn("getPermission", String.class, account);
     }
 
 }
