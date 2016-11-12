@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2016-11-10 22:35:21
+Date: 2016-11-12 14:43:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -59,14 +59,14 @@ CREATE TABLE `sys_login_log` (
   `update_by` varchar(255) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_login_log
 -- ----------------------------
-INSERT INTO `sys_login_log` VALUES ('29', '1478793717465', 'test', '2016-11-10 14:34:13', '0:0:0:0:0:0:0:1', '登录失败', '0', '2016-11-10 14:34:16', null, '2016-11-10 14:34:16', null, '帐号已被锁定');
-INSERT INTO `sys_login_log` VALUES ('30', '1478793721955', 'test', '2016-11-10 14:34:16', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-10 14:34:16', null, '2016-11-10 14:34:16', null, null);
-INSERT INTO `sys_login_log` VALUES ('31', '1478793740355', 'admin', '2016-11-10 14:34:35', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-10 14:34:35', null, '2016-11-10 14:34:35', null, null);
+INSERT INTO `sys_login_log` VALUES ('35', '1478928998642', 'admin', '2016-11-12 04:08:53', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-12 04:08:53', null, '2016-11-12 04:08:53', null, null);
+INSERT INTO `sys_login_log` VALUES ('36', '1478929228037', 'admin', '2016-11-12 04:12:42', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-12 04:12:42', null, '2016-11-12 04:12:42', null, null);
+INSERT INTO `sys_login_log` VALUES ('37', '1478930792631', 'admin', '2016-11-12 04:38:47', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-12 04:38:47', null, '2016-11-12 04:38:47', null, null);
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -115,6 +115,30 @@ INSERT INTO `sys_menu` VALUES ('37', '22', '删除', '/role/delete', '1', null, 
 INSERT INTO `sys_menu` VALUES ('38', '23', '登录日志', '/loginLog/list', '0', null, '1', null, '5', '监控管理', '0', null, '2016-06-26 16:07:57', null, '2016-06-26 16:07:57', '登录日志');
 INSERT INTO `sys_menu` VALUES ('39', '24', '操作日志', '/log/operate', '0', null, '1', null, '5', '监控管理', '0', null, '2016-06-26 16:11:30', null, '2016-06-26 16:11:30', null);
 INSERT INTO `sys_menu` VALUES ('41', '1478700606660', '字典管理', '/dict/list', '0', null, '1', null, '1', '系统管理', '0', null, '2016-11-09 12:42:21', null, '2016-11-09 12:42:21', '字典管理');
+
+-- ----------------------------
+-- Table structure for sys_operate_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_operate_log`;
+CREATE TABLE `sys_operate_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `operate_log_id` varchar(255) NOT NULL,
+  `login_account` varchar(64) NOT NULL,
+  `method` varchar(64) NOT NULL,
+  `operate_time` datetime NOT NULL,
+  `operate_ip` varchar(64) NOT NULL,
+  `is_delete` int(1) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `create_by` varchar(64) DEFAULT NULL,
+  `update_time` datetime NOT NULL,
+  `update_by` varchar(64) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_operate_log
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_param
@@ -247,7 +271,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-10 14:34:32', '0:0:0:0:0:0:0:1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
+INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-12 04:38:47', '0:0:0:0:0:0:0:1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
 INSERT INTO `sys_user` VALUES ('58', '1478540488141', 'test', '测试', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, '751185330@qq.com', '13428281893', '3', '1', '2016-11-09 12:41:30', '127.0.0.1', '0', '2016-11-07 16:13:46', null, '2016-11-07 16:13:46', null, null);
 
 -- ----------------------------
@@ -273,3 +297,44 @@ CREATE TABLE `sys_user_role` (
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES ('1', '1', '1', '0', '2016-04-15 14:48:11', '0', '2016-04-15 14:48:13', '0', null);
 INSERT INTO `sys_user_role` VALUES ('70', '1478540488141', '1478540596277', '0', '2016-11-07 16:15:52', null, '2016-11-07 16:15:52', null, null);
+
+-- ----------------------------
+-- Table structure for tfw_dict
+-- ----------------------------
+DROP TABLE IF EXISTS `tfw_dict`;
+CREATE TABLE `tfw_dict` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `CODE` varchar(255) DEFAULT NULL,
+  `NUM` int(11) DEFAULT NULL,
+  `PID` int(11) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `TIPS` varchar(255) DEFAULT NULL,
+  `VERSION` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tfw_dict
+-- ----------------------------
+INSERT INTO `tfw_dict` VALUES ('1', '101', '0', '0', '性别', null, '0');
+INSERT INTO `tfw_dict` VALUES ('2', '101', '1', '1', '男', null, '1');
+INSERT INTO `tfw_dict` VALUES ('3', '101', '2', '1', '女', null, '0');
+INSERT INTO `tfw_dict` VALUES ('5', '901', '0', '0', '账号状态', null, '0');
+INSERT INTO `tfw_dict` VALUES ('6', '901', '1', '5', '启用', null, '0');
+INSERT INTO `tfw_dict` VALUES ('7', '901', '2', '5', '冻结', null, '0');
+INSERT INTO `tfw_dict` VALUES ('8', '901', '3', '5', '待审核', null, '0');
+INSERT INTO `tfw_dict` VALUES ('9', '901', '4', '5', '审核拒绝', null, '0');
+INSERT INTO `tfw_dict` VALUES ('10', '901', '5', '5', '已删除', null, '0');
+INSERT INTO `tfw_dict` VALUES ('11', '902', '0', '0', '状态', null, '0');
+INSERT INTO `tfw_dict` VALUES ('12', '902', '1', '11', '启用', null, '0');
+INSERT INTO `tfw_dict` VALUES ('13', '902', '2', '11', '禁用', null, '0');
+INSERT INTO `tfw_dict` VALUES ('14', '102', '0', '0', '公告类型', null, '0');
+INSERT INTO `tfw_dict` VALUES ('15', '102', '10', '14', '通知公告', null, '0');
+INSERT INTO `tfw_dict` VALUES ('16', '102', '9', '14', '发布计划', null, '0');
+INSERT INTO `tfw_dict` VALUES ('17', '903', '0', '0', '审核状态', null, '0');
+INSERT INTO `tfw_dict` VALUES ('18', '903', '1', '17', '待审核', null, '0');
+INSERT INTO `tfw_dict` VALUES ('19', '903', '2', '17', '审核拒绝', null, '0');
+INSERT INTO `tfw_dict` VALUES ('20', '903', '3', '17', '审核通过', null, '0');
+INSERT INTO `tfw_dict` VALUES ('41', '102', '6', '16', '测试', null, '0');
+INSERT INTO `tfw_dict` VALUES ('44', '102', '1', '14', '发布测试', null, '0');
+INSERT INTO `tfw_dict` VALUES ('45', '102', '2', '16', '测试222', null, '1');
