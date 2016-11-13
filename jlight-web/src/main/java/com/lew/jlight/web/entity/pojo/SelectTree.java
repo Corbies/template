@@ -1,14 +1,6 @@
 package com.lew.jlight.web.entity.pojo;
 
-import java.io.Serializable;
-
-/**
- * 菜单选择树
- * @author Liew
- * Jun 2, 2016
- */
-public class SelectTree implements Serializable {
-	private static final long serialVersionUID = -8316335361713515430L;
+public class SelectTree  {
 
 	private String id;
 

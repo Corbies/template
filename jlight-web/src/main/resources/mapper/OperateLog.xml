@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lew.jlight.web.entity.OperateLog">
+    <resultMap type="com.lew.jlight.web.entity.OperateLog" id="OperateLog">
+        <result column="operate_log_id" property="operateLogId"/>
+        <result column="login_account" property="loginAccount"/>
+        <result column="operate_time" property="operateTime"/>
+        <result column="operate_ip" property="operateIp"/>
+        <result column="status" property="status"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.lew.jlight.web.entity.OperateLog">
+        insert into sys_operate_log
+        (operate_log_id,login_account,operate_time,operate_ip,status,is_delete,create_by,create_time,update_by,update_time,remark)
+        values(#{operateLogId}, #{loginAccount}, #{operateTime}, #{operateIp},#{status},#{isDelete},#{createBy},#{createTime},#{updateBy},#{updateTime},#{remark})
+    </insert>
+
+    <select id="getList" parameterType="java.util.Map" resultMap="OperateLog">
+        select * from sys_operate_log
+    </select>
+</mapper>

@@ -7,7 +7,7 @@ indexApp.controller('indexCtrl', ['$rootScope', '$scope','indexService',function
 		}, function(){
 		  location.href= _ctx + "/logout";
 		 });
-	}
+	};
 
 	//修改密码
 	$scope.changePwd = function(){
@@ -18,7 +18,7 @@ indexApp.controller('indexCtrl', ['$rootScope', '$scope','indexService',function
 		shadeClose: true,
 		content: $('#change_Pass'),
 		btn:['确认修改'],
-		yes:function(index, layero){
+		yes:function(index){
 			   if (!$scope.compositePwd || !$scope.compositePwd.originPwd || !$scope.compositePwd.confirmPwd || !$scope.compositePwd.newPwd){
                    alertDialog("密码不能为空!");
                    return;
@@ -30,8 +30,8 @@ indexApp.controller('indexCtrl', ['$rootScope', '$scope','indexService',function
 			  indexService.changePwd($scope.compositePwd).then(function(){
 				  layer.alert('修改成功！',{
 					   title: '提示框',
-						icon:1,
-					  });
+						icon:1
+				  });
 				   layer.close(index);
 				  });
 			 }
