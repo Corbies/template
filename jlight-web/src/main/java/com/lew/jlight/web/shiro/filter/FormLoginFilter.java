@@ -29,14 +29,9 @@ public class FormLoginFilter extends AuthorizationFilter{
 	}
 
 	@Override
-	protected boolean isAccessAllowed(ServletRequest request,
-			ServletResponse response, Object mappedValue) throws Exception {
+	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 		Subject subject = getSubject(request, response);
-		if(subject.getPrincipal()!=null){
-			// 如果已经登录， 并且是登录请求的， 重定向到后台
-			return true;
-		}
-		return false;
+		return subject.getPrincipal() != null;
 	}
 
 	@Override
@@ -48,7 +43,7 @@ public class FormLoginFilter extends AuthorizationFilter{
         if (subject.getPrincipal() == null) {
         	// if request ajax
         	if(HttpServletUtil.isAjax(WebUtils.toHttp(request))){
-        		Map<String, Object> retMap = new HashMap<String, Object>();
+        		Map<String, Object> retMap = new HashMap<>();
     			retMap.put("status", Response.ERROR);
     			retMap.put("msg", "您还没有登录");
         		HttpServletUtil.write(WebUtils.toHttp(response), retMap);

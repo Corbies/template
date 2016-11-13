@@ -7,11 +7,9 @@ import org.apache.shiro.authz.permission.WildcardPermission;
 public class UrlPermissionResolver implements PermissionResolver{
 
 	public Permission resolvePermission(String permissionString) {
-		
 		if(permissionString.startsWith("/")){
 			return new UrlPermission(permissionString);
 		}
-		
 		return new WildcardPermission(permissionString);
 	}
 
