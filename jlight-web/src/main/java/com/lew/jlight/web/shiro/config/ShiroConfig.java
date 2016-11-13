@@ -24,6 +24,7 @@ import com.lew.jlight.web.shiro.credentials.RetryLimitHashedCredentialsMatcher;
 import com.lew.jlight.web.shiro.filter.FormLoginFilter;
 import com.lew.jlight.web.shiro.filter.ResourceCheckFilter;
 import com.lew.jlight.web.shiro.permission.UrlPermissionResolver;
+import com.lew.jlight.web.util.Constants;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
@@ -128,8 +129,8 @@ public class ShiroConfig{
     @Bean
 	public CredentialsMatcher credentialsMatcher (){
 		RetryLimitHashedCredentialsMatcher credentialsMatcher = new  RetryLimitHashedCredentialsMatcher(cacheManager());
-		credentialsMatcher.setHashAlgorithmName("SHA-256");
-		credentialsMatcher.setHashIterations(2);
+		credentialsMatcher.setHashAlgorithmName(Constants.ALGORITHM_NAME);
+		credentialsMatcher.setHashIterations(Constants.HASH_ITERATIONS);
 		credentialsMatcher.setStoredCredentialsHexEncoded(true);
 		return credentialsMatcher;
 	}
