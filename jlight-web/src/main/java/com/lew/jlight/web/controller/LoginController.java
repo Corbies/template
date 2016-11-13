@@ -1,11 +1,16 @@
 package com.lew.jlight.web.controller;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
+import com.lew.jlight.core.util.DigestUtil;
+import com.lew.jlight.web.entity.Role;
+import com.lew.jlight.web.entity.User;
+import com.lew.jlight.web.entity.UserRole;
+import com.lew.jlight.web.service.RoleService;
+import com.lew.jlight.web.service.UserRoleService;
+import com.lew.jlight.web.util.ServletUtil;
+import com.lew.jlight.web.util.UserContextUtil;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -23,27 +28,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
-import com.lew.jlight.web.entity.Role;
-import com.lew.jlight.web.entity.User;
-import com.lew.jlight.web.entity.UserRole;
-import com.lew.jlight.web.service.LoginService;
-import com.lew.jlight.web.service.RoleService;
-import com.lew.jlight.web.service.UserRoleService;
-import com.lew.jlight.web.service.UserService;
-import com.lew.jlight.web.util.ServletUtil;
-import com.lew.jlight.web.util.UserContextUtil;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 @Controller
 @RequestMapping
 public class LoginController {
-
-    @Resource
-    private LoginService loginService;
-
-    @Resource
-    private UserService userService;
 
     @Resource
     private RoleService roleService;
@@ -60,9 +54,9 @@ public class LoginController {
     public String doLogin(String account, String password, ModelMap modelMap) throws Exception {
         checkArgument(!Strings.isNullOrEmpty(account), "account should not be empty or null");
         checkArgument(!Strings.isNullOrEmpty(password), "password should not be empty or null");
-        UsernamePasswordToken token = new UsernamePasswordToken(account, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(account, DigestUtil.sha256().digest(password));
         Subject subject = SecurityUtils.getSubject();
-        String msg = null;
+        String msg;
         ServletUtil.getRequest().setAttribute("account",account);
         try {
            /* loginService.doLogin(account, password, ServletUtil.getIpAddr());
