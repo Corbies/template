@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50704
+Source Server         : Local
+Source Server Version : 50538
 Source Host           : localhost:3306
 Source Database       : jlight
 
 Target Server Type    : MYSQL
-Target Server Version : 50704
+Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2016-11-13 14:40:16
+Date: 2016-11-13 19:58:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -59,7 +59,7 @@ CREATE TABLE `sys_login_log` (
   `update_by` varchar(255) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_login_log
@@ -125,6 +125,21 @@ INSERT INTO `sys_login_log` VALUES ('86', '1480978950358', 'admin', '2016-11-13 
 INSERT INTO `sys_login_log` VALUES ('87', '1480979024682', 'liyg', '2016-11-13 06:17:37', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-13 06:17:37', null, '2016-11-13 06:17:37', null, null);
 INSERT INTO `sys_login_log` VALUES ('88', '1480979790599', 'admin', '2016-11-13 06:30:23', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-13 06:30:23', null, '2016-11-13 06:30:23', null, null);
 INSERT INTO `sys_login_log` VALUES ('89', '1480979814088', 'liyg', '2016-11-13 06:30:46', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-13 06:30:46', null, '2016-11-13 06:30:46', null, null);
+INSERT INTO `sys_login_log` VALUES ('90', '1479042268605', 'admin', '2016-11-13 11:36:43', '0:0:0:0:0:0:0:1', '登录失败', '0', '2016-11-13 11:36:43', null, '2016-11-13 11:36:43', null, '帐号或者密码错误');
+INSERT INTO `sys_login_log` VALUES ('91', '1479042268713', 'admin', '2016-11-13 11:36:43', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-13 11:36:43', null, '2016-11-13 11:36:43', null, null);
+INSERT INTO `sys_login_log` VALUES ('92', '1479042397250', 'admin', '2016-11-13 11:38:52', '127.0.0.1', '登录失败', '0', '2016-11-13 11:38:52', null, '2016-11-13 11:38:52', null, '帐号或者密码错误');
+INSERT INTO `sys_login_log` VALUES ('93', '1479042397344', 'admin', '2016-11-13 11:38:52', '127.0.0.1', '登录成功', '0', '2016-11-13 11:38:52', null, '2016-11-13 11:38:52', null, null);
+INSERT INTO `sys_login_log` VALUES ('94', '1479042610577', 'admin', '2016-11-13 11:42:25', '0:0:0:0:0:0:0:1', '登录失败', '0', '2016-11-13 11:42:25', null, '2016-11-13 11:42:25', null, '帐号或者密码错误');
+INSERT INTO `sys_login_log` VALUES ('95', '1479042610666', 'admin', '2016-11-13 11:42:25', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-13 11:42:25', null, '2016-11-13 11:42:25', null, null);
+INSERT INTO `sys_login_log` VALUES ('96', '1479042625094', 'test', '2016-11-13 11:42:40', '0:0:0:0:0:0:0:1', '登录失败', '0', '2016-11-13 11:42:40', null, '2016-11-13 11:42:40', null, '帐号已被锁定');
+INSERT INTO `sys_login_log` VALUES ('97', '1479042625157', 'test', '2016-11-13 11:42:40', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-13 11:42:40', null, '2016-11-13 11:42:40', null, null);
+INSERT INTO `sys_login_log` VALUES ('98', '1479042642931', 'test', '2016-11-13 11:42:57', '0:0:0:0:0:0:0:1', '登录失败', '0', '2016-11-13 11:42:57', null, '2016-11-13 11:42:57', null, '帐号或者密码错误');
+INSERT INTO `sys_login_log` VALUES ('99', '1479042643003', 'test', '2016-11-13 11:42:57', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-13 11:42:57', null, '2016-11-13 11:42:57', null, null);
+INSERT INTO `sys_login_log` VALUES ('100', '1479042994229', 'admin', '2016-11-13 11:48:49', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-13 11:48:49', null, '2016-11-13 11:48:49', null, null);
+INSERT INTO `sys_login_log` VALUES ('101', '1479043068973', 'test', '2016-11-13 11:50:03', '0:0:0:0:0:0:0:1', '登录失败', '0', '2016-11-13 11:50:03', null, '2016-11-13 11:50:03', null, '帐号未分配角色或权限');
+INSERT INTO `sys_login_log` VALUES ('102', '1479043069032', 'test', '2016-11-13 11:50:03', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-13 11:50:03', null, '2016-11-13 11:50:03', null, null);
+INSERT INTO `sys_login_log` VALUES ('103', '1479043074359', 'admin', '2016-11-13 11:50:09', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-13 11:50:09', null, '2016-11-13 11:50:09', null, null);
+INSERT INTO `sys_login_log` VALUES ('104', '1479043091150', 'test', '2016-11-13 11:50:26', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-13 11:50:26', null, '2016-11-13 11:50:26', null, null);
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -174,6 +189,30 @@ INSERT INTO `sys_menu` VALUES ('38', '23', '登录日志', '/loginLog/list', '0'
 INSERT INTO `sys_menu` VALUES ('39', '24', '操作日志', '/log/operate', '0', null, '1', null, '5', '监控管理', '0', null, '2016-06-26 16:11:30', null, '2016-06-26 16:11:30', null);
 INSERT INTO `sys_menu` VALUES ('41', '1478700606660', '字典管理', '/dict/list', '0', null, '1', null, '1', '系统管理', '0', null, '2016-11-09 12:42:21', null, '2016-11-09 12:42:21', '字典管理');
 INSERT INTO `sys_menu` VALUES ('42', '1480978838674', '角色分配', '/user/addRoles', '1', null, '1', null, '2', '用户管理', '0', null, '2016-11-13 06:14:31', null, '2016-11-13 06:14:31', '给用户分配角色');
+
+-- ----------------------------
+-- Table structure for sys_operate_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_operate_log`;
+CREATE TABLE `sys_operate_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `operate_log_id` varchar(255) NOT NULL,
+  `login_account` varchar(64) NOT NULL,
+  `method` varchar(64) NOT NULL,
+  `operate_time` datetime NOT NULL,
+  `operate_ip` varchar(64) NOT NULL,
+  `is_delete` int(1) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `create_by` varchar(64) DEFAULT NULL,
+  `update_time` datetime NOT NULL,
+  `update_by` varchar(64) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_operate_log
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_param
@@ -300,15 +339,15 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id_idx` (`user_id`),
   UNIQUE KEY `account_idx` (`account`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '24b81da6640d91def35d33c7940a16c7e0631ff99d3060a491694866f1063fcc', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-13 06:30:22', '0:0:0:0:0:0:0:1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
-INSERT INTO `sys_user` VALUES ('58', '1478540488141', 'test', '测试', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, '751185330@qq.com', '13428281893', '3', '1', '2016-11-09 12:41:30', '127.0.0.1', '0', '2016-11-07 16:13:46', null, '2016-11-07 16:13:46', null, null);
+INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '24b81da6640d91def35d33c7940a16c7e0631ff99d3060a491694866f1063fcc', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-13 11:50:09', '0:0:0:0:0:0:0:1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
 INSERT INTO `sys_user` VALUES ('59', '1480752439327', 'jason', '黎扬贵', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, '134288282082@qq.com', '13428282082', '2', '0', '2016-11-12 04:25:42', '0:0:0:0:0:0:0:1', '0', '2016-11-10 15:21:12', null, '2016-11-10 15:21:12', null, '黎扬贵');
 INSERT INTO `sys_user` VALUES ('60', '1480974674253', 'liyg', '黎扬贵', '75a2a3e2abb929ed8d22ce3de907bbbfb3834ef22c3d39d54a88c7cc3e55715f', null, null, '18316986707@163.com', '18316986707', '0', '0', '2016-11-13 06:30:46', '0:0:0:0:0:0:0:1', '0', '2016-11-13 05:05:07', null, '2016-11-13 05:05:07', null, '黎扬贵');
+INSERT INTO `sys_user` VALUES ('61', '1479043051565', 'test', '测试', 'ee4262f7c5811a146473482249ad288ae6689d4ac6824fe3bdab445d98a4b796', null, null, 'goqeng@gmail.com', '18218676908', '0', '0', '2016-11-13 11:50:25', '0:0:0:0:0:0:0:1', '0', '2016-11-13 11:49:46', null, '2016-11-13 11:49:46', null, null);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -326,12 +365,12 @@ CREATE TABLE `sys_user_role` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8 COMMENT='用户-角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8 COMMENT='用户-角色表';
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES ('1', '1', '1', '0', '2016-04-15 14:48:11', '0', '2016-04-15 14:48:13', '0', null);
-INSERT INTO `sys_user_role` VALUES ('70', '1478540488141', '1478540596277', '0', '2016-11-07 16:15:52', null, '2016-11-07 16:15:52', null, null);
 INSERT INTO `sys_user_role` VALUES ('71', '1480752439327', '1478540596277', '0', '2016-11-10 15:21:33', null, '2016-11-10 15:21:33', null, null);
 INSERT INTO `sys_user_role` VALUES ('72', '1480974674253', '1478540596277', '0', '2016-11-13 05:05:33', null, '2016-11-13 05:05:33', null, null);
+INSERT INTO `sys_user_role` VALUES ('73', '1479043051565', '1478540596277', '0', '2016-11-13 11:50:17', null, '2016-11-13 11:50:17', null, null);

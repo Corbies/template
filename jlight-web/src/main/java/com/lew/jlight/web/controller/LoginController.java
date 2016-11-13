@@ -3,7 +3,6 @@ package com.lew.jlight.web.controller;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
-import com.lew.jlight.core.util.DigestUtil;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.entity.UserRole;
@@ -54,7 +53,7 @@ public class LoginController {
     public String doLogin(String account, String password, ModelMap modelMap) throws Exception {
         checkArgument(!Strings.isNullOrEmpty(account), "account should not be empty or null");
         checkArgument(!Strings.isNullOrEmpty(password), "password should not be empty or null");
-        UsernamePasswordToken token = new UsernamePasswordToken(account, DigestUtil.sha256().digest(password));
+        UsernamePasswordToken token = new UsernamePasswordToken(account, password);
         Subject subject = SecurityUtils.getSubject();
         String msg;
         ServletUtil.getRequest().setAttribute("account",account);
