@@ -5,6 +5,8 @@
     <resultMap type="com.lew.jlight.web.entity.OperateLog" id="OperateLog">
         <result column="operate_log_id" property="operateLogId"/>
         <result column="login_account" property="loginAccount"/>
+        <result column="method" property="method"/>
+        <result column="method_args" property="methodArgs"/>
         <result column="operate_time" property="operateTime"/>
         <result column="operate_ip" property="operateIp"/>
         <result column="status" property="status"/>
@@ -18,8 +20,8 @@
 
     <insert id="insert" parameterType="com.lew.jlight.web.entity.OperateLog">
         insert into sys_operate_log
-        (operate_log_id,login_account,operate_time,operate_ip,status,is_delete,create_by,create_time,update_by,update_time,remark)
-        values(#{operateLogId}, #{loginAccount}, #{operateTime}, #{operateIp},#{status},#{isDelete},#{createBy},#{createTime},#{updateBy},#{updateTime},#{remark})
+        (operate_log_id,login_account,method,method_args,operate_time,operate_ip,status,is_delete,create_by,create_time,update_by,update_time,remark)
+        values(#{operateLogId}, #{loginAccount},#{method},#{methodArgs}, #{operateTime}, #{operateIp},#{status},#{isDelete},#{createBy},#{createTime},#{updateBy},#{updateTime},#{remark})
     </insert>
 
     <select id="getList" parameterType="java.util.Map" resultMap="OperateLog">

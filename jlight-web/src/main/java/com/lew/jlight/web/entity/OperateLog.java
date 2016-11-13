@@ -11,6 +11,8 @@ public class OperateLog extends BaseEntity{
 
     private String method;
 
+    private String methodArgs;
+
     private Date operateTime;
 
     private String operateIp;
@@ -63,5 +65,13 @@ public class OperateLog extends BaseEntity{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getMethodArgs() {
+        return methodArgs;
+    }
+
+    public void setMethodArgs(String methodArgs) {
+        this.methodArgs = methodArgs;
     }
 }
