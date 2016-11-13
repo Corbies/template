@@ -1,18 +1,11 @@
 package com.lew.jlight.web.controller;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
+import static com.google.common.base.Preconditions.checkArgument;
 
-import com.lew.jlight.core.util.DigestUtil;
-import com.lew.jlight.web.entity.Role;
-import com.lew.jlight.web.entity.User;
-import com.lew.jlight.web.entity.UserRole;
-import com.lew.jlight.web.service.LoginService;
-import com.lew.jlight.web.service.RoleService;
-import com.lew.jlight.web.service.UserRoleService;
-import com.lew.jlight.web.service.UserService;
-import com.lew.jlight.web.util.ServletUtil;
-import com.lew.jlight.web.util.UserContextUtil;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -30,12 +23,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import static com.google.common.base.Preconditions.checkArgument;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+import com.lew.jlight.web.entity.Role;
+import com.lew.jlight.web.entity.User;
+import com.lew.jlight.web.entity.UserRole;
+import com.lew.jlight.web.service.LoginService;
+import com.lew.jlight.web.service.RoleService;
+import com.lew.jlight.web.service.UserRoleService;
+import com.lew.jlight.web.service.UserService;
+import com.lew.jlight.web.util.ServletUtil;
+import com.lew.jlight.web.util.UserContextUtil;
 
 @Controller
 @RequestMapping
@@ -62,36 +60,38 @@ public class LoginController {
     public String doLogin(String account, String password, ModelMap modelMap) throws Exception {
         checkArgument(!Strings.isNullOrEmpty(account), "account should not be empty or null");
         checkArgument(!Strings.isNullOrEmpty(password), "password should not be empty or null");
-        password = DigestUtil.sha256().digest(password);
         UsernamePasswordToken token = new UsernamePasswordToken(account, password);
         Subject subject = SecurityUtils.getSubject();
         String msg = null;
         ServletUtil.getRequest().setAttribute("account",account);
         try {
-            loginService.doLogin(account, password, ServletUtil.getIpAddr());
+           /* loginService.doLogin(account, password, ServletUtil.getIpAddr());
             User user = userService.getByAccount(account);
             List<UserRole> userRoleList = userRoleService.getListByUserId(user.getUserId());
             if(userRoleList==null || userRoleList.size()==0){
                 throw  new UnauthorizedException();
-            }
+            }*/
             subject.login(token);
-            if (subject.isAuthenticated()) {
-                String userId = user.getUserId();
-                Map<String,String> roleMap = Maps.newHashMap();
-                userRoleList.forEach(userRole -> {
-                    Role role = roleService.getByRoleId(userRole.getRoleId());
-                    roleMap.put(userRole.getRoleId(),role.getName());
-                });
-                if(userRoleList.size()>0){
-                    String roleId = userRoleList.get(0).getRoleId();
-                    UserContextUtil.setAttribute("roleId",roleId);
-                }
-                //记录登录信息到上下文
-                UserContextUtil.setAttribute("roleMap",roleMap);
-                UserContextUtil.setAttribute("userId",userId);
-                UserContextUtil.setAttribute("account",account);
-                return "redirect:/index";
+            User user = (User) UserContextUtil.getAttribute("currentUser");
+            String userId = user.getUserId();
+            Map<String,String> roleMap = Maps.newHashMap();
+            List<UserRole> userRoleList = userRoleService.getListByUserId(user.getUserId());
+            if(userRoleList==null || userRoleList.size()==0){
+                throw  new UnauthorizedException();
             }
+            userRoleList.forEach(userRole -> {
+                Role role = roleService.getByRoleId(userRole.getRoleId());
+                roleMap.put(userRole.getRoleId(),role.getName());
+            });
+            if(userRoleList.size()>0){
+                String roleId = userRoleList.get(0).getRoleId();
+                UserContextUtil.setAttribute("roleId",roleId);
+            }
+            //记录登录信息到上下文
+            UserContextUtil.setAttribute("roleMap",roleMap);
+            UserContextUtil.setAttribute("userId",userId);
+            UserContextUtil.setAttribute("account",account);
+            return "redirect:/index";
         } catch (IncorrectCredentialsException | UnknownAccountException e) {
             msg = "帐号或者密码错误";
             modelMap.put("msg", msg);

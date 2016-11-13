@@ -40,13 +40,13 @@
                 </ul>
                 <ul class="search_content clearfix">
                     <button class="btn btn-primary" type="button" ng-click="updateUser(1)"
-                            id="Add_user_btn">添加
+                            id="Add_user_btn" shiro:hasPermission="/user/add">添加
                     </button>
-                    <button type="button" class="btn btn-success" ng-click="updateUser(0)">修改
+                    <button type="button" class="btn btn-success" ng-click="updateUser(0)"  shiro:hasPermission="/user/edit">修改
                     </button>
-                    <button type="button" class="btn btn-danger" ng-click="deleteUser()">删除</button>
+                    <button type="button" class="btn btn-danger" ng-click="deleteUser()"  shiro:hasPermission="/user/delete">删除</button>
                     <button type="button" class="btn btn-pink" ng-click="resetPwd()">重置密码</button>
-                    <button type="button" class="btn btn-pink" ng-click="asignRole()">角色分配</button>
+                    <button type="button" class="btn btn-pink" ng-click="asignRole()"  shiro:hasPermission="/user/addRoles" >角色分配</button>
                 </ul>
                 <div id="Add_user_style" style="display: none">
                     <div class="add_user_style clearfix">

@@ -1,10 +1,19 @@
 package com.lew.jlight.web.service.impl;
 
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import com.lew.jlight.core.IdGenerator;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.DigestUtil;
@@ -14,16 +23,8 @@ import com.lew.jlight.web.dao.UserDao;
 import com.lew.jlight.web.dao.UserRoleDao;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.service.UserService;
+import com.lew.jlight.web.util.Constants;
 import com.lew.jlight.web.util.UserContextUtil;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -95,7 +96,7 @@ public class UserServiceImpl implements UserService {
         User model = userDao.findUnique("getByAccount", account);
         Preconditions.checkArgument(model == null, "用户已存在");
         String password = user.getPassword();
-        password = DigestUtil.sha256().digest(password);
+        password = new SimpleHash(Constants.ALGORITHM_NAME, user.getPassword(), ByteSource.Util.bytes(account), Constants.HASH_ITERATIONS).toHex();
         user.setErrorCount(BigInteger.ZERO.intValue());
         String userId = IdGenerator.getInstance().nextId();
         user.setUserId(userId);

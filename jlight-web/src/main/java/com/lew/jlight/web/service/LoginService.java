@@ -1,10 +1,9 @@
 package com.lew.jlight.web.service;
 
-
-import com.lew.jlight.core.Response;
+import com.lew.jlight.web.entity.User;
 
 public interface LoginService {
 
-	boolean doLogin(String account, String password, String clientIp);
+	User doLogin(String account, String clientIp);
 	
 }
