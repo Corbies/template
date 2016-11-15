@@ -14,7 +14,7 @@
     <form id="form1" name="form1" method="post" action="">
         <div class="Role_Manager_style">
             <div class="Manager_style search_style">
-                <ul class="search_content clearfix">
+                <ul class="search_content clearfix" shiro:hasPermission="/role/list">
                     <li><label class="lf">角色标识</label>
                         <label>
                             <input name="sign" ng-model="requestParam.param.sign" type="text"

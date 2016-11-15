@@ -28,7 +28,7 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @RequestMapping(value = "list", method = RequestMethod.GET)
+    @RequestMapping("listPage")
     public String list() {
         return "menuList";
     }

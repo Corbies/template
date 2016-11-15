@@ -34,7 +34,7 @@ public class RoleController {
     @Resource
     private UserRoleService userRoleService;
 
-    @RequestMapping(value = "list",method = RequestMethod.GET)
+    @RequestMapping("listPage")
     public String list(){
         return "roleList";
     }

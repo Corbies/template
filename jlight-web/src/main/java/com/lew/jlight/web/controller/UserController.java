@@ -26,7 +26,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping("list")
+    @GetMapping("listPage")
     public String list() {
         return "userList";
     }

@@ -14,7 +14,7 @@
     <div class="user_Manager_style">
         <form id="form1" name="form1" method="post" action="">
             <div class="Manager_style add_user_info search_style">
-                <ul class="search_content clearfix">
+                <ul class="search_content clearfix" shiro:hasPermission="/loginLog/list">
                     <li><label class="lf">登录帐号</label>
                         <label>
                             <input name="account" ng-model="queryFilter.loginAccount" type="text"

@@ -54,6 +54,7 @@ public class LoginAop {
         String msg = (String) ServletUtil.getRequest().getAttribute("msg");
         if(!Strings.isNullOrEmpty(msg)){
             this.writeLoginLog(LoginStatus.EXCEPTION.getStatus(),msg);
+            return;
         }
         this.writeLoginLog(LoginStatus.NORMAL.getStatus(),null);
     }

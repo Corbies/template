@@ -24,7 +24,7 @@ public class LoginLogController {
     @Resource
     private LoginLogService loginLogService;
 
-    @GetMapping("list")
+    @GetMapping("listPage")
     public String list(){
         return "loginLogList";
     }
