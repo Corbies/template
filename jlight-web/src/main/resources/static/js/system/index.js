@@ -1,15 +1,21 @@
- jQuery(document).ready(function(){  
-	 
-	//初始化宽度、高度    
-    $("#main-container").height($(window).height()-76); 
-	$("#iframe").height($(window).height()-155); 
-	$(".sidebar").height($(window).height()-99); 
-	
-    //当文档窗口发生改变时 触发  
-    $(window).resize(function(){
-	$("#main-container").height($(window).height()-76); 
+ jQuery(document).ready(function(){
+
+	//初始化宽度、高度
+    $("#main-container").height($(window).height()-76);
 	$("#iframe").height($(window).height()-155);
-	$(".sidebar").height($(window).height()-99); 
+	$(".sidebar").height($(window).height()-99);
+	 var thisHeight = $("#nav_list").height($(window).height()-185);
+	 $(".submenu").height($(thisHeight).height()-160);
+	 $("#nav_list").children(".submenu").css("height",thisHeight);
+
+    //当文档窗口发生改变时 触发
+    $(window).resize(function(){
+	$("#main-container").height($(window).height()-76);
+	$("#iframe").height($(window).height()-155);
+	$(".sidebar").height($(window).height()-99);
+	var thisHeight = $("#nav_list").height($(window).height()-185);
+	$(".submenu").height($(thisHeight).height()-160);
+	$("#nav_list").children(".submenu").css("height",thisHeight);
   });
     $(document).on("click",'.iframeurl',function(){
         var cid = $(this).attr("name");

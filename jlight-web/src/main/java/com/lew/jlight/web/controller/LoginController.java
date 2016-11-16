@@ -50,20 +50,14 @@ public class LoginController {
     }
 
     @PostMapping("login")
-    public String doLogin(String account, String password, ModelMap modelMap) throws Exception {
-        checkArgument(!Strings.isNullOrEmpty(account), "account should not be empty or null");
-        checkArgument(!Strings.isNullOrEmpty(password), "password should not be empty or null");
+    public String doLogin(String account, String password, ModelMap modelMap)  {
+        checkArgument(!Strings.isNullOrEmpty(account), "帐号不能为空");
+        checkArgument(!Strings.isNullOrEmpty(password), "密码不能为空");
         UsernamePasswordToken token = new UsernamePasswordToken(account, password);
         Subject subject = SecurityUtils.getSubject();
         String msg;
         ServletUtil.getRequest().setAttribute("account",account);
         try {
-           /* loginService.doLogin(account, password, ServletUtil.getIpAddr());
-            User user = userService.getByAccount(account);
-            List<UserRole> userRoleList = userRoleService.getListByUserId(user.getUserId());
-            if(userRoleList==null || userRoleList.size()==0){
-                throw  new UnauthorizedException();
-            }*/
             subject.login(token);
             User user = (User) UserContextUtil.getAttribute("currentUser");
             String userId = user.getUserId();
