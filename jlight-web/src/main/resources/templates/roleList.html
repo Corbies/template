@@ -2,11 +2,17 @@
 <html ng-app="roleApp" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
-    <link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}" />
-    <link rel="stylesheet" th:href="@{/assets/css/ace.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <link rel="stylesheet" th:href="@{/assets/jstree/themes/default/style.css}"/>
+    <header th:replace="import"></header>
+    <script th:src="@{/js/common/customValid.js}"></script>
+    <script th:src="@{/js/common/FormDirective.js}"></script>
+    <script th:src="@{/js/common/util.js}"></script>
+    <script th:src="@{/js/system/controller/RoleCtrl.js}"></script>
+    <script th:src="@{/js/system/service/RoleService.js}"></script>
+    <script th:src="@{/js/system/service/RoleResService.js}"></script>
+    <script th:src="@{/assets/jstree/jstree.min.js}"></script>
+    <script th:src="@{/assets/jstree/jstree.checkbox.js}"></script>
+    <script th:src="@{/assets/jstree/checkboxTree.js}" type="text/javascript"></script>
+    <script th:src="@{/assets/underscore/underscore-min.js}"></script>
     <title>角色管理</title>
 </head>
 <body ng-controller="roleCtrl">
@@ -111,20 +117,5 @@
     </form>
     
 </div>
-<script th:src="@{/js/lib/jquery/jquery-1.8.3.min.js}"></script>
-<script th:src="@{/assets/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/lib/angular/angular.min.js}"></script>
-<script th:src="@{/js/BaseService.js}"></script>
-<script th:src="@{/js/common/customValid.js}"></script>
-<script th:src="@{/js/common/FormDirective.js}"></script>
-<script th:src="@{/js/common/util.js}"></script>
-<script th:src="@{/js/system/controller/RoleCtrl.js}"></script>
-<script th:src="@{/js/system/service/RoleService.js}"></script>
-<script th:src="@{/js/system/service/RoleResService.js}"></script>
-<script th:src="@{/assets/layer/layer.js}"></script>
-<script th:src="@{/assets/jstree/jstree.min.js}"></script>
-<script th:src="@{/assets/jstree/jstree.checkbox.js}"></script>
-<script th:src="@{/assets/jstree/checkboxTree.js}" type="text/javascript"></script>
-<script th:src="@{/assets/underscore/underscore-min.js}"></script>
 </body>
 </html>

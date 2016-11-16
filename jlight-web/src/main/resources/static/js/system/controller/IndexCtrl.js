@@ -8,7 +8,6 @@ indexApp.controller('indexCtrl', ['$rootScope', '$scope','indexService',function
 		  location.href= _ctx + "/logout";
 		 });
 	};
-
 	//修改密码
 	$scope.changePwd = function(){
 		layer.open({
