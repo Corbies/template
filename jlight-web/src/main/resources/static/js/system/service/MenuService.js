@@ -1,4 +1,4 @@
-resourceApp.service('resourceService', ['$http', '$q', 'baseService',
+menuApp.service('menuService', ['$http', '$q', 'baseService',
         function($http, $q, baseService) {
             return {
                 // 添加订单

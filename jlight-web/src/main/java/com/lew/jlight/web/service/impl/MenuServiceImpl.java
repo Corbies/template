@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.lew.jlight.core.IdGenerator;
 import com.lew.jlight.core.Response;
@@ -91,6 +92,18 @@ public class MenuServiceImpl implements MenuService {
         return this.loadResources(roleId);
     }
 
+    @Override
+    public List<Menu> getByParentId(String menuId) {
+        List<Menu> menuList = Lists.newLinkedList();
+        Menu parentMenu = menuDao.findUnique("getMenuById", menuId);
+        if(parentMenu!=null){
+            menuList.add(parentMenu);
+        }
+        List<Menu> subMenuList = menuDao.find("getMenuByParentId", menuId);
+        menuList.addAll(subMenuList);
+        return menuList ;
+    }
+
     private List<MenuTitle> loadResources(String roleId) {
         Map<String, List<MenuTitle>> roleResMap = Maps.newHashMap();
         // roleResMap = cacheManager.get( key, Map.class, cacheCallback );
@@ -138,9 +151,7 @@ public class MenuServiceImpl implements MenuService {
             Collections.sort(resources, resourceComparator);
         }
         Collections.sort(list, titleComparator);
-
         roleResMap.put(roleId, list);
-
         return list;
     }
 

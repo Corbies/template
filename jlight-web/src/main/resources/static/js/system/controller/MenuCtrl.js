@@ -1,24 +1,35 @@
-var resourceApp = angular.module('resourceApp', ['formDirective']);
-resourceApp.filter('trustHtml', function ($sce) {
+var menuApp = angular.module('menuApp', ['formDirective']);
+menuApp.filter('trustHtml', function ($sce) {
     return function (input) {
         return $sce.trustAsHtml(input);
     }
 });
-resourceApp.controller('resourceCtrl', ['$scope','baseService',function ($scope,baseService) {
-	$scope.resourceType = [{typeId: 0, name: "菜单"}, {typeId: 1, name: "按钮"}];
-	$scope.resource = {};
+menuApp.controller('menuCtrl', ['$scope','baseService',function ($scope,baseService) {
+	$scope.menuType = [{typeId: 0, name: "菜单"}, {typeId: 1, name: "按钮"}];
+	$scope.menu = {};
+	$scope.menus = [];
 	$scope.getByMenuId = function(menuId){
 		baseService.get(_ctx+"/menu/detail?menuId="+menuId).then(function(data){
-			$scope.resource = data;
+			if(data){
+				$scope.menu = data;
+			}
 		});
 	}
-	
+
+	$scope.getParentByMenuId = function(menuId){
+		baseService.get(_ctx+"/menu/getByParentId?parentId="+menuId).then(function(data){
+			if(data){
+				$scope.menus = data;
+			}
+		});
+	}
+
 	$scope.deleteByMenuId = function(menuId){
 		baseService.post(_ctx+"/menu/delete",{menuIds:menuId}).then(function(data){
 			$.jstree.reference("#jstree").refresh();
 		});
 	}
-	
+
 	$scope.$on("afterSaveEvent",function(event,data){
 		if(!data.r){
 			layer.close(layerIndex);
@@ -27,3 +38,4 @@ resourceApp.controller('resourceCtrl', ['$scope','baseService',function ($scope,
 		$.jstree.reference("#jstree").refresh();
 	});
  }]);
+

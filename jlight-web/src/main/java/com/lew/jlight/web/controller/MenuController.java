@@ -1,5 +1,7 @@
 package com.lew.jlight.web.controller;
 
+import com.google.common.collect.Lists;
+
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +87,13 @@ public class MenuController {
     public Response detail(String menuId) {
         Menu menu = menuService.detail(menuId);
         return new Response(menu);
+    }
+
+    @GetMapping("getByParentId")
+    @ResponseBody
+    public Response getByParentId(String parentId) {
+        List<Menu> menuList = menuService.getByParentId(parentId);
+        return new Response(menuList);
     }
 
     @ResponseBody

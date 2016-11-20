@@ -19,6 +19,8 @@ public interface MenuService {
 	List<MenuTitle> getListByRoleId(String roleId);
 	
 	List<Menu> getList(ParamFilter<String, String> param);
+
+	List<Menu> getByParentId(String menuId);
 	
 	Response getResTree(String roleId);
 	
