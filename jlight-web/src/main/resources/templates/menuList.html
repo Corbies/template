@@ -52,7 +52,7 @@
                                     <td>
                                         <div class="radio ">
                                             <label>
-                                                <input type="radio" class="ace" name="isShow" ng-model="menu.isShow"  ng-init="menu.isShow=1"  ng-checked="menu.isShow==1" value="1"  />
+                                                <input type="radio" class="ace"  name="isShow" ng-model="menu.isShow"  ng-checked="true" value="1"  />
                                                 <span class="lbl">是</span>
                                             </label>
                                         </div>
@@ -141,57 +141,57 @@
     var layerIndex,jstree,currentNode;
     (function(){
         jstree = $('#jstree').jstree({
-                 "core" : {
-                     "animation" : 0,
-                     "check_callback" : true,
-                     "themes" : { },
-                     "data" : {
-                         "url" : function (node) {
-                             return _ctx+"/menu/getTree";
-                         },
-                         "data" : function (node) {
-                             return { "id" : node.id };
-                         },
-                     }},
-                 "plugins" : [ "contextmenu","search" ],
-                 "contextmenu":{
-                     "items":{
-                         "create":null,
-                         "rename":null,
-                         "remove":null,
-                         "ccp":null,
-                         "editMenu":{
-                             "label":"编辑",
-                             "action":function(data){
-                                 openMenuEdit("edit",getSelectItem(data).id);
-                             }
-                         },
-                         "addMenu":{
-                             "label":"添加同级菜单",
-                             "action":function(data){
-                                 openMenuEdit("add",getSelectItem(data).parent);
-                             }
-                         },
-                         "addSubMenu":{
-                             "label":"添加子菜单",
-                             "action":function(data){
-                                 openMenuEdit("add",getSelectItem(data).id);
-                             }
-                         },
-                         "moveMenu":{
-                             "label":"移动菜单",
-                             "action":function(data){
-                                 layer.alert("正在开发中......");
-                             }
-                         },
-                         "delMenu":{
-                             "separator_before":true,
-                             "label":"删除菜单",
-                             "action":function(data){
-                                 AngularUtil.triggerScopeFun("deleteByMenuId",getSelectItem(data).id);
-                             }
-                         }
-                     }}});
+     "core" : {
+         "animation" : 0,
+         "check_callback" : true,
+         "themes" : { },
+         "data" : {
+             "url" : function (node) {
+                 return _ctx+"/menu/getTree";
+             },
+             "data" : function (node) {
+                 return { "id" : node.id };
+             },
+         }},
+     "plugins" : [ "contextmenu","search" ],
+     "contextmenu":{
+         "items":{
+             "create":null,
+             "rename":null,
+             "remove":null,
+             "ccp":null,
+             "editMenu":{
+                 "label":"编辑",
+                 "action":function(data){
+                     openMenuEdit("edit",getSelectItem(data).id);
+                 }
+             },
+             "addMenu":{
+                 "label":"添加同级菜单",
+                 "action":function(data){
+                     openMenuEdit("add",getSelectItem(data).parent);
+                 }
+             },
+             "addSubMenu":{
+                 "label":"添加子菜单",
+                 "action":function(data){
+                     openMenuEdit("add",getSelectItem(data).id);
+                 }
+             },
+             "moveMenu":{
+                 "label":"移动菜单",
+                 "action":function(data){
+                     layer.alert("正在开发中......");
+                 }
+             },
+             "delMenu":{
+                 "separator_before":true,
+                 "label":"删除菜单",
+                 "action":function(data){
+                     AngularUtil.triggerScopeFun("deleteByMenuId",getSelectItem(data).id);
+                 }
+             }
+         }}});
         function getSelectItem(data){
             var inst = $.jstree.reference(data.reference),
                     obj = inst.get_node(data.reference);

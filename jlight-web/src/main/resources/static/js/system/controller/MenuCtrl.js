@@ -10,17 +10,13 @@ menuApp.controller('menuCtrl', ['$scope','baseService',function ($scope,baseServ
 	$scope.menus = [];
 	$scope.getByMenuId = function(menuId){
 		baseService.get(_ctx+"/menu/detail?menuId="+menuId).then(function(data){
-			if(data){
 				$scope.menu = data;
-			}
 		});
 	}
 
 	$scope.getParentByMenuId = function(menuId){
 		baseService.get(_ctx+"/menu/getByParentId?parentId="+menuId).then(function(data){
-			if(data){
 				$scope.menus = data;
-			}
 		});
 	}
 
@@ -32,6 +28,8 @@ menuApp.controller('menuCtrl', ['$scope','baseService',function ($scope,baseServ
 
 	$scope.$on("afterSaveEvent",function(event,data){
 		if(!data.r){
+			currentNode.state.selected = true;
+			$scope.getParentByMenuId(currentNode.id);
 			layer.close(layerIndex);
 		}
 		currentNode.state.selected = false;
