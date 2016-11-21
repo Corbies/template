@@ -5,15 +5,15 @@ menuApp.filter('trustHtml', function ($sce) {
     }
 });
 menuApp.controller('menuCtrl', ['$scope','baseService',function ($scope,baseService) {
-	$scope.menuType = [{typeId: 0, name: "菜单"}, {typeId: 1, name: "按钮"}];
-	$scope.menu = {};
+	$scope.menuType = [{typeId: 0 , name: "菜单"}, {typeId: 1, name: "按钮"}];
 	$scope.menus = [];
 	$scope.getByMenuId = function(menuId){
 		baseService.get(_ctx+"/menu/detail?menuId="+menuId).then(function(data){
+				var type = data.type;
 				$scope.menu = data;
+				$scope.menu.type = type.toString();
 		});
 	}
-
 	$scope.getParentByMenuId = function(menuId){
 		baseService.get(_ctx+"/menu/getByParentId?parentId="+menuId).then(function(data){
 				$scope.menus = data;

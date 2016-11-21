@@ -67,7 +67,7 @@
                                 <tr>
                                     <td class="label_name">类型</td>
                                     <td>
-                                        <select name="type" ng-model="menu.type" ng-init="menu.type=0" size="1" id="select_type">
+                                        <select name="type"  ng-model="menu.type" size="1" id="select_type">
                                             <option ng-repeat="type in menuType" ng-selected="menu.type==type.typeId" value="{{type.typeId}}" ng-bind="type.name"></option>
                                         </select>
                                         <i style="color: #F60;">*</i>
@@ -214,6 +214,7 @@
             // 添加菜单
             if(action == "add"){
                 scope.menu.parentId = id;
+                scope.menu.type = "0";
             }
             AngularUtil.setData(scope);
             layerIndex = layer.open({
