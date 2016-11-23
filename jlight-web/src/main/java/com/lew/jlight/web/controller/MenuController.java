@@ -1,19 +1,5 @@
 package com.lew.jlight.web.controller;
 
-import com.google.common.collect.Lists;
-
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.druid.util.StringUtils;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
@@ -23,20 +9,32 @@ import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Menu;
 import com.lew.jlight.web.service.MenuService;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 @Controller
 @RequestMapping("menu")
 public class MenuController {
 
-    @Autowired
+    @Resource
     private MenuService menuService;
 
-    @RequestMapping("listPage")
+    @GetMapping("listPage")
     public String list() {
         return "menuList";
     }
 
     @ResponseBody
-    @RequestMapping("list")
+    @PostMapping("list")
     public Response list(@RequestBody String json) {
         ParamFilter<String, String> filter = new ParamFilter<>();
         Map<String, String> param = JsonUtil.parseStringMap(json);
@@ -50,13 +48,8 @@ public class MenuController {
         return new Response(menuList);
     }
     
-    /**
-     * 添加和更新
-     * @param json
-     * @return
-     */
     @ResponseBody
-    @RequestMapping("add")
+    @PostMapping("add")
     public Response add(@RequestBody String json) {
         Menu menu = JsonUtil.parseObj(json, Menu.class);
         Response response = new Response();
@@ -74,30 +67,32 @@ public class MenuController {
         }
         return response;
     }
-    
+
+    @ResponseBody
     @PostMapping("edit")
-    public @ResponseBody Response edit(@RequestBody String json) {
+    public  Response edit(@RequestBody String json) {
         Menu menu = JsonUtil.parseObj(json, Menu.class);
         menuService.update(menu);
         return new Response("修改成功");
     }
 
-    @GetMapping("detail")
     @ResponseBody
+    @PostMapping("detail")
     public Response detail(String menuId) {
         Menu menu = menuService.detail(menuId);
         return new Response(menu);
     }
 
-    @GetMapping("getByParentId")
+
     @ResponseBody
+    @PostMapping("getByParentId")
     public Response getByParentId(String parentId) {
         List<Menu> menuList = menuService.getByParentId(parentId);
         return new Response(menuList);
     }
 
     @ResponseBody
-    @RequestMapping("delete")
+    @PostMapping("delete")
     public Response delete(@RequestBody String json) {
         Map<String, String> param = JsonUtil.parseStringMap(json);
         String resIds = BeanUtil.isEmpty(param) ? null : param.get("menuIds");
@@ -107,25 +102,22 @@ public class MenuController {
 
 
     @ResponseBody
-    @RequestMapping("listTree")
+    @PostMapping("listTree")
     public Object listTree(String roleId) {
         Response response = menuService.getResTree(roleId);
         return response.getData();
     }
 
     @ResponseBody
-    @RequestMapping("get")
+    @PostMapping("get")
     public Response getSelectResTree() {
         menuService.getSelectResTree();
         return null;
     }
-    
-    /**
-     * 获取菜单资源
-     * @return
-     */
-    @RequestMapping("getTree")
-    public @ResponseBody Object getTree() {
+
+    @ResponseBody
+    @GetMapping("getTree")
+    public  Object getTree() {
         Response response = menuService.getTree();
         return response.getData();
     }

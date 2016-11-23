@@ -2,9 +2,7 @@ package com.lew.jlight.web.controller;
 
 import com.lew.jlight.core.Response;
 import com.lew.jlight.mybatis.ParamFilter;
-import com.lew.jlight.web.entity.LoginLog;
 import com.lew.jlight.web.entity.OperateLog;
-import com.lew.jlight.web.service.LoginLogService;
 import com.lew.jlight.web.service.OperateLogService;
 
 import org.springframework.stereotype.Controller;

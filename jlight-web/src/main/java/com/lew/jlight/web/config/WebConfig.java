@@ -5,5 +5,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ServletComponentScan("com.lew.jlight.web.filter")
-public class AppConfig {
+public class WebConfig {
 }

@@ -6,8 +6,8 @@ import com.lew.jlight.core.util.JsonUtil;
 import com.lew.jlight.web.entity.RoleMenu;
 import com.lew.jlight.web.service.RoleMenuService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +25,7 @@ public class RoleMenuController {
     private RoleMenuService roleMenuService;
 
     @ResponseBody
-    @RequestMapping("getList")
+    @PostMapping("getList")
     public Response getList(@RequestBody String json) {
         Map<String, String> param = JsonUtil.parseStringMap(json);
         assert param != null;
@@ -34,13 +34,8 @@ public class RoleMenuController {
         return new Response(roleMenuList);
     }
     
-    /**
-     * 分配角色资源
-     * @param json
-     * @return
-     */
     @ResponseBody
-    @RequestMapping("add")
+    @PostMapping("add")
     public Response add(@RequestBody String json) {
         Map<String, String> paramMap = JsonUtil.parseStringMap(json);
         assert paramMap != null;
@@ -51,18 +46,12 @@ public class RoleMenuController {
         return new Response();
     }
     
-    /**
-     * 获取角色对应的资源的编号
-     * @param json
-     * @return
-     */
+
     @ResponseBody
-    @RequestMapping("getMenuByRole")
+    @PostMapping("getMenuByRole")
     public Response getMenuByRole(String roleId) {
         List<String> list = roleMenuService.getMenuByRole(roleId);
         return new Response(list);
     }
-    
-    
-    
+
 }

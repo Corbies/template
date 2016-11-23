@@ -51,17 +51,20 @@ public class LoginAop {
 
     @After("loginLog()")
     public void doAfter() {
+        String account = (String) ServletUtil.getRequest().getAttribute("account");
         String msg = (String) ServletUtil.getRequest().getAttribute("msg");
-        if(!Strings.isNullOrEmpty(msg)){
-            this.writeLoginLog(LoginStatus.EXCEPTION.getStatus(),msg);
+        if(Strings.isNullOrEmpty(account)){
             return;
         }
-        this.writeLoginLog(LoginStatus.NORMAL.getStatus(),null);
+        if(!Strings.isNullOrEmpty(msg) ){
+            this.writeLoginLog(LoginStatus.EXCEPTION.getStatus(),msg,account);
+            return;
+        }
+        this.writeLoginLog(LoginStatus.NORMAL.getStatus(),null,account);
     }
 
-    private void writeLoginLog(String status,String msg) {
+    private void writeLoginLog(String status,String msg,String account) {
         String id = IdGenerator.getInstance().nextId();
-        String account = (String) ServletUtil.getRequest().getAttribute("account");
         LoginLog loginLog = new LoginLog();
         loginLog.setLoginLogId(id);
         loginLog.setStatus(status);

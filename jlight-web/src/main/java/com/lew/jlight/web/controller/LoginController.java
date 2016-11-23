@@ -25,17 +25,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 @Controller
-@RequestMapping
 public class LoginController {
 
     @Resource
@@ -51,11 +47,16 @@ public class LoginController {
 
     @PostMapping("login")
     public String doLogin(String account, String password, ModelMap modelMap)  {
-        checkArgument(!Strings.isNullOrEmpty(account), "帐号不能为空");
-        checkArgument(!Strings.isNullOrEmpty(password), "密码不能为空");
+        String msg;
+        if(Strings.isNullOrEmpty(account) || Strings.isNullOrEmpty(password) ){
+            msg = "帐号或者密码错误";
+            ServletUtil.getRequest().setAttribute("msg",msg);
+            modelMap.put("msg", msg);
+            return "login";
+        }
         UsernamePasswordToken token = new UsernamePasswordToken(account, password);
         Subject subject = SecurityUtils.getSubject();
-        String msg;
+
         ServletUtil.getRequest().setAttribute("account",account);
         try {
             subject.login(token);

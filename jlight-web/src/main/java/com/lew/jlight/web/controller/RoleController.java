@@ -1,19 +1,9 @@
 package com.lew.jlight.web.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.BeanUtil;
@@ -22,6 +12,18 @@ import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.service.RoleService;
 import com.lew.jlight.web.service.UserRoleService;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 
 @Controller
@@ -34,13 +36,13 @@ public class RoleController {
     @Resource
     private UserRoleService userRoleService;
 
-    @RequestMapping("listPage")
+    @GetMapping("listPage")
     public String list(){
         return "roleList";
     }
 
     @ResponseBody
-    @RequestMapping("list")
+    @PostMapping("list")
     public Response list(@RequestBody String json) {
         ParamFilter<String, String> filter = new ParamFilter<>();
         Map<String, String> param = JsonUtil.parseStringMap(json);
@@ -56,10 +58,10 @@ public class RoleController {
     }
     
     @ResponseBody
-    @RequestMapping("save")
+    @PostMapping("save")
     public Object save(@RequestBody String json){
     	Response response = new Response();
-    	String msg = "";
+    	String msg;
     	try{
 		  Role role = JsonUtil.parseObj(json, Role.class);
 	      if(Strings.isNullOrEmpty(role.getRoleId())){
@@ -78,7 +80,7 @@ public class RoleController {
     }
 
     @ResponseBody
-    @RequestMapping("add")
+    @PostMapping("add")
     public Object add(@RequestBody String json) {
         Role role = JsonUtil.parseObj(json, Role.class);
         roleService.add(role);
@@ -94,7 +96,7 @@ public class RoleController {
     }
 
     @ResponseBody
-    @RequestMapping("delete")
+    @PostMapping("delete")
     public Response delete(@RequestBody List<String> roleIds) {
         Preconditions.checkArgument((roleIds!=null && roleIds.size()>0), "不能为空");
         roleService.delete(roleIds);
@@ -103,19 +105,19 @@ public class RoleController {
 
 
     @ResponseBody
-    @RequestMapping("detail")
+    @PostMapping("detail")
     public Response detail(String roleId) {
         Role role = roleService.getByRoleId(roleId);
         return new Response(role);
     }
 
     @ResponseBody
-    @RequestMapping("getRoleMap")
+    @PostMapping("getRoleMap")
     public Response getRoleMap(@RequestBody String userId) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(userId),"用户编号不能为空");
         Response response = new Response();
         List list = roleService.getRoleMap();
-        Map resultMap = Maps.newHashMap();
+        Map<String,Object> resultMap = Maps.newHashMap();
         List< String > roleIds = userRoleService.getRoleIdsByUserId(userId);
         resultMap.put("roleIds",roleIds);
         resultMap.put("roleList",list);

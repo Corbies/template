@@ -41,5 +41,4 @@ public class PreparedFilter implements Filter {
     @Override
     public void destroy() {
     }
-
 }
