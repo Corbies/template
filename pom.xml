@@ -130,7 +130,7 @@
         <profile>
             <id>dev</id>
             <properties>
-                <activatedProperties>dev</activatedProperties>
+                <activatedProfile>dev</activatedProfile>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -139,13 +139,13 @@
         <profile>
             <id>test</id>
             <properties>
-                <activatedProperties>test</activatedProperties>
+                <activatedProfile>test</activatedProfile>
             </properties>
         </profile>
         <profile>
             <id>product</id>
             <properties>
-                <activatedProperties>product</activatedProperties>
+                <activatedProfile>product</activatedProfile>
             </properties>
         </profile>
     </profiles>

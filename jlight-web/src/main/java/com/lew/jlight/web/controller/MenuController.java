@@ -85,7 +85,7 @@ public class MenuController {
 
 
     @ResponseBody
-    @PostMapping("getByParentId")
+    @GetMapping("getByParentId")
     public Response getByParentId(String parentId) {
         List<Menu> menuList = menuService.getByParentId(parentId);
         return new Response(menuList);

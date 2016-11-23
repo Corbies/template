@@ -1,4 +1,3 @@
-var _ctx = "";
 var base = angular.module( "base", []);
 base.factory("$jsonToFormData",function() {
 	function transformRequest( data, getHeaders ) {

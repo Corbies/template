@@ -45,7 +45,7 @@
                     </a>
                     <ul class="submenu">
                         <li class="home" th:each="subMenu : ${menu.menuList}">
-                            <a href="javascript:void(0)" name="" th:name="${subMenu.url}"  title=""  th:title="${subMenu.name}"  class="iframeurl">
+                            <a href="javascript:void(0)" name="" th:name="${#httpServletRequest.getAttribute('ctx')!=null ? #httpServletRequest.getAttribute('ctx') : '' +subMenu.url}"  title=""  th:title="${subMenu.name}"  class="iframeurl">
                                 <i class="icon-double-angle-right"/>
                                 <p th:text="${subMenu.name}"/>
                             </a>
