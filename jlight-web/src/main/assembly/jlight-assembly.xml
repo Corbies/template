@@ -21,6 +21,14 @@
             </includes>
             <outputDirectory>config</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>src/main/assembly</directory>
+            <includes>
+                <include>*.bat</include>
+                <include>*.sh</include>
+            </includes>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
     </fileSets>
 
     <dependencySets>

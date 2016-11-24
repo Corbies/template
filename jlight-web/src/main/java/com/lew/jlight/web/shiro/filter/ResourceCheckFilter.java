@@ -32,7 +32,7 @@ public class ResourceCheckFilter extends AccessControlFilter {
 			ServletResponse response, Object mappedValue) throws Exception {
 		Subject subject = getSubject(request, response);
 		String url = getPathWithinApplication(request);
-		logger.debug("请求的地址："+url);
+		logger.debug("request url is ："+url);
 		return "admin".equals(subject.getPrincipal()) || subject.isPermitted(url);
 	}
 
@@ -43,7 +43,7 @@ public class ResourceCheckFilter extends AccessControlFilter {
 		if(HttpServletUtil.isAjax(WebUtils.toHttp(request))){
 			Map<String, Object> retMap = new HashMap<>();
 			retMap.put("status", Response.ERROR);
-			retMap.put("msg", "没有过访问权限");
+			retMap.put("msg", "no permission");
     		HttpServletUtil.write(WebUtils.toHttp(response), retMap);
 		}else{
 			resp.sendRedirect(this.errorUrl);

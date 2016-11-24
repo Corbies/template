@@ -63,6 +63,4 @@ public class FormLoginFilter extends AuthorizationFilter{
         }
         return false;
     }
-	
-	
 }
