@@ -9,7 +9,6 @@ import com.lew.jlight.web.service.UserRoleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -23,7 +22,7 @@ public class UserRoleController {
 
     @ResponseBody
     @PostMapping("add")
-    public Response add( @RequestParam("roleIds[]") String[] roleIds,String userId){
+    public Response add( String[] roleIds,String userId){
         Preconditions.checkNotNull(roleIds,"角色信息不能为空");
         Preconditions.checkArgument(!Strings.isNullOrEmpty(userId),"用户编号不能为空");
         userRoleService.add(roleIds,userId);

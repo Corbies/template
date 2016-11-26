@@ -1,17 +1,18 @@
 package com.lew.jlight.web.service;
 
 
+import com.lew.jlight.mybatis.BaseService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.User;
 
 import java.util.List;
 import java.util.Map;
 
-public interface UserService {
+public interface UserService extends BaseService {
 
-    List getList(ParamFilter<String, String> param);
+    List getList(ParamFilter param);
 
-    void updateDefaultPwd(String[] userIds);
+    void updateDefaultPwd(List<String> userIds);
 
     void update(User user);
 
@@ -19,11 +20,9 @@ public interface UserService {
 
     void updatePwd(String originPwd,String confirmPwd,String newPwd);
 
-    void delete(String[] userIds);
+    void delete(List<String> userIds);
 
     Map getDetail(String userId);
-
-    User getByAccount(String account);
 
     User getByUserId(String userId);
 

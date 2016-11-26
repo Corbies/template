@@ -1,6 +1,16 @@
 package com.lew.jlight.mybatis.dao;
 
+import com.google.common.base.Strings;
+
+import com.lew.jlight.core.BaseEntity;
+import com.lew.jlight.core.page.Page;
+import com.lew.jlight.core.util.BeanUtil;
+
+import org.mybatis.spring.SqlSessionTemplate;
+
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,14 +19,10 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.mybatis.spring.SqlSessionTemplate;
-
-import com.lew.jlight.core.BaseEntity;
-import com.lew.jlight.core.page.Page;
-import com.lew.jlight.core.util.BeanUtil;
-
 
 public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
+
+    private  String entityClassName;
 
     @Resource
     private SqlSessionTemplate sqlSessionTemplate;
@@ -122,7 +128,7 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
     }
 
     @Override
-    public List findMap(String key, Object param) {
+    public List<Map<String,Object>> findMap(String key, Object param) {
         return this.findMap(key, param, null);
     }
 
@@ -131,12 +137,13 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
         String statement = getMapperNamespace() + "." + key;
         Map<String, Object> filters = new HashMap<>();
         if (param != null) {
+            Map parameterObject = new HashMap();
             if (param instanceof Map) {
-                filters.putAll((Map) param);
+                parameterObject = (Map) param;
             } else if (param.getClass().isArray()) {
-                Map parameterObject = BeanUtil.toMap(param);
-                filters.putAll(parameterObject);
+                parameterObject = BeanUtil.toMap(param);
             }
+            filters.putAll(parameterObject);
         }
         if (page != null) {
             filters.put("page", page);
@@ -156,12 +163,13 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
         String statements = getMapperNamespace() + "." + key;
         Map<String, Object> filters = new HashMap<>();
         if (param != null) {
+            Map<String,Object> parameterObject = new HashMap();
             if (param instanceof Map) {
-                filters.putAll((Map) param);
+                parameterObject = (Map) param;
             } else if (param.getClass().isArray()) {
-                Map parameterObject = BeanUtil.toMap(param);
-                filters.putAll(parameterObject);
+                parameterObject = BeanUtil.toMap(param);
             }
+            filters.putAll(parameterObject);
         }
         if (page != null) {
             filters.put("page", page);
@@ -174,11 +182,27 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
         return this.find(key, param, null);
     }
 
-
     private String getMapperNamespace() {
-        Class clazz = this.getEntityClass();
-        return clazz.getName();
+        return this.getEntityClass();
     }
 
-    protected abstract Class<T> getEntityClass();
+    private  String getEntityClass(){
+        if(!Strings.isNullOrEmpty(entityClassName)){
+            return entityClassName;
+        }
+        Type cls = super.getClass().getGenericSuperclass();
+        if (cls instanceof ParameterizedType) {
+            ParameterizedType pt = (ParameterizedType) cls;
+            // 获取所有放到泛型里面的类型
+            Type[] types = pt.getActualTypeArguments();
+            try {
+                //获取第一个注解
+                entityClassName =  types[0].getTypeName();
+            } catch (Exception e) {
+                throw new RuntimeException("fail to get entity anotation", e);
+            }
+        }
+        return entityClassName;
+    }
+
 }

@@ -2,7 +2,7 @@ package com.lew.jlight.web.service.impl;
 
 import com.google.common.base.Preconditions;
 
-import com.lew.jlight.core.page.Page;
+import com.lew.jlight.mybatis.AbstractService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.LoginLogDao;
 import com.lew.jlight.web.entity.LoginLog;
@@ -15,7 +15,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 @Service
-public class LoginLogServiceImpl implements LoginLogService {
+public class LoginLogServiceImpl extends AbstractService<LoginLog> implements LoginLogService {
 
     @Resource
     private LoginLogDao loginLogDao;
@@ -36,7 +36,6 @@ public class LoginLogServiceImpl implements LoginLogService {
 
     @Override
     public List<LoginLog> getList(ParamFilter paramFilter) {
-        Page page = paramFilter.getPage();
-        return loginLogDao.find("getList", paramFilter, page);
+        return loginLogDao.find("getList", paramFilter.getParam(), paramFilter.getPage());
     }
 }

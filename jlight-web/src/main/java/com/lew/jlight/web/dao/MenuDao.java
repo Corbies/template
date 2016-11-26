@@ -9,9 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MenuDao extends BaseDao<Menu> {
 
-	@Override
-	public Class<Menu> getEntityClass( ) {
-		return Menu.class;
-	}
-
 }

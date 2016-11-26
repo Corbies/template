@@ -2,7 +2,6 @@ package com.lew.jlight.web.service.impl;
 
 import com.google.common.base.Preconditions;
 
-import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.OperateLogDao;
 import com.lew.jlight.web.entity.OperateLog;
@@ -36,7 +35,6 @@ public class OperateLogServiceImpl implements OperateLogService {
 
     @Override
     public List<OperateLog> getList(ParamFilter paramFilter) {
-        Page page = paramFilter.getPage();
-        return operateLogDao.find("getList", paramFilter, page);
+        return operateLogDao.find("getList", paramFilter.getParam(), paramFilter.getPage());
     }
 }

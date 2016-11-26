@@ -11,9 +11,4 @@ import javax.annotation.Resource;
 @Repository
 public class UserDao extends BaseDao<User> {
 
-	@Override
-	public Class< User > getEntityClass( ) {
-		return User.class;
-	}
-
 }

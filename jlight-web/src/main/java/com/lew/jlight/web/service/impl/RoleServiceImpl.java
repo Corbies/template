@@ -5,6 +5,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
 import com.lew.jlight.core.IdGenerator;
+import com.lew.jlight.mybatis.AbstractService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.RoleDao;
 import com.lew.jlight.web.dao.RoleMenuDao;
@@ -20,7 +21,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends AbstractService<Role> implements RoleService {
 
     @Resource
     private RoleDao roleDao;
@@ -31,6 +32,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void add(Role role) {
         Preconditions.checkNotNull(role,"角色信息不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(role.getName()),"角色名称不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(role.getSign()),"角色标识不能为空");
         String sign = role.getSign();
         Role model = roleDao.findUnique("getRoleBySign", sign);
         Preconditions.checkArgument(model==null,"角色编号已经存在");
@@ -54,6 +57,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void update(Role role) {
         Preconditions.checkNotNull(role,"角色信息不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(role.getName()),"角色名称不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(role.getSign()),"角色标识不能为空");
 
         Role model = roleDao.findUnique("getRoleByRoleId", role.getRoleId());
         Preconditions.checkNotNull(model,"角色对象不存在");
@@ -74,8 +79,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> getList(ParamFilter<String, String> param) {
-        return roleDao.find("getRoleList", param, param.getPage());
+    public List<Role> getList(ParamFilter paramFilter) {
+        return roleDao.find("getRoleList", paramFilter.getParam(), paramFilter.getPage());
     }
 
     @Override

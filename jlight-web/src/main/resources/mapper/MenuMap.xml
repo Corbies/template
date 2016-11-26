@@ -39,13 +39,17 @@
         ,r1.parent_name as parentName
         from sys_menu as r1
         left join sys_menu as r2 on r2.menu_id = r1.parent_id
-        where r1.is_delete = 0
-        <if test="@Ognl@isNotEmpty(menuId)">
-            and r1.menu_id like '%${menuId}%'
-        </if>
-        <if test="@Ognl@isNotEmpty(name)">
-            and r1.name like '%${name}%'
-        </if>
+        <where>
+            <if test="@Ognl@isNotEmpty(isDelete)">
+                is_delete = #{isDelete}
+            </if>
+            <if test="@Ognl@isNotEmpty(menuId)">
+                and r1.menu_id like '%${menuId}%'
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                and r1.name like '%${name}%'
+            </if>
+        </where>
         <if test="@Ognl@isNotEmpty(page)">
             limit #{page.firstIndex}, #{page.lastIndex}
         </if>
@@ -66,15 +70,20 @@
 
     <select id="getCount" parameterType="java.util.Map" resultType="Integer">
         select count(*) from sys_menu where is_delete = 0
-        <if test="@Ognl@isNotEmpty(menuId)">
-            and menu_id like '%${menuId}%'
-        </if>
-        <if test="@Ognl@isNotEmpty(name)">
-            and name like '%${name}%'
-        </if>
-        <if test="@Ognl@isNotEmpty(page)">
-            limit #{page.firstIndex}, #{page.lastIndex}
-        </if>
+        <where>
+            <if test="@Ognl@isNotEmpty(isDelete)">
+                is_delete = #{isDelete}
+            </if>
+            <if test="@Ognl@isNotEmpty(menuId)">
+                and menu_id like '%${menuId}%'
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                and name like '%${name}%'
+            </if>
+            <if test="@Ognl@isNotEmpty(page)">
+                limit #{page.firstIndex}, #{page.pageSize}
+            </if>
+        </where>
     </select>
 
     <select id="getMenuByParentId" parameterType="java.lang.String" resultMap="Menu">

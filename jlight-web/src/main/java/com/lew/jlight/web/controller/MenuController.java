@@ -1,10 +1,10 @@
 package com.lew.jlight.web.controller;
 
+import com.google.common.base.Preconditions;
+
 import com.alibaba.druid.util.StringUtils;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
-import com.lew.jlight.core.util.BeanUtil;
-import com.lew.jlight.core.util.JsonUtil;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Menu;
 import com.lew.jlight.web.service.MenuService;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -35,49 +34,39 @@ public class MenuController {
 
     @ResponseBody
     @PostMapping("list")
-    public Response list(@RequestBody String json) {
-        ParamFilter<String, String> filter = new ParamFilter<>();
-        Map<String, String> param = JsonUtil.parseStringMap(json);
-        Page page = JsonUtil.parseMapToObj(param.get("page"), Page.class);
-        Object queryParam = param.get("param");
-        filter.setPage(page);
-        if (queryParam != null) {
-            filter.putAll(BeanUtil.toMap(queryParam));
-        }
-        List<Menu> menuList = menuService.getList(filter);
-        return new Response(menuList);
+    public Response list(@RequestBody ParamFilter queryFilter) {
+        List<Menu> menuList = menuService.getList(queryFilter);
+        int count = menuService.getCount(queryFilter);
+        Page page = queryFilter.getPage();
+        page.setResultCount(count);
+        return new Response(menuList, page);
     }
-    
+
     @ResponseBody
     @PostMapping("add")
-    public Response add(@RequestBody String json) {
-        Menu menu = JsonUtil.parseObj(json, Menu.class);
+    public Response add(@RequestBody Menu menu) {
+        Preconditions.checkNotNull(menu, "菜单信息不能为空");
         Response response = new Response();
-        try{
-    	  if( StringUtils.isEmpty(menu.getMenuId())){
-			menuService.add(menu);
-          	response.setMsg("添加成功");
-          }else{
-        	menuService.update(menu);
+        if (StringUtils.isEmpty(menu.getMenuId())) {
+            menuService.add(menu);
+            response.setMsg("添加成功");
+        } else {
+            menuService.update(menu);
             response.setMsg("更新成功");
-          }
-        }catch(Exception e){
-        	response.setCode(1);
-        	response.setMsg("操作失败");
         }
         return response;
     }
 
     @ResponseBody
     @PostMapping("edit")
-    public  Response edit(@RequestBody String json) {
-        Menu menu = JsonUtil.parseObj(json, Menu.class);
+    public Response edit(@RequestBody Menu menu ) {
+        Preconditions.checkNotNull(menu, "菜单信息不能为空");
         menuService.update(menu);
         return new Response("修改成功");
     }
 
     @ResponseBody
-    @PostMapping("detail")
+    @GetMapping("detail")
     public Response detail(String menuId) {
         Menu menu = menuService.detail(menuId);
         return new Response(menu);
@@ -93,31 +82,22 @@ public class MenuController {
 
     @ResponseBody
     @PostMapping("delete")
-    public Response delete(@RequestBody String json) {
-        Map<String, String> param = JsonUtil.parseStringMap(json);
-        String resIds = BeanUtil.isEmpty(param) ? null : param.get("menuIds");
-        menuService.delete(resIds);
+    public Response delete(@RequestBody List<String> menuIds) {
+        Preconditions.checkArgument((menuIds != null && menuIds.size() > 0), "角色编号不能为空");
+        menuService.delete(menuIds);
         return new Response("删除成功");
     }
 
-
     @ResponseBody
-    @PostMapping("listTree")
+    @GetMapping("listTree")
     public Object listTree(String roleId) {
         Response response = menuService.getResTree(roleId);
         return response.getData();
     }
 
     @ResponseBody
-    @PostMapping("get")
-    public Response getSelectResTree() {
-        menuService.getSelectResTree();
-        return null;
-    }
-
-    @ResponseBody
     @GetMapping("getTree")
-    public  Object getTree() {
+    public Object getTree() {
         Response response = menuService.getTree();
         return response.getData();
     }

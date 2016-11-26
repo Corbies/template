@@ -1,6 +1,7 @@
 package com.lew.jlight.web.controller;
 
 import com.lew.jlight.core.Response;
+import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.LoginLog;
 import com.lew.jlight.web.service.LoginLogService;
@@ -31,8 +32,11 @@ public class LoginLogController {
 
     @ResponseBody
     @PostMapping("list")
-    public Response list(@RequestBody ParamFilter filter){
-        List<LoginLog> loginLogList = loginLogService.getList(filter);
-        return new Response(loginLogList);
+    public Response list(@RequestBody ParamFilter queryFilter){
+        List<LoginLog> loginLogList = loginLogService.getList(queryFilter);
+        int count = loginLogService.getCount(queryFilter);
+        Page page = queryFilter.getPage();
+        page.setResultCount(count);
+        return new Response(loginLogList,page);
     }
 }

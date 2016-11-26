@@ -3,6 +3,7 @@ package com.lew.jlight.web.controller;
 import com.google.common.base.Preconditions;
 
 import com.lew.jlight.core.Response;
+import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.service.UserService;
@@ -35,7 +36,10 @@ public class UserController {
     @PostMapping("list")
     public Response list(@RequestBody  ParamFilter queryFilter) {
         List userList = userService.getList(queryFilter);
-        return new Response(userList);
+        int count = userService.getCount(queryFilter);
+        Page page = queryFilter.getPage();
+        page.setResultCount(count);
+        return new Response(userList,page);
     }
 
     @ResponseBody
@@ -56,16 +60,16 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("delete")
-    public Response delete(@RequestBody String[] userIds) {
-        Preconditions.checkArgument((userIds != null && userIds.length > 0), "用户编号不能为空");
+    public Response delete(@RequestBody List<String> userIds) {
+        Preconditions.checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
         userService.delete(userIds);
         return new Response("删除成功");
     }
 
     @ResponseBody
     @PostMapping("resetPwd")
-    public Response resetPwd(@RequestBody String[] userIds) {
-        Preconditions.checkArgument((userIds != null && userIds.length > 0), "用户编号不能为空");
+    public Response resetPwd(@RequestBody List<String> userIds) {
+        Preconditions.checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
         userService.updateDefaultPwd(userIds);
         return new Response("重置成功");
     }

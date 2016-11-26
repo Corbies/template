@@ -70,11 +70,10 @@ base.factory("$jsonToFormData",function() {
 				});
 			return deferred.promise;
 		},
-		postWithPage: function (url, requestPage, param) {
+        postWithPage: function (url, requestPage, paramFilter) {
 			var deferred = $q.defer();
-			param.page = requestPage;
-			param = angular.extend(param);
-			$http.post(url, param).success(function (response) {
+            paramFilter.page = requestPage;
+			$http.post(url, paramFilter).success(function (response) {
 				//系统发生内部错误
 				if (response.code == 1) {
 					alertError(response.msg);
@@ -177,7 +176,6 @@ base.factory("$jsonToFormData",function() {
           scope.changePS = function(){
         	  nextFlag = true;
           };
-          
           /**
            * 初始显示的页码
            * @returns

@@ -1,38 +1,40 @@
 package com.lew.jlight.web.service.impl;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import com.lew.jlight.core.IdGenerator;
+import com.lew.jlight.core.Response;
+import com.lew.jlight.core.util.BeanUtil;
+import com.lew.jlight.mybatis.AbstractService;
+import com.lew.jlight.mybatis.ParamFilter;
+import com.lew.jlight.web.dao.MenuDao;
+import com.lew.jlight.web.dao.RoleDao;
+import com.lew.jlight.web.dao.RoleMenuDao;
+import com.lew.jlight.web.entity.Menu;
+import com.lew.jlight.web.entity.Role;
+import com.lew.jlight.web.entity.RoleMenu;
+import com.lew.jlight.web.entity.pojo.MenuTitle;
+import com.lew.jlight.web.service.MenuService;
+import com.lew.jlight.web.util.Constants;
+import com.lew.jlight.web.util.ResourceTreeUtil;
+
+import org.springframework.stereotype.Service;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.lew.jlight.core.IdGenerator;
-import com.lew.jlight.core.Response;
-import com.lew.jlight.core.page.Page;
-import com.lew.jlight.core.util.BeanUtil;
-import com.lew.jlight.mybatis.ParamFilter;
-import com.lew.jlight.web.dao.MenuDao;
-import com.lew.jlight.web.dao.RoleDao;
-import com.lew.jlight.web.dao.RoleMenuDao;
-import com.lew.jlight.web.entity.Menu;
-import com.lew.jlight.web.entity.pojo.MenuTitle;
-import com.lew.jlight.web.entity.Role;
-import com.lew.jlight.web.entity.RoleMenu;
-import com.lew.jlight.web.service.MenuService;
-import com.lew.jlight.web.util.ResourceTreeUtil;
+import javax.annotation.Resource;
 
 @Service
-public class MenuServiceImpl implements MenuService {
+public class MenuServiceImpl extends AbstractService<Menu> implements MenuService {
 
     private static final Comparator<Menu> resourceComparator = (o1, o2) -> {
         int seq1 = o1.getSeq() != null ? o1.getSeq() : Integer.MAX_VALUE;
@@ -46,13 +48,13 @@ public class MenuServiceImpl implements MenuService {
         return (seq1 < seq2 ? -1 : (seq1 == seq2 ? 0 : 1));
     };
 
-    @Autowired
+    @Resource
     private MenuDao menuDao;
 
-    @Autowired
+    @Resource
     private RoleDao roleDao;
 
-    @Autowired
+    @Resource
     private RoleMenuDao roleMenuDao;
 
     @Override
@@ -68,9 +70,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void delete(String menuIds) {
-        String[] idArray = menuIds.split(",");
-        for (String menuId : idArray) {
+    public void delete(List<String> menuIds) {
+        Preconditions.checkArgument((menuIds != null && menuIds.size() > 0), "菜单编号不能为空");
+        for (String menuId : menuIds) {
             menuDao.delete("deleteByMenuId", menuId);
             menuDao.delete("deleteByParentId", menuId);
         }
@@ -79,6 +81,11 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void update(Menu menu) {
         Preconditions.checkNotNull(menu, "菜单不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(menu.getMenuId()),"菜单编号不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(menu.getName()),"菜单名称不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(menu.getUrl()),"菜单地址不能为空");
+        Preconditions.checkArgument(Constants.MENU_STATUS_SET.contains(menu.getType()),"菜单是否显示不正确");
+        Preconditions.checkArgument(Constants.MENU_STATUS_SET.contains(menu.getIsShow()),"菜单类型不正确");
         Menu model = menuDao.findUnique("getMenuById", menu.getMenuId());
         Preconditions.checkNotNull(model, "菜单不存在");
         menuDao.update("update", menu);
@@ -148,17 +155,16 @@ public class MenuServiceImpl implements MenuService {
         }
 
         for (List<Menu> resources : map.values()) {
-            Collections.sort(resources, resourceComparator);
+            resources.sort(resourceComparator);
         }
-        Collections.sort(list, titleComparator);
+        list.sort(titleComparator);
         roleResMap.put(roleId, list);
         return list;
     }
 
     @Override
-    public List<Menu> getList(ParamFilter param) {
-        Page page = param.getPage();
-        return menuDao.find("getMenuList", param, page);
+    public List<Menu> getList(ParamFilter paramFilter) {
+        return menuDao.find("getMenuList", paramFilter.getParam(), paramFilter.getPage());
     }
 
     @Override
@@ -171,8 +177,7 @@ public class MenuServiceImpl implements MenuService {
         }
         Map<String, String> paramMap = Maps.newHashMap();
         paramMap.put("roleId", roleId);
-        List<Map<String, Object>> resList;
-        resList = menuDao.findMap("getMenuTree", paramMap);
+        List resList= menuDao.findMap("getMenuTree", paramMap);
         response.setData(ResourceTreeUtil.generateJSTree(resList));
         return response;
     }
@@ -180,12 +185,12 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Response getSelectResTree() {
         Response response = new Response();
-        List<Map<String, Object>> parentList = menuDao.findMap("getMenuIdAndName", BigInteger.ZERO.toString());
+        List<Map<String,Object>> parentList = menuDao.findMap("getMenuIdAndName", BigInteger.ZERO.toString());
         List<Map<String, Object>> resList = new LinkedList<>();
-        for (Map<String, Object> res : parentList) {
-            List<Menu> subRes = menuDao.find("getMenuByParentId", res.get("menuId"));
+        for (Map<String,Object> resMap : parentList) {
+            List<Menu> subRes = menuDao.find("getMenuByParentId", resMap.get("menuId"));
             Map<String, Object> subMap;
-            resList.add(res);
+            resList.add(resMap);
             for (Menu menu : subRes) {
                 subMap = Maps.newHashMap();
                 String subName = menu.getName();
@@ -212,7 +217,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public Response getTree() {
 	  Response response = new Response();
-	  List<Map<String, Object>> resList= menuDao.findMap("getAllMenuTree");
+	  List resList= menuDao.findMap("getAllMenuTree");
       response.setData(ResourceTreeUtil.generateJSTree(resList));
       return response;
 	}

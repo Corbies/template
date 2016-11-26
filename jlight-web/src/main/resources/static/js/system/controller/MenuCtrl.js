@@ -21,7 +21,13 @@ menuApp.controller('menuCtrl', ['$scope','baseService',function ($scope,baseServ
 	}
 
 	$scope.deleteByMenuId = function(menuId){
-		baseService.post(_ctx+"/menu/delete",{menuIds:menuId}).then(function(data){
+		if(!menuId){
+			return;
+		}
+		var param = new Array();
+        param.push(menuId);
+		baseService.post(_ctx+"/menu/delete",param).then(function(data){
+            $scope.menus = [];
 			$.jstree.reference("#jstree").refresh();
 		});
 	}

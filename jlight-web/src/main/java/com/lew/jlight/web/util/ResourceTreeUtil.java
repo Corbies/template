@@ -3,8 +3,8 @@ package com.lew.jlight.web.util;
 import com.google.common.base.Strings;
 
 import com.lew.jlight.core.util.BeanUtil;
-import com.lew.jlight.web.entity.pojo.JSTree;
 import com.lew.jlight.web.entity.Menu;
+import com.lew.jlight.web.entity.pojo.JSTree;
 import com.lew.jlight.web.entity.pojo.SelectTree;
 
 import java.util.ArrayList;
@@ -28,12 +28,12 @@ public abstract class ResourceTreeUtil {
      */
     private int selectCnt = 0;
 
-    public static List<JSTree> generateJSTree(List<Map<String, Object>> resourceList) {
+    public static List<JSTree> generateJSTree(List resourceList) {
         List<JSTree> jstreeList = new ArrayList<>();
 
-        for (Map<String, Object> resMap : resourceList) {
+        for (Object resource : resourceList) {
+            Map<String,String> resMap = (Map<String, String>) resource;
             String isSelectd = (String) resMap.get("selectedId");
-
             JSTree jstree = new JSTree();
             jstree.setId(resMap.get("menuId").toString());
             jstree.setParent(resMap.get("parentId").toString());

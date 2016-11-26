@@ -11,8 +11,8 @@ roleApp.controller('roleCtrl', ['$rootScope', '$scope','baseService','roleServic
 			titleName = "编辑角色";
 			var roleIdArr =  $.getChkValueArr("subRoleChkbox");
 			if(roleIdArr && roleIdArr.length==1){
-				baseService.get(_ctx+"/role/detail?roleId="+roleIdArr[0]).then(function(data){
-					$scope.role = data;
+				baseService.post(_ctx+"/role/detail",roleIdArr[0]).then(function(response){
+					$scope.role = response.data;
 					openLayer(titleName);
 				});
 			}else{
@@ -49,8 +49,8 @@ roleApp.controller('roleCtrl', ['$rootScope', '$scope','baseService','roleServic
 		var roleId =  $(selectArray[0]).val();
 		var roleMenuIds = [];
 		//获取角色对应的资源
-		baseService.get(_ctx+"/roleMenu/getMenuByRole?roleId="+roleId).then(function(data){
-			roleMenuIds = data;
+		baseService.post(_ctx+"/roleMenu/getMenuByRole",roleId).then(function(response){
+			roleMenuIds = response.data;
 			// 显示树
 			showCheckboxTree( _ctx+"/menu/listTree?roleId="+roleId,"tree",roleMenuIds);
 			openMenuTree(roleId);

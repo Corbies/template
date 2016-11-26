@@ -9,23 +9,23 @@ import com.lew.jlight.web.dao.MenuDao;
 import com.lew.jlight.web.dao.RoleDao;
 import com.lew.jlight.web.dao.RoleMenuDao;
 import com.lew.jlight.web.entity.Menu;
-import com.lew.jlight.web.entity.pojo.MenuTitle;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.entity.RoleMenu;
+import com.lew.jlight.web.entity.pojo.MenuTitle;
 import com.lew.jlight.web.service.RoleMenuService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.Resource;
 
 @Service
 public class RoleMenuServiceImpl implements RoleMenuService {
@@ -35,11 +35,13 @@ public class RoleMenuServiceImpl implements RoleMenuService {
         int seq2 = o2.getSeq() != null ? o2.getSeq() : Integer.MAX_VALUE;
         return (seq1 < seq2 ? -1 : (seq1 == seq2 ? 0 : 1));
     };
-    @Autowired
+    @Resource
     private MenuDao menuDao;
-    @Autowired
+
+    @Resource
     private RoleMenuDao roleMenuDao;
-    @Autowired
+
+    @Resource
     private RoleDao roleDao;
 
     @Override
@@ -56,7 +58,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
             MenuTitle title = new MenuTitle();
             List<Menu> resources = menuDao.find("getResourcesByParentId", resId);
             if (resources != null && resources.size() > 0) {
-                Collections.sort(resources, resourceComparator);
+                resources.sort(resourceComparator);
             }
             title.setMenuList(resources);
             title.setName(parentResource.getName());

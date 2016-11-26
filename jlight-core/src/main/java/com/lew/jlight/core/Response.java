@@ -21,6 +21,11 @@ public class Response implements ResponseCode {
         this.data = data;
     }
 
+    public Response(Object data, Page page) {
+        this.data = data;
+        this.page = page;
+    }
+
     public Response(String msg) {
         this.msg = msg;
     }

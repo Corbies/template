@@ -58,18 +58,26 @@
         mobile ,
         email ,create_time as createTime , update_time as updateTime ,login_time as loginTime ,
         login_ip as loginIp ,
-        remark from sys_user where is_delete = 0
-        <if test="@Ognl@isNotEmpty(userId)">
-            and user_id like '%${userId}%'
-        </if>
-        <if test="@Ognl@isNotEmpty(account)">
-            and account like '%${account}%'
-        </if>
-        <if test="@Ognl@isNotEmpty(trueName)">
-            and true_name like '%${trueName}%'
-        </if>
-        <if test="@Ognl@isNotEmpty(mobile)">
-            and mobile like '%${mobile}%'
+        remark from sys_user
+        <where>
+            <if test="@Ognl@isNotEmpty(isDelete)">
+                is_delete = #{isDelete}
+            </if>
+            <if test="@Ognl@isNotEmpty(userId)">
+                and user_id like '%${userId}%'
+            </if>
+            <if test="@Ognl@isNotEmpty(account)">
+                and account like '%${account}%'
+            </if>
+            <if test="@Ognl@isNotEmpty(trueName)">
+                and true_name like '%${trueName}%'
+            </if>
+            <if test="@Ognl@isNotEmpty(mobile)">
+                and mobile like '%${mobile}%'
+            </if>
+        </where>
+        <if test="@Ognl@isNotEmpty(page)">
+            limit #{page.firstIndex}, #{page.pageSize}
         </if>
     </select>
 
@@ -91,27 +99,32 @@
         delete from sys_user where is_delete = 0 and user_id = #{userId}
     </delete>
 
-    <select id="getCount" parameterType="java.util.Map" resultType="Integer">
-        select count(*) from sys_user where is_delete = 0
-        <if test="@Ognl@isNotEmpty(userId)">
-            and user_id like '%${userId}%'
-        </if>
-        <if test="@Ognl@isNotEmpty(account)">
-            and account like '%${account}%'
-        </if>
-        <if test="@Ognl@isNotEmpty(trueName)">
-            and true_name like '%${trueName}%'
-        </if>
-        <if test="@Ognl@isNotEmpty(mobile)">
-            and mobile like '%${mobile}%'
-        </if>
-    </select>
-    
      <select id="getPermission" parameterType="java.lang.String" resultType="java.lang.String" >
     	select m.url from sys_user u 
 		left join sys_user_role ur on u.user_id = ur.user_id
 		left join sys_role_menu rm on ur.role_id = rm.role_id
 		left join sys_menu m on rm.menu_id = m.menu_id
 		where u.account = #{account} and m.url is not null
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from sys_user
+        <where>
+            <if test="@Ognl@isNotEmpty(isDelete)">
+                is_delete = #{isDelete}
+            </if>
+            <if test="@Ognl@isNotEmpty(userId)">
+                and user_id like '%${userId}%'
+            </if>
+            <if test="@Ognl@isNotEmpty(account)">
+                and account like '%${account}%'
+            </if>
+            <if test="@Ognl@isNotEmpty(trueName)">
+                and true_name like '%${trueName}%'
+            </if>
+            <if test="@Ognl@isNotEmpty(mobile)">
+                and mobile like '%${mobile}%'
+            </if>
+        </where>
     </select>
 </mapper>

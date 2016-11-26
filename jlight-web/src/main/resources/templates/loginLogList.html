@@ -8,19 +8,18 @@
 </head>
 <body ng-controller="loginLogCtrl">
 <div class="page-content">
-    <div class="user_Manager_style">
+    <div class="log_Manager_style">
         <form id="form1" name="form1" method="post" action="">
-            <div class="Manager_style add_user_info search_style">
+            <div class="Manager_style search_style">
                 <ul class="search_content clearfix" shiro:hasPermission="/loginLog/list">
                     <li><label class="lf">登录帐号</label>
                         <label>
-                            <input name="account" ng-model="queryFilter.loginAccount" type="text"
-                                   class="text_add"/>
+                            <input name="account" ng-model="queryFilter.param.loginAccount" type="text" class="text_add"/>
                         </label>
                     </li>
                     <li><label class="lf">登录日期</label>
                         <label>
-                            <input name="trueName" ng-model="queryFilter.loginTime"
+                            <input name="trueName" ng-model="queryFilter.param.loginTime"
                                    type="text"
                                    class="text_add"/>
                         </label>
@@ -32,8 +31,8 @@
             </div>
         </form>
         <div class="Manager_style">
-            <div class="User_list">
-                <table id="User_list" cellpadding="0" cellspacing="0"
+            <div class="Log_list">
+                <table id="Log_list" cellpadding="0" cellspacing="0"
                        class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>

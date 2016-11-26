@@ -24,5 +24,26 @@
 
     <select id="getList" parameterType="java.util.Map" resultMap="LoginLog">
         select * from sys_login_log
+        <where>
+            <if test="@Ognl@isNotEmpty(loginAccount)">
+                login_account = #{loginAccount}
+            </if>
+        </where>
+        order by create_time desc
+        <if test="@Ognl@isNotEmpty(page)">
+            limit #{page.firstIndex}, #{page.pageSize}
+        </if>
+    </select>
+
+    <select id="getCount"  parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from sys_login_log
+        <where>
+            <if test="@Ognl@isNotEmpty(isDelete)">
+                is_delete = #{isDelete}
+            </if>
+            <if test="@Ognl@isNotEmpty(loginAccount)">
+                and login_account = #{loginAccount}
+            </if>
+        </where>
     </select>
 </mapper>

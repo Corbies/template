@@ -7,8 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class OperateLogDao extends BaseDao<OperateLog> {
-    @Override
-    protected Class<OperateLog> getEntityClass() {
-        return OperateLog.class;
-    }
 }

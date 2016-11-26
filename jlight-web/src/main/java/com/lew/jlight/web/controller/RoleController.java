@@ -6,8 +6,6 @@ import com.google.common.collect.Maps;
 
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
-import com.lew.jlight.core.util.BeanUtil;
-import com.lew.jlight.core.util.JsonUtil;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.service.RoleService;
@@ -37,60 +35,46 @@ public class RoleController {
     private UserRoleService userRoleService;
 
     @GetMapping("listPage")
-    public String list(){
+    public String list() {
         return "roleList";
     }
 
     @ResponseBody
     @PostMapping("list")
-    public Response list(@RequestBody String json) {
-        ParamFilter<String, String> filter = new ParamFilter<>();
-        Map<String, String> param = JsonUtil.parseStringMap(json);
-        assert param != null;
-        Object queryParam = param.get("param");
-        Page page = JsonUtil.parseMapToObj(param.get("page"), Page.class);
-        filter.setPage(page);
-        if (queryParam != null) {
-            filter.putAll(BeanUtil.toMap(queryParam));
-        }
-        List<Role> roleList=  roleService.getList(filter);
-        return new Response(roleList);
+    public Response list(@RequestBody ParamFilter queryFilter) {
+        List<Role> roleList = roleService.getList(queryFilter);
+        int count = roleService.getCount(queryFilter);
+        Page page = queryFilter.getPage();
+        page.setResultCount(count);
+        return new Response(roleList, page);
     }
-    
+
     @ResponseBody
     @PostMapping("save")
-    public Object save(@RequestBody String json){
-    	Response response = new Response();
-    	String msg;
-    	try{
-		  Role role = JsonUtil.parseObj(json, Role.class);
-	      if(Strings.isNullOrEmpty(role.getRoleId())){
-	    	  roleService.add(role);
-	    	  msg = "添加成功";
-	      }else{
-	    	  roleService.update(role);
-	    	  msg = "添加成功";
-	      }
-    	}catch (Exception e) {
-    		response.setCode(Response.ERROR);
-    		msg = e.getMessage();
-		}  
-    	response.setMsg(msg);
-	    return response;
+    public Object save(@RequestBody Role role) {
+        Preconditions.checkNotNull(role, "角色信息不能为空");
+        Response response = new Response();
+        if (Strings.isNullOrEmpty(role.getRoleId())) {
+            roleService.add(role);
+        } else {
+            roleService.update(role);
+        }
+        response.setMsg("添加成功");
+        return response;
     }
 
     @ResponseBody
     @PostMapping("add")
-    public Object add(@RequestBody String json) {
-        Role role = JsonUtil.parseObj(json, Role.class);
+    public Object add(@RequestBody Role role) {
+        Preconditions.checkNotNull(role, "角色信息不能为空");
         roleService.add(role);
-        return new Response();
+        return new Response("添加成功");
     }
 
     @ResponseBody
     @RequestMapping("update")
-    public Response update(@RequestBody String json) {
-        Role role = JsonUtil.parseObj(json, Role.class);
+    public Response update(@RequestBody Role role) {
+        Preconditions.checkNotNull(role, "角色信息不能为空");
         roleService.update(role);
         return new Response();
     }
@@ -98,7 +82,7 @@ public class RoleController {
     @ResponseBody
     @PostMapping("delete")
     public Response delete(@RequestBody List<String> roleIds) {
-        Preconditions.checkArgument((roleIds!=null && roleIds.size()>0), "不能为空");
+        Preconditions.checkArgument((roleIds != null && roleIds.size() > 0), "不能为空");
         roleService.delete(roleIds);
         return new Response();
     }
@@ -106,7 +90,7 @@ public class RoleController {
 
     @ResponseBody
     @PostMapping("detail")
-    public Response detail(String roleId) {
+    public Response detail(@RequestBody  String roleId) {
         Role role = roleService.getByRoleId(roleId);
         return new Response(role);
     }
@@ -114,13 +98,13 @@ public class RoleController {
     @ResponseBody
     @PostMapping("getRoleMap")
     public Response getRoleMap(@RequestBody String userId) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId),"用户编号不能为空");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId), "用户编号不能为空");
         Response response = new Response();
         List list = roleService.getRoleMap();
-        Map<String,Object> resultMap = Maps.newHashMap();
-        List< String > roleIds = userRoleService.getRoleIdsByUserId(userId);
-        resultMap.put("roleIds",roleIds);
-        resultMap.put("roleList",list);
+        Map<String, Object> resultMap = Maps.newHashMap();
+        List<String> roleIds = userRoleService.getRoleIdsByUserId(userId);
+        resultMap.put("roleIds", roleIds);
+        resultMap.put("roleList", list);
         response.setData(resultMap);
         return response;
     }

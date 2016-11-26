@@ -1,23 +1,13 @@
 package com.lew.jlight.web.service.impl;
 
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.util.ByteSource;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+
 import com.lew.jlight.core.IdGenerator;
-import com.lew.jlight.core.page.Page;
 import com.lew.jlight.core.util.DigestUtil;
 import com.lew.jlight.core.util.RegexUtil;
+import com.lew.jlight.mybatis.AbstractService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.UserDao;
 import com.lew.jlight.web.dao.UserRoleDao;
@@ -26,8 +16,19 @@ import com.lew.jlight.web.service.UserService;
 import com.lew.jlight.web.util.Constants;
 import com.lew.jlight.web.util.UserContextUtil;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends AbstractService<User> implements UserService {
 
     @Resource
     private UserDao userDao;
@@ -36,14 +37,13 @@ public class UserServiceImpl implements UserService {
     private UserRoleDao userRoleDao;
 
     @Override
-    public List getList(ParamFilter<String, String> param) {
-        Page page = param.getPage();
-        return userDao.findMap("getList", param, page);
+    public List getList(ParamFilter param) {
+        return userDao.findMap("getList", param.getParam(), param.getPage());
     }
 
     @Override
-    public void updateDefaultPwd(String[] userIds) {
-        Preconditions.checkArgument((userIds != null && userIds.length > 0), "用户编号不能为空");
+    public void updateDefaultPwd(List<String> userIds) {
+        Preconditions.checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
         for (String userId : userIds) {
             User user = userDao.findUnique("getByUserId", userId);
             Preconditions.checkNotNull(user, "用户不存在");
@@ -95,8 +95,7 @@ public class UserServiceImpl implements UserService {
         String account = user.getAccount();
         User model = userDao.findUnique("getByAccount", account);
         Preconditions.checkArgument(model == null, "用户已存在");
-        String password = user.getPassword();
-        password = new SimpleHash(Constants.ALGORITHM_NAME, user.getPassword(), ByteSource.Util.bytes(account), Constants.HASH_ITERATIONS).toHex();
+        String password = new SimpleHash(Constants.ALGORITHM_NAME, user.getPassword(), ByteSource.Util.bytes(account), Constants.HASH_ITERATIONS).toHex();
         user.setErrorCount(BigInteger.ZERO.intValue());
         String userId = IdGenerator.getInstance().nextId();
         user.setUserId(userId);
@@ -123,12 +122,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String[] userIds) {
-        Preconditions.checkArgument((userIds != null && userIds.length > 0), "用户编号不能为空");
-        for (String userId : userIds) {
-            User user = userDao.findUnique("getByUserId", userId);
-            Preconditions.checkNotNull(user, "用户对象不存在");
-        }
+    public void delete(List<String> userIds) {
+        Preconditions.checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
         for (String userId : userIds) {
             userDao.delete("deleteByUserId", userId);
             userRoleDao.delete("deleteByUserId", userId);
@@ -143,12 +138,6 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkNotNull(userMap, "用户对象不存在");
         resultMap.put("user", userMap);
         return resultMap;
-    }
-
-    @Override
-    public User getByAccount(String account) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(account), "用户编号不能为空");
-        return userDao.findUnique("getByAccount", account);
     }
 
     @Override

@@ -3,7 +3,6 @@
 ###################################
 # Please change these parameters according to your real env.
 ###################################
-#set Java Home: Remember that JLight only supports JDK8!
 JAVA_HOME=/usr/java/jdk1.8.0_111
 
 # set ulimit
@@ -103,7 +102,7 @@ start() {
          checkJavaDebugPort
       fi
 
-      echo "Starting Server ..."
+      echo "               Starting Server ..."
       echo
       # open these to see detail information for debugging
       #echo "JAVA_OPTS: $JAVA_OPTS"
@@ -113,7 +112,7 @@ start() {
       #echo "CLASSPATH: $CLASSPATH"
       #echo
 
-      nohup $JAVA_HOME/bin/java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS -classpath $CLASSPATH $APP_MAIN_CLASS >$STDOUT_FILE 2>&1 &
+      nohup $JAVA_HOME/bin/java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS -classpath $CLASSPATH $APP_MAIN_CLASS >$STDOUT_FILE 2>&1 & tail -f $STDOUT_FILE
 
       sleep 3
 
@@ -223,25 +222,24 @@ status() {
       if [ x"$isJLight" != x ]; then
          isThisJLight=`ps -ef | grep $PID | grep -v grep | grep jlight-web | grep "$APP_HOME"`
          if [ x"$isThisJLight" != x ]; then
-            echo "JLight server (pid=$PID) is running and using ports:"
+            echo "      JLight server (pid=$PID) is running and using ports:"
          else
-            echo "Another  server (pid=$PID) is running and using ports:"
+            echo "       Another  server (pid=$PID) is running and using ports:"
          fi
       else
-         echo "Another process (pid=$PID) is using ports:"
+         echo "      Another process (pid=$PID) is using ports:"
       fi
    else
-      echo "Ports (${HTTP_PORT}) are NOT in use!"
+      echo "         ports (${HTTP_PORT}) are not in use!"
    fi
-
-	echo "    |"
+    echo ""--------------------------------------------------""
 
    if [ x"$HTTP_PORT" != x ]; then
       PID=$(GET_PID_BY_HTTP_PORT)
       if [ x"$PID" != x ]; then
-         echo "    |-- HTTP_PORT ${HTTP_PORT} is in use by process $PID"
+         echo "     HTTP_PORT ${HTTP_PORT} is in use by process $PID"
       else
-         echo "    |-- HTTP_PORT ${HTTP_PORT} is not in use"
+         echo "     HTTP_PORT ${HTTP_PORT} is not in use"
       fi
    fi
    echo ""

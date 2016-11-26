@@ -49,7 +49,7 @@ public class RoleMenuController {
 
     @ResponseBody
     @PostMapping("getMenuByRole")
-    public Response getMenuByRole(String roleId) {
+    public Response getMenuByRole(@RequestBody  String roleId) {
         List<String> list = roleMenuService.getMenuByRole(roleId);
         return new Response(list);
     }

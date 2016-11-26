@@ -8,8 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class ParamDao extends BaseDao<Param> {
-    @Override
-    public Class<Param> getEntityClass() {
-        return Param.class;
-    }
 }

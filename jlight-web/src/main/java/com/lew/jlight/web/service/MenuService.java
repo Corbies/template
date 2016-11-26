@@ -2,23 +2,24 @@ package com.lew.jlight.web.service;
 
 
 import com.lew.jlight.core.Response;
+import com.lew.jlight.mybatis.BaseService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Menu;
 import com.lew.jlight.web.entity.pojo.MenuTitle;
 
 import java.util.List;
 
-public interface MenuService {
+public interface MenuService extends BaseService {
 
 	void add(Menu menu);
 
-	void delete(String menuIds);
+	void delete(List<String> menuIds);
 
 	void update(Menu menu);
 
 	List<MenuTitle> getListByRoleId(String roleId);
 	
-	List<Menu> getList(ParamFilter<String, String> param);
+	List<Menu> getList(ParamFilter param);
 
 	List<Menu> getByParentId(String menuId);
 	

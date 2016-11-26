@@ -9,9 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserRoleDao extends BaseDao<UserRole> {
 
-    @Override
-    public Class<UserRole> getEntityClass() {
-        return UserRole.class;
-    }
 
 }

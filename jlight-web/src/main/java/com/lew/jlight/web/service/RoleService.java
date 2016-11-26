@@ -1,12 +1,13 @@
 package com.lew.jlight.web.service;
 
 
+import com.lew.jlight.mybatis.BaseService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Role;
 
 import java.util.List;
 
-public interface RoleService {
+public interface RoleService extends BaseService {
 
     void add(Role role);
 
@@ -14,7 +15,7 @@ public interface RoleService {
 
     void update(Role role);
 
-    List<Role> getList(ParamFilter<String, String> param);
+    List<Role> getList(ParamFilter param);
 
     Role getByRoleId(String roleId);
 
