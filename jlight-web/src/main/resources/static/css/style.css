@@ -101,7 +101,7 @@
 }
 
 .page_style .page_btn {
-    color: #438eb9;
+    color: #0679CC;
     padding: 0px 5px;
 }
 
@@ -733,6 +733,73 @@ body:nth-of-type(1) .table-responsive .table {
 
 form .ng-invalid-custom-validate{
 	border:2px solid #ec6868;
+}
+
+div.navbar{
+    background: #0679CC;
+}
+
+.skin-1 .navbar{
+    background: #222A2D;
+}
+
+.skin-2 .navbar{
+    background: #C6487E;
+}
+
+.skin-3 .navbar{
+    background: #D0D0D0;
+}
+
+.updateBtn{
+    background-color: #2DDAAC !important;
+    border-color: #2DDAAC !important;
+}
+
+.updateBtn:hover{
+    background-color: #22C69D !important;
+}
+
+.addBtn{
+    background-color: #20AAF2 !important;
+    border-color:#20AAF2 !important;
+}
+
+.addBtn:hover{
+    background-color: #0795E0 !important;
+}
+
+.deleteBtn{
+    background-color: #E94840 !important;
+    border-color: #E94840 !important;
+}
+.deleteBtn:hover{
+    background-color: #E11C27 !important;
+}
+
+.resetBtn{
+    background-color: #FAD92A !important;
+    border-color: #FAD92A !important;
+}
+
+.resetBtn:hover{
+    background-color: #E7C00E !important;
+}
+
+.assignBtn{
+    background-color: #7369AE !important;
+    border-color: #7369AE !important;
+}
+.assignBtn:hover{
+    background-color: #3F3661 !important;
+}
+
+.queryBtn{
+    background-color: #1BADF6 !important;
+    border-color: #1BADF6 !important;
+}
+.queryBtn:hover{
+    background-color: #076289 !important;
 }
 
 #titleName{

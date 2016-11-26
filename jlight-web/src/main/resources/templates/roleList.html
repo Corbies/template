@@ -37,10 +37,10 @@
                     <button id="btn_search" ng-click="roleSearch = !roleSearch"  type="button" class="btn btn-primary">查询</button>
                 </ul>
                 <ul class="clearfix">
-                    <button type="button" class="btn btn-primary" ng-click="updateRole(1)"  shiro:hasPermission="/role/add" >添加</button>
-                    <button type="button" class="btn btn-success" ng-click="updateRole(0)"  shiro:hasPermission="/role/edit" >编辑</button>
-                    <button type="button" class="btn btn-danger" ht-del="{url:'/role/delete',checkboxName:'subRoleChkbox'}"  shiro:hasPermission="/role/delete">删除</button>
-                    <button type="button" class="btn btn-info" ng-click="assignPerission()" shiro:hasPermission="/roleRes/save">权限分配</button>
+                    <button type="button" class="btn btn-primary addBtn" ng-click="updateRole(1)"  shiro:hasPermission="/role/add" >添加</button>
+                    <button type="button" class="btn btn-success updateBtn" ng-click="updateRole(0)"  shiro:hasPermission="/role/edit" >编辑</button>
+                    <button type="button" class="btn btn-danger deleteBtn" ht-del="{url:'/role/delete',checkboxName:'subRoleChkbox'}"  shiro:hasPermission="/role/delete">删除</button>
+                    <button type="button" class="btn btn-info assignBtn" ng-click="assignPerission()" shiro:hasPermission="/roleRes/save">权限分配</button>
                 </ul>
                 <div id="Assigned_Roles_style" style="display: none">
                     <div id="tree"></div>

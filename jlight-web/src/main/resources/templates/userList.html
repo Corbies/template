@@ -36,18 +36,18 @@
                         </label>
                     </li>
                     <button id="btn_search" ng-click="userSearch = !userSearch" type="button"
-                            class="btn btn-primary">查询
+                            class="btn btn-primary queryBtn">查询
                     </button>
                 </ul>
                 <ul class="search_content clearfix">
-                    <button class="btn btn-primary" type="button" ng-click="updateUser(1)"
+                    <button class="btn btn-primary addBtn" type="button" ng-click="updateUser(1)"
                             id="Add_user_btn" shiro:hasPermission="/user/add">添加
                     </button>
-                    <button type="button" class="btn btn-success" ng-click="updateUser(0)"  shiro:hasPermission="/user/edit">修改
+                    <button type="button" class="btn btn-primary updateBtn" ng-click="updateUser(0)"  shiro:hasPermission="/user/edit">修改
                     </button>
-                    <button type="button" class="btn btn-danger" ng-click="deleteUser()"  shiro:hasPermission="/user/delete">删除</button>
-                    <button type="button" class="btn btn-pink" ng-click="resetPwd()" shiro:hasPermission="/user/resetPwd">重置密码</button>
-                    <button type="button" class="btn btn-pink" ng-click="asignRole()"  shiro:hasPermission="/user/addRoles" >角色分配</button>
+                    <button type="button" class="btn btn-primary deleteBtn" ng-click="deleteUser()"  shiro:hasPermission="/user/delete">删除</button>
+                    <button type="button" class="btn btn-primary resetBtn" ng-click="resetPwd()" shiro:hasPermission="/user/resetPwd">重置密码</button>
+                    <button type="button" class="btn btn-primary assignBtn" ng-click="asignRole()"  shiro:hasPermission="/user/addRoles" >角色分配</button>
                 </ul>
                 <div id="Add_user_style" style="display: none">
                     <div class="add_user_style clearfix">
