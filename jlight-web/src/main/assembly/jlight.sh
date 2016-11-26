@@ -3,7 +3,7 @@
 ###################################
 # Please change these parameters according to your real env.
 ###################################
-JAVA_HOME=/usr/java/jdk1.8.0_111
+#JAVA_HOME=$JAVA_HOME
 
 # set ulimit
 ulimit -s 20480
@@ -47,6 +47,11 @@ if [ ! -d $LOGS_DIR ]; then
     #echo "created logs directory: path=$LOGS_DIR"
 fi
 STDOUT_FILE=$LOGS_DIR/out.log
+if [ ! -f $STDOUT_FILE ]; then
+    touch $STDOUT_FILE
+    #echo "created logs/out.log file: path=$STDOUT_FILE"
+fi
+
 
 # waiting timeout for starting, in seconds
 START_WAIT_TIMEOUT=30
@@ -227,19 +232,19 @@ status() {
             echo "       Another  server (pid=$PID) is running and using ports:"
          fi
       else
-         echo "      Another process (pid=$PID) is using ports:"
+         echo "          Another process (pid=$PID) is using ports:"
       fi
    else
-      echo "         ports (${HTTP_PORT}) are not in use!"
+      echo "             ports (${HTTP_PORT}) are not in use!"
    fi
     echo ""--------------------------------------------------""
 
    if [ x"$HTTP_PORT" != x ]; then
       PID=$(GET_PID_BY_HTTP_PORT)
       if [ x"$PID" != x ]; then
-         echo "     HTTP_PORT ${HTTP_PORT} is in use by process $PID"
+         echo "          HTTP_PORT ${HTTP_PORT} is in use by process $PID"
       else
-         echo "     HTTP_PORT ${HTTP_PORT} is not in use"
+         echo "          HTTP_PORT ${HTTP_PORT} is not in use"
       fi
    fi
    echo ""
