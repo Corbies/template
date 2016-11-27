@@ -50,7 +50,6 @@ public class MenuController {
         Response response = new Response();
         if (Strings.isNullOrEmpty(menu.getMenuId())) {
             String parentId = menu.getParentId();
-
             menuService.add(menu);
             response.setMsg("添加成功");
         } else {

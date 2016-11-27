@@ -61,9 +61,12 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
     @Override
     public void add(Menu menu) {
         checkNotNull(menu, "菜单信息不能为空");
+        checkArgument(Constants.STATUS_SET.contains(menu.getType()), "菜单是否显示不正确");
+        checkArgument(Constants.STATUS_SET.contains(menu.getIsShow()), "菜单类型不正确");
+        if(menu.getType()==1){
+            checkArgument(!Strings.isNullOrEmpty(menu.getUrl()), "菜单地址不能为空");
+        }
         if (!Strings.isNullOrEmpty(menu.getParentId()) && !"0".equals(menu.getParentId())) {
-            checkArgument(Constants.STATUS_SET.contains(menu.getType()), "菜单是否显示不正确");
-            checkArgument(Constants.STATUS_SET.contains(menu.getIsShow()), "菜单类型不正确");
             Menu parentMenu = this.detail(menu.getParentId());
             checkArgument(parentMenu!=null, "父菜单不存在");
             checkArgument(parentMenu.getType() == 0, "按钮不能添加子菜单");
@@ -88,9 +91,11 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
         checkNotNull(menu, "菜单不能为空");
         checkArgument(!Strings.isNullOrEmpty(menu.getMenuId()), "菜单编号不能为空");
         checkArgument(!Strings.isNullOrEmpty(menu.getName()), "菜单名称不能为空");
-        checkArgument(!Strings.isNullOrEmpty(menu.getUrl()), "菜单地址不能为空");
         checkArgument(Constants.STATUS_SET.contains(menu.getType()), "菜单是否显示不正确");
         checkArgument(Constants.STATUS_SET.contains(menu.getIsShow()), "菜单类型不正确");
+        if(menu.getType()==1){
+            checkArgument(!Strings.isNullOrEmpty(menu.getUrl()), "菜单地址不能为空");
+        }
         Menu model = menuDao.findUnique("getMenuById", menu.getMenuId());
         checkNotNull(model, "菜单不存在");
         menuDao.update("update", menu);

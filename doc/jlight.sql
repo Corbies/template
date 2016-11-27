@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50704
+Source Server         : Local
+Source Server Version : 50538
 Source Host           : localhost:3306
 Source Database       : jlight
 
 Target Server Type    : MYSQL
-Target Server Version : 50704
+Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2016-11-27 20:41:47
+Date: 2016-11-27 21:00:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -85,7 +85,7 @@ CREATE TABLE `sys_login_log` (
   `update_by` varchar(255) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=419 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=420 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_login_log
@@ -117,6 +117,7 @@ INSERT INTO `sys_login_log` VALUES ('415', '1480254549168', 'admin', '2016-11-27
 INSERT INTO `sys_login_log` VALUES ('416', '1480254803925', 'admin', '2016-11-27 12:25:39', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-27 12:25:39', null, '2016-11-27 12:25:39', null, null);
 INSERT INTO `sys_login_log` VALUES ('417', '1480254877246', 'admin', '2016-11-27 12:26:52', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-27 12:26:52', null, '2016-11-27 12:26:52', null, null);
 INSERT INTO `sys_login_log` VALUES ('418', '1480255344391', 'admin', '2016-11-27 12:34:39', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-27 12:34:39', null, '2016-11-27 12:34:39', null, null);
+INSERT INTO `sys_login_log` VALUES ('419', '1480256663090', 'admin', '2016-11-27 12:56:38', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-27 12:56:38', null, '2016-11-27 12:56:38', null, null);
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -146,11 +147,11 @@ CREATE TABLE `sys_menu` (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('1', '1', '系统管理', null, '0', '', '1', '1', '#', null, '0', '0', '2016-05-16 17:10:44', '0', '2016-06-02 21:01:12', null);
-INSERT INTO `sys_menu` VALUES ('2', '2', '用户管理', '/user/listPage', '0', '', '1', '2', '1', '基础管理', '0', '0', '2016-05-06 14:34:37', '0', '2016-06-02 22:44:56', '用户管理');
-INSERT INTO `sys_menu` VALUES ('3', '3', '角色管理', '/role/listPage', '0', '', '1', '3', '1', '基础管理', '0', '0', '2016-05-06 14:35:24', '0', '2016-05-17 14:14:34', '角色管理');
-INSERT INTO `sys_menu` VALUES ('4', '4', '菜单管理', '/menu/listPage', '0', '', '1', '4', '1', '基础管理', '0', '0', '2016-05-06 14:35:51', '0', '2016-05-15 21:23:15', '菜单管理');
-INSERT INTO `sys_menu` VALUES ('19', '5', '日志管理', null, '0', null, '1', '5', '#', null, '0', null, '2016-05-22 11:17:51', null, '2016-06-02 23:09:38', null);
+INSERT INTO `sys_menu` VALUES ('1', '1', '系统管理', null, '0', 'icon-desktop', '1', '1', '#', null, '0', '0', '2016-05-16 17:10:44', '0', '2016-06-02 21:01:12', null);
+INSERT INTO `sys_menu` VALUES ('2', '2', '用户管理', '/user/listPage', '0', 'icon-user', '1', '2', '1', '基础管理', '0', '0', '2016-05-06 14:34:37', '0', '2016-06-02 22:44:56', '用户管理');
+INSERT INTO `sys_menu` VALUES ('3', '3', '角色管理', '/role/listPage', '0', 'icon-magnet', '1', '3', '1', '基础管理', '0', '0', '2016-05-06 14:35:24', '0', '2016-05-17 14:14:34', '角色管理');
+INSERT INTO `sys_menu` VALUES ('4', '4', '菜单管理', '/menu/listPage', '0', 'icon-sitemap', '1', '4', '1', '基础管理', '0', '0', '2016-05-06 14:35:51', '0', '2016-05-15 21:23:15', '菜单管理');
+INSERT INTO `sys_menu` VALUES ('19', '5', '日志管理', null, '0', 'icon-credit-card', '1', '5', '#', null, '0', null, '2016-05-22 11:17:51', null, '2016-06-02 23:09:38', null);
 INSERT INTO `sys_menu` VALUES ('26', '12', '添加', '/user/add', '1', null, '1', null, '2', '用户管理', '0', null, '2016-06-02 21:00:09', null, '2016-06-02 21:00:09', '添加用户');
 INSERT INTO `sys_menu` VALUES ('27', '13', '修改', '/user/edit', '1', null, '1', null, '2', '用户管理', '0', null, '2016-06-02 22:39:47', null, '2016-06-02 22:39:47', '编辑用户');
 INSERT INTO `sys_menu` VALUES ('29', '14', '添加', '/role/add', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-09 00:04:16', null, '2016-06-09 00:04:16', '');
@@ -331,7 +332,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '24b81da6640d91def35d33c7940a16c7e0631ff99d3060a491694866f1063fcc', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-27 12:34:39', '0:0:0:0:0:0:0:1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
+INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '24b81da6640d91def35d33c7940a16c7e0631ff99d3060a491694866f1063fcc', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-27 12:56:37', '0:0:0:0:0:0:0:1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
 INSERT INTO `sys_user` VALUES ('62', '1479919417862', 'test', '测试人员', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, '751185330@qq.com', '13428281893', '0', '1', '2016-11-26 02:11:11', '0:0:0:0:0:0:0:1', '0', '2016-11-23 15:15:52', null, '2016-11-23 15:15:52', null, null);
 
 -- ----------------------------
