@@ -143,6 +143,7 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
                     title.setSeq(menu.getSeq());
                     title.setMenuList(menuList);
                     title.setTitleId(menu.getMenuId());
+                    title.setIcon(menu.getIcon());
                     if (isEmpty) {
                         list.add(title);
                         map.put(title.getTitleId(), menuList);

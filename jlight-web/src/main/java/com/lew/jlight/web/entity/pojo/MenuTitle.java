@@ -12,6 +12,8 @@ public class MenuTitle extends BaseEntity {
 
     private Integer seq;
 
+    private String icon;
+
     private List<Menu> menuList;
 
     public Integer getSeq() {
@@ -46,4 +48,10 @@ public class MenuTitle extends BaseEntity {
         this.name = name;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 }
