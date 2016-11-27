@@ -131,12 +131,12 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
             if (menu == null || BigInteger.ONE.intValue() == menu.getType()) {
                 continue;
             }
-            String titleId = menu.getParentId();
-            List<Menu> menuList = map.get(titleId);
+            String parentId = menu.getParentId();
+            List<Menu> menuList = map.get(parentId);
             if (menuList == null) {
                 menuList = new ArrayList<>(8);
                 MenuTitle title = new MenuTitle();
-                Menu parentMenu = menuDao.findUnique("getMenuById", titleId);
+                Menu parentMenu = menuDao.findUnique("getMenuById", parentId);
                 if (parentMenu == null) {
                     boolean isEmpty = BeanUtil.isEmpty(map.get(menu.getMenuId()));
                     title.setName(menu.getName());
@@ -152,10 +152,10 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
                 }
                 title.setMenuList(menuList);
                 title.setName(parentMenu.getName());
+                title.setIcon(parentMenu.getIcon());
                 title.setSeq(parentMenu.getSeq());
                 list.add(title);
-
-                map.put(titleId, menuList);
+                map.put(parentId, menuList);
             }
             menuList.add(menu);
         }

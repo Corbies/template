@@ -15,14 +15,14 @@
         </li>
         <li th:each="menu : ${menuList}">
             <a href="#" class="dropdown-toggle">
-                <i class="icon-edit" th:classappend="${menu.icon}"></i>
+                <i th:class="${menu.icon}"></i>
                 <span class="menu-text" th:text="${menu.name}"></span>
                 <b class="arrow icon-angle-down"></b>
             </a>
             <ul class="submenu">
                 <li class="home" style="margin-left: 15px;" th:each="subMenu : ${menu.menuList}">
                     <a href="javascript:void(0)" name="" th:name="${#httpServletRequest.getAttribute('ctx')!=null ? #httpServletRequest.getAttribute('ctx') : '' +subMenu.url}"  title=""  th:title="${subMenu.name}"  class="iframeurl">
-                        <i class="" th:classappend="${subMenu.icon}" style="display: block;"/>
+                        <i th:class="${subMenu.icon}" style="display: block;"/>
                         <p th:text="${subMenu.name}"/>
                     </a>
                 </li>

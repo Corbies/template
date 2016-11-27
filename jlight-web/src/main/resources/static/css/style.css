@@ -809,3 +809,7 @@ div.navbar{
     font-size: 30px;
     left: 45px;
 }
+
+#nav_list>li.open{
+    overflow: inherit;
+}
