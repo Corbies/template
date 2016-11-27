@@ -78,7 +78,7 @@ ol,ul,li {
 }
 
 a {
-	blr: expression(this.onFocus =   this.blur () )
+	blr: expression(expression( ) )
 } /*for IE*/
 a {
 	outline: none;

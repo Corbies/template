@@ -1477,14 +1477,6 @@ h1,h2,h3,h4,h5,h6 {
 	border: none;
 	background: none;
 }
-
-.comments_operate .operate_bar {
-	width: 100%;
-	height: 30px;
-	line-height: 30px;
-	background: url(../images/operate_bar.gif) 0 0 repeat-x;
-}
-
 .comments_operate .face_btn {
 	float: left;
 	position: relative;
@@ -1505,7 +1497,7 @@ h1,h2,h3,h4,h5,h6 {
 	float: right;
 	width: 90px;
 	height: 30px;
-	background: url(../images/comments_btn.gif) 0 0 no-repeat;
+	background: url(../images/comments_btn.gif) no-repeat 0 0;
 	overflow: hidden;
 }
 
@@ -1567,7 +1559,7 @@ h1,h2,h3,h4,h5,h6 {
 	padding: 0;
 	margin: 0;
 	font-size: 12px;
-	font-family: '\5B8B\4F53';
+	font-family: '\5B8B\4F53', serif;
 }
 
 .comments_content .msg_source {
@@ -1830,8 +1822,8 @@ h1,h2,h3,h4,h5,h6 {
 	margin: 4px;
 	z-index: 10001;
 	position: absolute;
-	left: 0px;
-	top: 0px;
+	left: 0;
+	top: 0;
 	background-color: white;
 	border: 1px solid #DDD;
 	border-radius: 3px;
@@ -1859,16 +1851,6 @@ h1,h2,h3,h4,h5,h6 {
 	margin: 0 3px;
 	text-decoration: none;
 	border: none;
-}
-
-.flydlg_box .button,.button span {
-	display: inline-block;
-	background-image: url(../images/confirm_btn.png);
-	color: #666666;
-	font-weight: normal;
-	text-decoration: none;
-	cursor: pointer;
-	width: auto;
 }
 
 .flydlg_box .normal {
