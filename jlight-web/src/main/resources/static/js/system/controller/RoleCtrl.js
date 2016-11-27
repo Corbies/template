@@ -52,7 +52,7 @@ roleApp.controller('roleCtrl', ['$rootScope', '$scope','baseService','roleServic
 		baseService.post(_ctx+"/roleMenu/getMenuByRole",roleId).then(function(response){
 			roleMenuIds = response.data;
 			// 显示树
-			showCheckboxTree( _ctx+"/menu/listTree?roleId="+roleId,"tree",roleMenuIds);
+			showCheckboxTree( _ctx+"/menu/getTree","tree",roleMenuIds);
 			openMenuTree(roleId);
 		});
 	}
@@ -63,7 +63,7 @@ roleApp.controller('roleCtrl', ['$rootScope', '$scope','baseService','roleServic
 			title : '资源权限',
 			shadeClose : true, //点击遮罩关闭层
 			offset:["20px"],
-			area : ['250px','500px'],
+			area : ['250px','450px'],
 			content : $('#Assigned_Roles_style'),
 			btn : [ '保存', '取消' ],
 			yes : function(index, layero) {
