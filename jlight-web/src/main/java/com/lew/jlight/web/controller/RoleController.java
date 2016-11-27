@@ -1,6 +1,5 @@
 package com.lew.jlight.web.controller;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
@@ -22,6 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 
 @Controller
@@ -52,7 +54,7 @@ public class RoleController {
     @ResponseBody
     @PostMapping("save")
     public Object save(@RequestBody Role role) {
-        Preconditions.checkNotNull(role, "角色信息不能为空");
+        checkNotNull(role, "角色信息不能为空");
         Response response = new Response();
         if (Strings.isNullOrEmpty(role.getRoleId())) {
             roleService.add(role);
@@ -66,7 +68,7 @@ public class RoleController {
     @ResponseBody
     @PostMapping("add")
     public Object add(@RequestBody Role role) {
-        Preconditions.checkNotNull(role, "角色信息不能为空");
+        checkNotNull(role, "角色信息不能为空");
         roleService.add(role);
         return new Response("添加成功");
     }
@@ -74,7 +76,7 @@ public class RoleController {
     @ResponseBody
     @RequestMapping("update")
     public Response update(@RequestBody Role role) {
-        Preconditions.checkNotNull(role, "角色信息不能为空");
+        checkNotNull(role, "角色信息不能为空");
         roleService.update(role);
         return new Response();
     }
@@ -82,7 +84,7 @@ public class RoleController {
     @ResponseBody
     @PostMapping("delete")
     public Response delete(@RequestBody List<String> roleIds) {
-        Preconditions.checkArgument((roleIds != null && roleIds.size() > 0), "不能为空");
+        checkArgument((roleIds != null && roleIds.size() > 0), "不能为空");
         roleService.delete(roleIds);
         return new Response();
     }
@@ -98,7 +100,7 @@ public class RoleController {
     @ResponseBody
     @PostMapping("getRoleMap")
     public Response getRoleMap(@RequestBody String userId) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId), "用户编号不能为空");
+        checkArgument(!Strings.isNullOrEmpty(userId), "用户编号不能为空");
         Response response = new Response();
         List list = roleService.getRoleMap();
         Map<String, Object> resultMap = Maps.newHashMap();

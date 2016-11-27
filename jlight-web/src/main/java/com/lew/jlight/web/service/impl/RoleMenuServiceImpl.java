@@ -1,9 +1,9 @@
 package com.lew.jlight.web.service.impl;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import com.lew.jlight.core.util.BeanUtil;
 import com.lew.jlight.web.dao.MenuDao;
 import com.lew.jlight.web.dao.RoleDao;
@@ -46,7 +46,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
 
     @Override
     public List<RoleMenu> getList(String roleId) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(roleId),"角色编号不能为空");
+        checkArgument(!Strings.isNullOrEmpty(roleId),"角色编号不能为空");
         Map<String, Object> resultMap = Maps.newHashMap();
         List<MenuTitle> titleList = new ArrayList<>();
         List<String> titleIds = menuDao.findColumn("getParentIds", String.class);
@@ -75,10 +75,10 @@ public class RoleMenuServiceImpl implements RoleMenuService {
 
     @Override
     public void update(String roleId, List<String> resIds) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(roleId),"菜单编号不能为空");
+        checkArgument(!Strings.isNullOrEmpty(roleId),"菜单编号不能为空");
 
         Role model = roleDao.findUnique("getRoleByRoleId", roleId);
-        Preconditions.checkNotNull(model,"角色对象不存在");
+        checkNotNull(model,"角色对象不存在");
         if (BeanUtil.isEmpty(resIds)) {
             // 删除所有的角色-菜单数据
             roleMenuDao.update("deleteByRoleId", roleId);
@@ -89,7 +89,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
             resIdsSet.addAll(resIds);
             for (String menuId : resIdsSet) {
                 Menu resModel = menuDao.findUnique("getMenuById", menuId);
-                Preconditions.checkNotNull(resModel,"菜单不存在");
+                checkNotNull(resModel,"菜单不存在");
 
                 RoleMenu roleMenu = new RoleMenu();
                 roleMenu.setMenuId(menuId);
@@ -104,7 +104,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
 
 	@Override
 	public List<String> getMenuByRole(String roleId) {
-		Preconditions.checkArgument(!Strings.isNullOrEmpty(roleId),"角色不能为空");
+		checkArgument(!Strings.isNullOrEmpty(roleId),"角色不能为空");
 		return roleMenuDao.findColumn("getMenuByRole", String.class, roleId);
 	}
 }

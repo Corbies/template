@@ -1,6 +1,7 @@
 package com.lew.jlight.web.service.impl;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
@@ -43,10 +44,10 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override
     public void updateDefaultPwd(List<String> userIds) {
-        Preconditions.checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
+        checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
         for (String userId : userIds) {
             User user = userDao.findUnique("getByUserId", userId);
-            Preconditions.checkNotNull(user, "用户不存在");
+            checkNotNull(user, "用户不存在");
         }
         for (String userId : userIds) {
             String defaultPwd = DigestUtil.sha256().digest("123456");
@@ -59,17 +60,17 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override
     public void update(User user) {
-        Preconditions.checkNotNull(user, "用户不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getAccount()), "帐号名不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getPassword()), "密码不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getMobile()), "手机号码不能为空");
-        Preconditions.checkNotNull(user.getIsLock(), "帐号名不能为空");
-        Preconditions.checkArgument(RegexUtil.isMobile(user.getMobile()), "手机号码格式不正确");
+        checkNotNull(user, "用户不能为空");
+        checkArgument(!Strings.isNullOrEmpty(user.getAccount()), "帐号名不能为空");
+        checkArgument(!Strings.isNullOrEmpty(user.getPassword()), "密码不能为空");
+        checkArgument(!Strings.isNullOrEmpty(user.getMobile()), "手机号码不能为空");
+        checkNotNull(user.getIsLock(), "帐号名不能为空");
+        checkArgument(RegexUtil.isMobile(user.getMobile()), "手机号码格式不正确");
         if (!Strings.isNullOrEmpty(user.getEmail())) {
-            Preconditions.checkArgument(RegexUtil.isEmail(user.getEmail()), "邮箱格式不正确");
+            checkArgument(RegexUtil.isEmail(user.getEmail()), "邮箱格式不正确");
         }
         User model = userDao.findUnique("getByUserId", user.getUserId());
-        Preconditions.checkNotNull(model, "用户信息不存在");
+        checkNotNull(model, "用户信息不存在");
         String oldPwd = user.getPassword();
         if (model.getPassword().equals(oldPwd)) {
             user.setPassword(oldPwd);
@@ -82,19 +83,19 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Override
     @Transactional
     public void add(User user) {
-        Preconditions.checkNotNull(user, "用户不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getAccount()), "帐号名不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getPassword()), "密码不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(user.getMobile()), "手机号码不能为空");
-        Preconditions.checkNotNull(user.getIsLock(), "帐号名不能为空");
-        Preconditions.checkArgument(RegexUtil.isMobile(user.getMobile()), "手机号码格式不正确");
+        checkNotNull(user, "用户不能为空");
+        checkArgument(!Strings.isNullOrEmpty(user.getAccount()), "帐号名不能为空");
+        checkArgument(!Strings.isNullOrEmpty(user.getPassword()), "密码不能为空");
+        checkArgument(!Strings.isNullOrEmpty(user.getMobile()), "手机号码不能为空");
+        checkNotNull(user.getIsLock(), "帐号名不能为空");
+        checkArgument(RegexUtil.isMobile(user.getMobile()), "手机号码格式不正确");
         if (!Strings.isNullOrEmpty(user.getEmail())) {
-            Preconditions.checkArgument(RegexUtil.isEmail(user.getEmail()), "邮箱格式不正确");
+            checkArgument(RegexUtil.isEmail(user.getEmail()), "邮箱格式不正确");
         }
 
         String account = user.getAccount();
         User model = userDao.findUnique("getByAccount", account);
-        Preconditions.checkArgument(model == null, "用户已存在");
+        checkArgument(model == null, "用户已存在");
         String password = new SimpleHash(Constants.ALGORITHM_NAME, user.getPassword(), ByteSource.Util.bytes(account), Constants.HASH_ITERATIONS).toHex();
         user.setErrorCount(BigInteger.ZERO.intValue());
         String userId = IdGenerator.getInstance().nextId();
@@ -105,14 +106,14 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override
     public void updatePwd(String originPwd, String confirmPwd, String newPwd) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(originPwd), "原密码不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(confirmPwd), "确认密码不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(newPwd), "新密码不能为空");
-        Preconditions.checkArgument(confirmPwd.equals(newPwd), "新密码与确认密码不一致");
+        checkArgument(!Strings.isNullOrEmpty(originPwd), "原密码不能为空");
+        checkArgument(!Strings.isNullOrEmpty(confirmPwd), "确认密码不能为空");
+        checkArgument(!Strings.isNullOrEmpty(newPwd), "新密码不能为空");
+        checkArgument(confirmPwd.equals(newPwd), "新密码与确认密码不一致");
         String userId = UserContextUtil.getUserId();
         User user = userDao.findUnique("getByUserId", userId);
-        Preconditions.checkNotNull(user, "用户对象不存在");
-        Preconditions.checkArgument(user.getPassword().equals(DigestUtil.sha256().digest(originPwd)), "原密码不正确");
+        checkNotNull(user, "用户对象不存在");
+        checkArgument(user.getPassword().equals(DigestUtil.sha256().digest(originPwd)), "原密码不正确");
 
         String newPassword = DigestUtil.sha256().digest(confirmPwd);
         Map<String, String> paramMap = Maps.newHashMap();
@@ -123,7 +124,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override
     public void delete(List<String> userIds) {
-        Preconditions.checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
+        checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
         for (String userId : userIds) {
             userDao.delete("deleteByUserId", userId);
             userRoleDao.delete("deleteByUserId", userId);
@@ -132,17 +133,17 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override
     public Map getDetail(String userId) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId), "用户编号不能为空");
+        checkArgument(!Strings.isNullOrEmpty(userId), "用户编号不能为空");
         Map<String, Object> resultMap = Maps.newHashMap();
         Map userMap = userDao.findOneColumn("getUserDetail", Map.class, userId);
-        Preconditions.checkNotNull(userMap, "用户对象不存在");
+        checkNotNull(userMap, "用户对象不存在");
         resultMap.put("user", userMap);
         return resultMap;
     }
 
     @Override
     public User getByUserId(String userId) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId), "用户编号不能为空");
+        checkArgument(!Strings.isNullOrEmpty(userId), "用户编号不能为空");
         return userDao.findUnique("getByUserId", userId);
     }
 

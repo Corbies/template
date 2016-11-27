@@ -1,7 +1,7 @@
 package com.lew.jlight.web.controller;
 
-import com.google.common.base.Preconditions;
-
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
@@ -45,7 +45,7 @@ public class UserController {
     @ResponseBody
     @PostMapping("add")
     public Response add(@RequestBody User user) {
-        Preconditions.checkNotNull(user, "用户不能为空");
+        checkNotNull(user, "用户不能为空");
         userService.add(user);
         return new Response("添加成功");
     }
@@ -61,7 +61,7 @@ public class UserController {
     @ResponseBody
     @PostMapping("delete")
     public Response delete(@RequestBody List<String> userIds) {
-        Preconditions.checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
+        checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
         userService.delete(userIds);
         return new Response("删除成功");
     }
@@ -69,7 +69,7 @@ public class UserController {
     @ResponseBody
     @PostMapping("resetPwd")
     public Response resetPwd(@RequestBody List<String> userIds) {
-        Preconditions.checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
+        checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
         userService.updateDefaultPwd(userIds);
         return new Response("重置成功");
     }

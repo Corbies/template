@@ -2,7 +2,7 @@
 
 	//初始化宽度、高度
     $("#main-container").height($(window).height()-76);
-	$("#iframe").height($(window).height()-155);
+	$("#iframe").height($(window).height()-140);
 	$(".sidebar").height($(window).height()-99);
 	 var thisHeight = $("#nav_list").height($(window).height()-185);
 //	 $(".submenu").height($(thisHeight).height()-160);
@@ -11,7 +11,7 @@
     //当文档窗口发生改变时 触发
     $(window).resize(function(){
 	$("#main-container").height($(window).height()-76);
-	$("#iframe").height($(window).height()-155);
+	$("#iframe").height($(window).height()-140);
 	$(".sidebar").height($(window).height()-99);
 	var thisHeight = $("#nav_list").height($(window).height()-185);
 //	$(".submenu").height($(thisHeight).height()-160);

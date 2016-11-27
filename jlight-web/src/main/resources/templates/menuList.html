@@ -30,8 +30,18 @@
 </head>
 <body ng-controller="menuCtrl">
 <div class="page-content" style="height:100%;padding:0;">
-    <div id="treeMenu" style="width:20%;overflow:auto;float:left;border: 3px solid #ccc;">
-        <div style="height: 482px;">
+
+    <div id="treeMenu" style="width:20%;float: left;border-right: 2px solid #ccc;">
+        <div style="height: 40px;line-height: 40px;">
+            <div style="text-align: center;background: #0679CC;color: white;">
+                系统菜单管理
+            </div>
+            <div>
+                <a  href="javascript:void(0)" style="display: none;"></a>
+                <a href="javascript:void(0)"></a>
+            </div>
+        </div>
+        <div style="height: 463px;overflow:auto;">
             <div id="jstree"></div>
         </div>
         <div id="menu-edit" style="display:none">
@@ -144,7 +154,7 @@
      "core" : {
          "animation" : 0,
          "check_callback" : true,
-         "themes" : { },
+         "themes" : { "stripes" : true },
          "data" : {
              "url" : function (node) {
                  return _ctx+"/menu/getTree";
@@ -175,7 +185,12 @@
              "addSubMenu":{
                  "label":"添加子菜单",
                  "action":function(data){
-                     openMenuEdit("add",getSelectItem(data).id);
+                     var　selectData = getSelectItem(data);
+                     if(selectData.children.length==0){
+                         layer.alert("按钮不能添加子菜单!");
+                         return;
+                     }
+                     openMenuEdit("add",selectData.id);
                  }
              },
              "moveMenu":{
