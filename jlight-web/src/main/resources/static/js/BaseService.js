@@ -85,8 +85,7 @@ base.factory("$jsonToFormData",function() {
 				} else {
 					deferred.reject(response);
 				}
-			})
-				.error(function (response, status) {
+			}).error(function (response, status) {
 					deferred.reject(status);
 				});
 			return deferred.promise;

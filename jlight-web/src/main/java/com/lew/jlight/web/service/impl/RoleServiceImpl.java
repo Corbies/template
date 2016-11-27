@@ -1,6 +1,7 @@
 package com.lew.jlight.web.service.impl;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
@@ -31,12 +32,12 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
 
     @Override
     public void add(Role role) {
-        Preconditions.checkNotNull(role,"角色信息不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(role.getName()),"角色名称不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(role.getSign()),"角色标识不能为空");
+        checkNotNull(role,"角色信息不能为空");
+        checkArgument(!Strings.isNullOrEmpty(role.getName()),"角色名称不能为空");
+        checkArgument(!Strings.isNullOrEmpty(role.getSign()),"角色标识不能为空");
         String sign = role.getSign();
         Role model = roleDao.findUnique("getRoleBySign", sign);
-        Preconditions.checkArgument(model==null,"角色编号已经存在");
+        checkArgument(model==null,"角色编号已经存在");
         String roleId = IdGenerator.getInstance().nextId();
         role.setRoleId(roleId);
         roleDao.save("addRole", role);
@@ -46,7 +47,7 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
     public void delete(List<String> roleIds) {
         for (String roleId : roleIds) {
             Role model = roleDao.findUnique("getRoleByRoleId", roleId);
-            Preconditions.checkNotNull(model,"角色对象不存在");
+            checkNotNull(model,"角色对象不存在");
         }
         for (String roleId : roleIds) {
             roleDao.update("deleteByRoleId", roleId);
@@ -56,18 +57,18 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
 
     @Override
     public void update(Role role) {
-        Preconditions.checkNotNull(role,"角色信息不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(role.getName()),"角色名称不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(role.getSign()),"角色标识不能为空");
+        checkNotNull(role,"角色信息不能为空");
+        checkArgument(!Strings.isNullOrEmpty(role.getName()),"角色名称不能为空");
+        checkArgument(!Strings.isNullOrEmpty(role.getSign()),"角色标识不能为空");
 
         Role model = roleDao.findUnique("getRoleByRoleId", role.getRoleId());
-        Preconditions.checkNotNull(model,"角色对象不存在");
+        checkNotNull(model,"角色对象不存在");
 
         Map<String, Object> param = Maps.newHashMap();
         param.put("sign", role.getSign());
         param.put("roleId", role.getRoleId());
         model = roleDao.findUnique("getRoleBySignAndNoRoleId", param);
-        Preconditions.checkArgument(model==null,"角色标识已存在");
+        checkArgument(model==null,"角色标识已存在");
 
         param = Maps.newHashMap();
         param.put("sign", role.getSign());
@@ -85,9 +86,9 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
 
     @Override
     public Role getByRoleId(String roleId) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(roleId),"角色编号不能为空");
+        checkArgument(!Strings.isNullOrEmpty(roleId),"角色编号不能为空");
         Role role = roleDao.findUnique("getRoleByRoleId", roleId);
-        Preconditions.checkNotNull(role,"角色对象不存在");
+        checkNotNull(role,"角色对象不存在");
         return role;
     }
 

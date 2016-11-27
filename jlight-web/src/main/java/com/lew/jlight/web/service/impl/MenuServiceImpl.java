@@ -1,6 +1,7 @@
 package com.lew.jlight.web.service.impl;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -59,19 +60,23 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
 
     @Override
     public void add(Menu menu) {
-        Preconditions.checkNotNull(menu, "资源信息不能为空");
-       if(!Strings.isNullOrEmpty(menu.getParentId())&&!"0".equals(menu.getParentId())){
-            Menu parentRes = menuDao.findUnique("getMenuById", menu.getParentId());
-            menu.setParentName(parentRes != null ? parentRes.getName() : null);
+        checkNotNull(menu, "菜单信息不能为空");
+        if (!Strings.isNullOrEmpty(menu.getParentId()) && !"0".equals(menu.getParentId())) {
+            checkArgument(Constants.STATUS_SET.contains(menu.getType()), "菜单是否显示不正确");
+            checkArgument(Constants.STATUS_SET.contains(menu.getIsShow()), "菜单类型不正确");
+            Menu parentMenu = this.detail(menu.getParentId());
+            checkArgument(parentMenu!=null, "父菜单不存在");
+            checkArgument(parentMenu.getType() == 0, "按钮不能添加子菜单");
+            menu.setParentName(parentMenu.getName());
         }
-        String menuId =IdGenerator.getInstance().nextId();
+        String menuId = IdGenerator.getInstance().nextId();
         menu.setMenuId(menuId);
         menuDao.save("add", menu);
     }
 
     @Override
     public void delete(List<String> menuIds) {
-        Preconditions.checkArgument((menuIds != null && menuIds.size() > 0), "菜单编号不能为空");
+        checkArgument((menuIds != null && menuIds.size() > 0), "菜单编号不能为空");
         for (String menuId : menuIds) {
             menuDao.delete("deleteByMenuId", menuId);
             menuDao.delete("deleteByParentId", menuId);
@@ -80,22 +85,22 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
 
     @Override
     public void update(Menu menu) {
-        Preconditions.checkNotNull(menu, "菜单不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(menu.getMenuId()),"菜单编号不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(menu.getName()),"菜单名称不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(menu.getUrl()),"菜单地址不能为空");
-        Preconditions.checkArgument(Constants.MENU_STATUS_SET.contains(menu.getType()),"菜单是否显示不正确");
-        Preconditions.checkArgument(Constants.MENU_STATUS_SET.contains(menu.getIsShow()),"菜单类型不正确");
+        checkNotNull(menu, "菜单不能为空");
+        checkArgument(!Strings.isNullOrEmpty(menu.getMenuId()), "菜单编号不能为空");
+        checkArgument(!Strings.isNullOrEmpty(menu.getName()), "菜单名称不能为空");
+        checkArgument(!Strings.isNullOrEmpty(menu.getUrl()), "菜单地址不能为空");
+        checkArgument(Constants.STATUS_SET.contains(menu.getType()), "菜单是否显示不正确");
+        checkArgument(Constants.STATUS_SET.contains(menu.getIsShow()), "菜单类型不正确");
         Menu model = menuDao.findUnique("getMenuById", menu.getMenuId());
-        Preconditions.checkNotNull(model, "菜单不存在");
+        checkNotNull(model, "菜单不存在");
         menuDao.update("update", menu);
     }
 
     @Override
     public List<MenuTitle> getListByRoleId(String roleId) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(roleId), "角色编号不能为空");
+        checkArgument(!Strings.isNullOrEmpty(roleId), "角色编号不能为空");
         Role model = roleDao.findUnique("getRoleByRoleId", roleId);
-        Preconditions.checkNotNull(model, "角色不存在");
+        checkNotNull(model, "角色不存在");
         return this.loadResources(roleId);
     }
 
@@ -103,12 +108,12 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
     public List<Menu> getByParentId(String menuId) {
         List<Menu> menuList = Lists.newLinkedList();
         Menu parentMenu = menuDao.findUnique("getMenuById", menuId);
-        if(parentMenu!=null){
+        if (parentMenu != null) {
             menuList.add(parentMenu);
         }
         List<Menu> subMenuList = menuDao.find("getMenuByParentId", menuId);
         menuList.addAll(subMenuList);
-        return menuList ;
+        return menuList;
     }
 
     private List<MenuTitle> loadResources(String roleId) {
@@ -126,18 +131,19 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
             if (menu == null || BigInteger.ONE.intValue() == menu.getType()) {
                 continue;
             }
-            String titleId = menu.getParentId();
-            List<Menu> menuList = map.get(titleId);
+            String parentId = menu.getParentId();
+            List<Menu> menuList = map.get(parentId);
             if (menuList == null) {
                 menuList = new ArrayList<>(8);
                 MenuTitle title = new MenuTitle();
-                Menu parentMenu = menuDao.findUnique("getMenuById", titleId);
+                Menu parentMenu = menuDao.findUnique("getMenuById", parentId);
                 if (parentMenu == null) {
                     boolean isEmpty = BeanUtil.isEmpty(map.get(menu.getMenuId()));
                     title.setName(menu.getName());
                     title.setSeq(menu.getSeq());
                     title.setMenuList(menuList);
                     title.setTitleId(menu.getMenuId());
+                    title.setIcon(menu.getIcon());
                     if (isEmpty) {
                         list.add(title);
                         map.put(title.getTitleId(), menuList);
@@ -146,10 +152,10 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
                 }
                 title.setMenuList(menuList);
                 title.setName(parentMenu.getName());
+                title.setIcon(parentMenu.getIcon());
                 title.setSeq(parentMenu.getSeq());
                 list.add(title);
-
-                map.put(titleId, menuList);
+                map.put(parentId, menuList);
             }
             menuList.add(menu);
         }
@@ -177,7 +183,7 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
         }
         Map<String, String> paramMap = Maps.newHashMap();
         paramMap.put("roleId", roleId);
-        List resList= menuDao.findMap("getMenuTree", paramMap);
+        List resList = menuDao.findMap("getMenuTree", paramMap);
         response.setData(ResourceTreeUtil.generateJSTree(resList));
         return response;
     }
@@ -185,9 +191,9 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
     @Override
     public Response getSelectResTree() {
         Response response = new Response();
-        List<Map<String,Object>> parentList = menuDao.findMap("getMenuIdAndName", BigInteger.ZERO.toString());
+        List<Map<String, Object>> parentList = menuDao.findMap("getMenuIdAndName", BigInteger.ZERO.toString());
         List<Map<String, Object>> resList = new LinkedList<>();
-        for (Map<String,Object> resMap : parentList) {
+        for (Map<String, Object> resMap : parentList) {
             List<Menu> subRes = menuDao.find("getMenuByParentId", resMap.get("menuId"));
             Map<String, Object> subMap;
             resList.add(resMap);
@@ -214,11 +220,11 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
         return menuDao.findUnique("getMenuById", resId);
     }
 
-	@Override
-	public Response getTree() {
-	  Response response = new Response();
-	  List resList= menuDao.findMap("getAllMenuTree");
-      response.setData(ResourceTreeUtil.generateJSTree(resList));
-      return response;
-	}
+    @Override
+    public Response getTree() {
+        Response response = new Response();
+        List resList = menuDao.findMap("getAllMenuTree");
+        response.setData(ResourceTreeUtil.generateJSTree(resList));
+        return response;
+    }
 }

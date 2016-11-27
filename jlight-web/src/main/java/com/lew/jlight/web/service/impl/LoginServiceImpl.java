@@ -8,8 +8,7 @@ import javax.annotation.Resource;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.stereotype.Service;
-
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.lew.jlight.web.dao.UserDao;
@@ -24,7 +23,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public User doLogin(String account, String clientIp) {
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(account),"帐号不能为空");
+        checkArgument(!Strings.isNullOrEmpty(account),"帐号不能为空");
         String accountToUse = account.toUpperCase();
         User user = userDao.findUnique("getByAccount", accountToUse);
         if(user==null){

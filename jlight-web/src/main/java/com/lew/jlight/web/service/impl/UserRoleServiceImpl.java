@@ -1,8 +1,8 @@
 package com.lew.jlight.web.service.impl;
 
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import com.lew.jlight.web.dao.UserRoleDao;
 import com.lew.jlight.web.entity.UserRole;
@@ -32,8 +32,8 @@ public class UserRoleServiceImpl  implements UserRoleService {
 
     @Override
     public void add(String[] roleIds,String userId) {
-        Preconditions.checkArgument(roleIds!=null,"角色编号不能为空");
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(userId),"用户编号不能为空");
+        checkArgument(roleIds!=null,"角色编号不能为空");
+        checkArgument(!Strings.isNullOrEmpty(userId),"用户编号不能为空");
         userRoleDao.delete("deleteByUserId",userId);
         if(roleIds.length>0){
             for(String roleId : roleIds){

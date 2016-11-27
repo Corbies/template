@@ -1,8 +1,6 @@
 package com.lew.jlight.web.controller;
 
-import com.google.common.base.Preconditions;
-
-import com.alibaba.druid.util.StringUtils;
+import com.google.common.base.Strings;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
@@ -19,6 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 import javax.annotation.Resource;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @Controller
 @RequestMapping("menu")
@@ -45,9 +46,11 @@ public class MenuController {
     @ResponseBody
     @PostMapping("add")
     public Response add(@RequestBody Menu menu) {
-        Preconditions.checkNotNull(menu, "菜单信息不能为空");
+        checkNotNull(menu, "菜单信息不能为空");
         Response response = new Response();
-        if (StringUtils.isEmpty(menu.getMenuId())) {
+        if (Strings.isNullOrEmpty(menu.getMenuId())) {
+            String parentId = menu.getParentId();
+
             menuService.add(menu);
             response.setMsg("添加成功");
         } else {
@@ -60,7 +63,7 @@ public class MenuController {
     @ResponseBody
     @PostMapping("edit")
     public Response edit(@RequestBody Menu menu ) {
-        Preconditions.checkNotNull(menu, "菜单信息不能为空");
+        checkNotNull(menu, "菜单信息不能为空");
         menuService.update(menu);
         return new Response("修改成功");
     }
@@ -83,7 +86,7 @@ public class MenuController {
     @ResponseBody
     @PostMapping("delete")
     public Response delete(@RequestBody List<String> menuIds) {
-        Preconditions.checkArgument((menuIds != null && menuIds.size() > 0), "角色编号不能为空");
+        checkArgument((menuIds != null && menuIds.size() > 0), "角色编号不能为空");
         menuService.delete(menuIds);
         return new Response("删除成功");
     }
