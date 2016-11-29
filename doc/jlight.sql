@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2016-11-27 21:00:02
+Date: 2016-11-29 22:53:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -42,10 +42,10 @@ INSERT INTO `sys_button` VALUES ('3', '3', '编辑', '', '0', '2016-05-21 23:19:
 INSERT INTO `sys_button` VALUES ('4', '5', '查看', '', '0', '2016-05-21 23:19:19', null, '2016-05-21 23:19:22', null, null);
 
 -- ----------------------------
--- Table structure for sys_dic
+-- Table structure for sys_dict
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_dic`;
-CREATE TABLE `sys_dic` (
+DROP TABLE IF EXISTS `sys_dict`;
+CREATE TABLE `sys_dict` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` varchar(64) DEFAULT NULL,
   `code` varchar(255) DEFAULT NULL,
@@ -60,12 +60,13 @@ CREATE TABLE `sys_dic` (
   `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
   `remark` varchar(100) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of sys_dic
+-- Records of sys_dict
 -- ----------------------------
-INSERT INTO `sys_dic` VALUES ('17', '#', 'yifu', '衣服', '0', null, 'Y', '0', '2016-11-27 12:38:33', null, '2016-11-27 12:38:33', null, '衣服分类');
+INSERT INTO `sys_dict` VALUES ('17', '#', 'dict', '数据字典', '0', null, 'Y', '0', '2016-11-27 12:38:33', null, '2016-11-27 12:38:33', null, '');
+INSERT INTO `sys_dict` VALUES ('18', '17', 'yifu', '衣服', '0', null, 'Y', '0', '2016-11-27 12:38:33', null, '2016-11-27 12:38:33', null, '衣服分类');
 
 -- ----------------------------
 -- Table structure for sys_login_log
@@ -85,7 +86,7 @@ CREATE TABLE `sys_login_log` (
   `update_by` varchar(255) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=420 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=436 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_login_log
@@ -118,6 +119,22 @@ INSERT INTO `sys_login_log` VALUES ('416', '1480254803925', 'admin', '2016-11-27
 INSERT INTO `sys_login_log` VALUES ('417', '1480254877246', 'admin', '2016-11-27 12:26:52', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-27 12:26:52', null, '2016-11-27 12:26:52', null, null);
 INSERT INTO `sys_login_log` VALUES ('418', '1480255344391', 'admin', '2016-11-27 12:34:39', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-27 12:34:39', null, '2016-11-27 12:34:39', null, null);
 INSERT INTO `sys_login_log` VALUES ('419', '1480256663090', 'admin', '2016-11-27 12:56:38', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-27 12:56:38', null, '2016-11-27 12:56:38', null, null);
+INSERT INTO `sys_login_log` VALUES ('420', '1480257995917', 'admin', '2016-11-27 13:18:50', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-27 13:18:50', null, '2016-11-27 13:18:50', null, null);
+INSERT INTO `sys_login_log` VALUES ('421', '1480258137570', 'admin', '2016-11-27 13:21:12', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-27 13:21:12', null, '2016-11-27 13:21:12', null, null);
+INSERT INTO `sys_login_log` VALUES ('422', '1480428719295', 'admin', '2016-11-29 12:44:14', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 12:44:14', null, '2016-11-29 12:44:14', null, null);
+INSERT INTO `sys_login_log` VALUES ('423', '1480431800087', 'admin', '2016-11-29 13:35:34', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 13:35:35', null, '2016-11-29 13:35:35', null, null);
+INSERT INTO `sys_login_log` VALUES ('424', '1480433748590', 'admin', '2016-11-29 14:08:03', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 14:08:03', null, '2016-11-29 14:08:03', null, null);
+INSERT INTO `sys_login_log` VALUES ('425', '1480433993865', 'admin', '2016-11-29 14:12:08', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 14:12:08', null, '2016-11-29 14:12:08', null, null);
+INSERT INTO `sys_login_log` VALUES ('426', '1480434120866', 'admin', '2016-11-29 14:14:15', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 14:14:15', null, '2016-11-29 14:14:15', null, null);
+INSERT INTO `sys_login_log` VALUES ('427', '1480434272731', 'admin', '2016-11-29 14:16:47', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 14:16:47', null, '2016-11-29 14:16:47', null, null);
+INSERT INTO `sys_login_log` VALUES ('428', '1480435111199', 'admin', '2016-11-29 14:30:46', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 14:30:46', null, '2016-11-29 14:30:46', null, null);
+INSERT INTO `sys_login_log` VALUES ('429', '1480435119305', 'admin', '2016-11-29 14:30:54', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 14:30:54', null, '2016-11-29 14:30:54', null, null);
+INSERT INTO `sys_login_log` VALUES ('430', '1480435560840', 'admin', '2016-11-29 14:38:15', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 14:38:15', null, '2016-11-29 14:38:15', null, null);
+INSERT INTO `sys_login_log` VALUES ('431', '1480436021466', 'admin', '2016-11-29 14:45:56', '127.0.0.1', '登录成功', '0', '2016-11-29 14:45:56', null, '2016-11-29 14:45:56', null, null);
+INSERT INTO `sys_login_log` VALUES ('432', '1480436185085', 'admin', '2016-11-29 14:48:39', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 14:48:40', null, '2016-11-29 14:48:40', null, null);
+INSERT INTO `sys_login_log` VALUES ('433', '1480436297837', 'admin', '2016-11-29 14:50:32', '0:0:0:0:0:0:0:1', '登录失败', '0', '2016-11-29 14:50:32', null, '2016-11-29 14:50:32', null, '帐号或者密码错误');
+INSERT INTO `sys_login_log` VALUES ('434', '1480436300956', 'admin', '2016-11-29 14:50:35', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 14:50:35', null, '2016-11-29 14:50:35', null, null);
+INSERT INTO `sys_login_log` VALUES ('435', '1480436373829', 'admin', '2016-11-29 14:51:48', '0:0:0:0:0:0:0:1', '登录成功', '0', '2016-11-29 14:51:48', null, '2016-11-29 14:51:48', null, null);
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -164,7 +181,7 @@ INSERT INTO `sys_menu` VALUES ('36', '21', '修改', '/role/edit', '1', null, '1
 INSERT INTO `sys_menu` VALUES ('37', '22', '删除', '/role/delete', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-26 15:57:14', null, '2016-06-26 15:57:14', '删除角色');
 INSERT INTO `sys_menu` VALUES ('38', '23', '登录日志', '/loginLog/listPage', '0', null, '1', null, '5', '监控管理', '0', null, '2016-06-26 16:07:57', null, '2016-06-26 16:07:57', '登录日志');
 INSERT INTO `sys_menu` VALUES ('39', '24', '操作日志', '/operateLog/list', '0', null, '1', null, '5', '监控管理', '0', null, '2016-06-26 16:11:30', null, '2016-06-26 16:11:30', null);
-INSERT INTO `sys_menu` VALUES ('41', '1478700606660', '字典管理', '/dict/list', '0', null, '1', null, '1', '系统管理', '0', null, '2016-11-09 12:42:21', null, '2016-11-09 12:42:21', '字典管理');
+INSERT INTO `sys_menu` VALUES ('41', '1478700606660', '字典管理', '/dict/list', '0', 'icon-screenshot', '1', null, '1', '系统管理', '0', null, '2016-11-09 12:42:21', null, '2016-11-09 12:42:21', '字典管理');
 INSERT INTO `sys_menu` VALUES ('42', '1480978838674', '角色分配', '/user/addRoles', '1', null, '1', null, '2', '用户管理', '0', null, '2016-11-13 06:14:31', null, '2016-11-13 06:14:31', '给用户分配角色');
 INSERT INTO `sys_menu` VALUES ('43', '1479219411962', '查询', '/user/list', '1', null, '1', null, '2', '用户管理', '0', null, '2016-11-15 12:49:06', null, '2016-11-15 12:49:06', null);
 INSERT INTO `sys_menu` VALUES ('44', '1479219651971', '重置密码', '/user/resetPwd', '1', null, '1', null, '2', '用户管理', '0', null, '2016-11-15 12:53:06', null, '2016-11-15 12:53:06', '重置密码');
@@ -173,9 +190,9 @@ INSERT INTO `sys_menu` VALUES ('46', '1479220072000', '查询', '/loginLog/list'
 INSERT INTO `sys_menu` VALUES ('47', '1479220099932', '删除', '/loginLog/delete', '1', null, '1', null, '23', '登录日志', '0', null, '2016-11-15 13:00:34', null, '2016-11-15 13:00:34', '日志删除');
 INSERT INTO `sys_menu` VALUES ('48', '1479220122402', '查询', '/menu/list', '1', null, '1', null, '4', '菜单管理', '0', null, '2016-11-15 13:00:57', null, '2016-11-15 13:00:57', '菜单查询');
 INSERT INTO `sys_menu` VALUES ('53', '1480136216606', '测试', '/user/test', '1', null, '1', null, '2', '用户管理', '0', null, '2016-11-26 03:29:11', null, '2016-11-26 03:29:11', null);
-INSERT INTO `sys_menu` VALUES ('54', '1480224173523', '添加', '/dict/add', '1', null, '1', null, '1478700606660', '字典管理', '0', null, '2016-11-27 03:55:08', null, '2016-11-27 03:55:08', '添加');
-INSERT INTO `sys_menu` VALUES ('55', '1480224199655', '修改', '/dict/edit', '1', null, '1', null, '1478700606660', '字典管理', '0', null, '2016-11-27 03:55:35', null, '2016-11-27 03:55:35', '修改');
-INSERT INTO `sys_menu` VALUES ('56', '1480254855433', '删除', '/dict/delete', '1', null, '1', null, '1478700606660', '字典管理', '0', null, '2016-11-27 12:26:30', null, '2016-11-27 12:26:30', null);
+INSERT INTO `sys_menu` VALUES ('54', '1480224173523', '添加', '/dic/add', '1', null, '1', null, '1478700606660', '字典管理', '0', null, '2016-11-27 03:55:08', null, '2016-11-27 03:55:08', '添加');
+INSERT INTO `sys_menu` VALUES ('55', '1480224199655', '修改', '/dic/edit', '1', null, '1', null, '1478700606660', '字典管理', '0', null, '2016-11-27 03:55:35', null, '2016-11-27 03:55:35', '修改');
+INSERT INTO `sys_menu` VALUES ('56', '1480254855433', '删除', '/dic/delete', '1', null, '1', null, '1478700606660', '字典管理', '0', null, '2016-11-27 12:26:30', null, '2016-11-27 12:26:30', null);
 
 -- ----------------------------
 -- Table structure for sys_operate_log
@@ -332,7 +349,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '24b81da6640d91def35d33c7940a16c7e0631ff99d3060a491694866f1063fcc', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-27 12:56:37', '0:0:0:0:0:0:0:1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
+INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '24b81da6640d91def35d33c7940a16c7e0631ff99d3060a491694866f1063fcc', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-11-29 14:51:48', '0:0:0:0:0:0:0:1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
 INSERT INTO `sys_user` VALUES ('62', '1479919417862', 'test', '测试人员', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, '751185330@qq.com', '13428281893', '0', '1', '2016-11-26 02:11:11', '0:0:0:0:0:0:0:1', '0', '2016-11-23 15:15:52', null, '2016-11-23 15:15:52', null, null);
 
 -- ----------------------------
