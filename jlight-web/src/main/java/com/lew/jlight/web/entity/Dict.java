@@ -2,7 +2,7 @@ package com.lew.jlight.web.entity;
 
 import com.lew.jlight.core.BaseEntity;
 
-public class Dic extends BaseEntity {
+public class Dict extends BaseEntity {
 	
 	private Long id;
 	

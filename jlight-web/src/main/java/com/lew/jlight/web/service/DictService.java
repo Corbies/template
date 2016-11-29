@@ -5,20 +5,22 @@ import java.util.List;
 
 import com.lew.jlight.mybatis.BaseService;
 import com.lew.jlight.mybatis.ParamFilter;
-import com.lew.jlight.web.entity.Dic;
+import com.lew.jlight.web.entity.Dict;
 import com.lew.jlight.web.entity.pojo.JSTree;
 
-public interface DicService extends BaseService {
+public interface DictService extends BaseService {
 
-	void add(Dic dic);
+	void add(Dict dict);
 
-	List<Dic> getList(ParamFilter queryFilter);
+	List<Dict> getList(ParamFilter queryFilter);
 
-	void update(Dic dic);
+	void update(Dict dict);
 
 	List<JSTree> getTree();
 
-	List<Dic> getCatagory();
+	List<Dict> getListByParentId(String parentId);
+
+	List<Dict> getCatagory();
 
 	void delete(List<String> dicIds);
 
