@@ -43,8 +43,8 @@ public class DictController {
     }
 
     @ResponseBody
-    @PostMapping("save")
-    public Object save(@RequestBody Dict dict) {
+    @PostMapping("add")
+    public Object add(@RequestBody Dict dict) {
         Preconditions.checkNotNull(dict, "不能为空");
         Response response = new Response();
         if (dict.getId()==null) {

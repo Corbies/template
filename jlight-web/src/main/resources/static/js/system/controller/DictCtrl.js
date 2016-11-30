@@ -5,13 +5,12 @@
 	//添加或者修改
 	$scope.update = function(sign){
 		var titleName = "添加";
-		$scope.entity = {};
 		if(!sign){
 			// 编辑
 			titleName = "编辑";
 			if(idArr && idArr.length==1){
 				baseService.post(_ctx+"/dict/detail",idArr[0]).then(function(response){
-					$scope.entity = response.data;
+					$scope.dict = response.data;
 					openLayer(titleName);
 				});
 			}else{
