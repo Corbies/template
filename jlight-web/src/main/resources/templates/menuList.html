@@ -187,12 +187,12 @@
              },
              "addSubMenu":{
                  "label":"添加子菜单",
+                 "_disabled":function(data){
+                	 var　selectData = getSelectItem(data);
+                	 return selectData.original.type;
+                 },
                  "action":function(data){
-                     var　selectData = getSelectItem(data);
-                     if(selectData.children.length==0){
-                         layer.alert("按钮不能添加子菜单!");
-                         return;
-                     }
+                	 var　selectData = getSelectItem(data);
                      openMenuEdit("add",selectData.id);
                  }
              },
@@ -221,6 +221,13 @@
             if(menuId){
                 AngularUtil.triggerScopeFun("getParentByMenuId",menuId);
             }
+        });
+        
+        $('#jstree').bind("show_contextmenu.jstree", function (obj, e) {
+        	// 如果是按钮级别的菜单， 隐藏
+        	if(e.node.original.type){
+        		$(".vakata-contextmenu-disabled").hide();
+        	}
         });
         function openMenuEdit(action,id){
             var title = action == "edit"? "编辑":"添加";

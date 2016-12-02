@@ -225,11 +225,12 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
         return menuDao.findUnique("getMenuById", resId);
     }
 
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public Response getTree() {
         Response response = new Response();
         List resList = menuDao.findMap("getAllMenuTree");
-        response.setData(ResourceTreeUtil.generateJSTree(resList));
+        response.setData(resList);
         return response;
     }
 }
