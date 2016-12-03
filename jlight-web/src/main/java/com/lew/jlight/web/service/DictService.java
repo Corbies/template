@@ -22,6 +22,8 @@ public interface DictService extends BaseService {
 
 	List<Dict> getCatagory();
 
-	void delete(List<String> dicIds);
+	void delete(List<String> id);
+
+	Dict getById(String id);
 
 }

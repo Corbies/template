@@ -48,7 +48,7 @@ public class DictServiceImpl extends AbstractService<Dict> implements DictServic
         dictDao.update(dict);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"unchecked"})
     @Override
     public List<JSTree> getTree() {
         return dictDao.findMap("getTree");
@@ -72,11 +72,16 @@ public class DictServiceImpl extends AbstractService<Dict> implements DictServic
     }
 
     @Override
-    public void delete(List<String> dicIds) {
-        for (String id : dicIds) {
+    public void delete(List<String> ids) {
+        for (String id : ids) {
             dictDao.delete("delete", id);
         }
     }
+
+	@Override
+	public Dict getById(String id) {
+		return dictDao.findUnique("getById",id);
+	}
 
 
 }

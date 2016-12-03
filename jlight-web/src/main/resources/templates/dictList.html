@@ -146,9 +146,9 @@
                 <div class="add_user_style">
                     <ul class="clearfix">
                         <li ng-show="formTypeList.length">
-                            <label class="label_name">选择分类</label>
-                            <select name="selectType" type="text" ng-model="entity.parentId"  ng-options="(m.id) as m.name for m in formTypeList"
-                                    ht-select-ajax="{url:'/dic/getCatagory',field:'formTypeList'}"   class="text_add">
+                            <label class="label_name">选择父分类</label>
+                            <select name="selectType" type="text" ng-model="dict.parentId"  ng-options="(m.id) as m.name for m in formTypeList"
+                                    ht-select-ajax="{url:'/dict/getCatagory',field:'formTypeList'}"  ht-validate="{required:true}"  class="text_add">
                                 <option value="">请选择</option>
                             </select>
                         </li>
@@ -167,10 +167,10 @@
                             </label>
                         </li>
                         <li>
-                            <label class="label_name">是否分类</label>
+                            <label class="label_name">是否分类</label>&#12288;&#12288;
                             <label>
                                 <input name="isCatagory" ng-model="dict.isCatagory" type="radio" value="Y"
-                                       class="text_add" ht-validate="{required:true}" />是
+                                       class="text_add" ht-validate="{required:true}" />是&#12288;&#12288;
 
                             </label>
                             <label>
@@ -237,51 +237,34 @@
              "remove":null,
              "ccp":null,
              "addDictType":{
-                 "label":"添加字典分类",
+                 "label":"&#12288;添&#12288;加&#12288;",
+                 "_disabled":function(data){
+                	 var　selectData = getSelectItem(data);
+                	 return selectData.original.isCatagory=="N";
+                 },
                  "action":function(data){
                      openDictEdit("add",getSelectItem(data).id);
                  }
              },
              "editDictType":{
-                 "label":"编辑字典分类",
+                 "label":"&#12288;编&#12288;辑&#12288;",
+                 "_disabled":function(data){
+                	 var　selectData = getSelectItem(data);
+                	 return selectData.parent=="#";
+                  },
                  "action":function(data){
                      openDictEdit("edit",getSelectItem(data).id);
                  }
              },
              "delDictType":{
                  "separator_before":true,
-                 "label":"删除字典分类",
+                 "label":"&#12288;删&#12288;除&#12288;",
+                 "_disabled":function(data){
+                	 var　selectData = getSelectItem(data);
+                	 return selectData.parent=="#";
+                  },
                  "action":function(data){
-                     AngularUtil.triggerScopeFun("deleteByMenuId",getSelectItem(data).id);
-                 }
-             },
-             "addDictItem":{
-                 "label":"添加字典项",
-                 "action":function(data){
-                     var　selectData = getSelectItem(data);
-                     if(selectData.children.length==0){
-                         layer.alert("按钮不能添加子菜单!");
-                         return;
-                     }
-                     openDictEdit("add",selectData.id);
-                 }
-             },
-             "editDictItem":{
-                 "label":"编辑字典项",
-                 "action":function(data){
-                     var　selectData = getSelectItem(data);
-                     if(selectData.children.length==0){
-                         layer.alert("按钮不能添加子菜单!");
-                         return;
-                     }
-                     openDictEdit("add",selectData.id);
-                 }
-             },
-             "delMenu":{
-                 "separator_before":true,
-                 "label":"删除菜单",
-                 "action":function(data){
-                     AngularUtil.triggerScopeFun("deleteByMenuId",getSelectItem(data).id);
+                     AngularUtil.triggerScopeFun("deleteById",getSelectItem(data).id);
                  }
              }
          }}});
@@ -297,16 +280,27 @@
                 AngularUtil.triggerScopeFun("getParentByMenuId",menuId);
             }
         });
+        $('#jstree').bind("show_contextmenu.jstree", function (obj, e) {
+        	// 如果是顶级菜单， 只允许添加分类
+        	if(e.node.parent=="#"){
+        		$(".vakata-contextmenu-disabled").hide();
+        	}
+        	if(e.node.original.isCatagory=="N"){
+        		$(".vakata-contextmenu-disabled").hide();
+        	}
+        	
+        });
         function openDictEdit(action,id){
             var scope = AngularUtil.getScope();
+            
             if(action == "edit"){
-                AngularUtil.triggerScopeFun("update",0);
+                AngularUtil.triggerScopeFun("update",[0,id]);
             }else{
                 scope.dict = {};
-                scope.dict.parentId = id;
-                AngularUtil.setData(scope);
+                scope.dict.parentId = Number(id);
                 AngularUtil.triggerScopeFun("update",1);
             }
+            AngularUtil.setData(scope);
         }
     })();
 </script>

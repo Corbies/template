@@ -1,21 +1,21 @@
  var dictApp = angular.module('dictApp', ['formDirective']);
  dictApp.controller('dictCtrl', ['$rootScope', '$scope','baseService',function ($rootScope,$scope,baseService) {
 	$scope.requestParam = {};
+	$scope.dict = {};
 	var layerIndex;
 	//添加或者修改
 	$scope.update = function(sign){
 		var titleName = "添加";
-		if(!sign){
+		if(sign!=1){
 			// 编辑
 			titleName = "编辑";
-			if(idArr && idArr.length==1){
-				baseService.post(_ctx+"/dict/detail",idArr[0]).then(function(response){
-					$scope.dict = response.data;
-					openLayer(titleName);
-				});
-			}else{
-				layer.alert('请选择一个！');
-			}
+			baseService.get(_ctx+"/dict/detail?id="+sign[1]).then(function(data){
+				$scope.dict = data;
+				if(Number($scope.dict.parentId)){
+					$scope.dict.parentId = Number($scope.dict.parentId)
+				}
+				openLayer(titleName);
+			});
 		}else{
 			openLayer(titleName);
 		}
@@ -41,5 +41,12 @@
 	$scope.$on("afterSaveEvent",function(event,data){
 		window.location.reload();
 	});
+	
+	$scope.deleteById = function(id){
+		  baseService.post(_ctx+"/dict/delete",[id]).then(function(data){
+			  layer.alert("删除成功");
+			  $.jstree.reference("#jstree").refresh();
+	      });
+	}
 	
  }]);

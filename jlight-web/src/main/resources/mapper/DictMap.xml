@@ -61,7 +61,7 @@
     </select>
     
    <select id="getTree" parameterType="java.lang.String" resultType="Map">
-        select DISTINCT(t1.id) as id,t1.parent_id as parent,t1.name as text
+        select DISTINCT(t1.id) as id,t1.parent_id as parent,t1.name as text, t1.is_catagory as isCatagory
         from sys_dict t1 left join sys_dict t2 on t1.parent_id = t2.id
     </select>
     
@@ -73,5 +73,9 @@
     <select id="getById" parameterType="java.lang.String" resultMap="Dict">
         select * from sys_dict where id = #{id}
     </select>
+    
+     <delete id="delete" parameterType="java.lang.String">
+        delete from sys_dict where id = #{id} or parent_id = #{id}
+    </delete>
 
 </mapper>
