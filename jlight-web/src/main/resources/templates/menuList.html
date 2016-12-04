@@ -166,7 +166,13 @@
                  return { "id" : node.id };
              },
          }},
-     "plugins" : [ "contextmenu","search" ],
+         "types" : {
+             "1" : {
+                 "icon" : "glyphicon glyphicon-file",
+                 "valid_children" : []
+             }
+         },
+     "plugins" : [ "contextmenu","types" ],
      "contextmenu":{
          "items":{
              "create":null,
