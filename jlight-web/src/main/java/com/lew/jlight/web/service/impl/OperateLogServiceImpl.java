@@ -1,5 +1,6 @@
 package com.lew.jlight.web.service.impl;
 
+import com.lew.jlight.mybatis.AbstractService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.OperateLogDao;
 import com.lew.jlight.web.entity.OperateLog;
@@ -13,7 +14,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 @Service
-public class OperateLogServiceImpl implements OperateLogService {
+public class OperateLogServiceImpl extends AbstractService<OperateLog> implements OperateLogService {
 
     @Resource
     private OperateLogDao operateLogDao;

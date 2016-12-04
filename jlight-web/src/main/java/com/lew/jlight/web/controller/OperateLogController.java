@@ -1,6 +1,7 @@
 package com.lew.jlight.web.controller;
 
 import com.lew.jlight.core.Response;
+import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.OperateLog;
 import com.lew.jlight.web.service.OperateLogService;
@@ -31,8 +32,11 @@ public class OperateLogController {
 
     @ResponseBody
     @PostMapping("list")
-    public Response list(@RequestBody ParamFilter filter){
-        List<OperateLog> operateLogList = operateLogService.getList(filter);
-        return new Response(operateLogList);
+    public Response list(@RequestBody ParamFilter queryFilter){
+        List<OperateLog> operateLogList = operateLogService.getList(queryFilter);
+        int count = operateLogService.getCount(queryFilter);
+        Page page = queryFilter.getPage();
+        page.setResultCount(count);
+        return new Response(operateLogList,page);
     }
 }
