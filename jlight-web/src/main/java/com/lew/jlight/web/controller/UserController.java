@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
+import com.lew.jlight.web.aop.annotaion.WebLogger;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.service.UserService;
 
@@ -32,8 +33,10 @@ public class UserController {
         return "userList";
     }
 
+
     @ResponseBody
     @PostMapping("list")
+    @WebLogger("查询用户列表")
     public Response list(@RequestBody  ParamFilter queryFilter) {
         List userList = userService.getList(queryFilter);
         int count = userService.getCount(queryFilter);

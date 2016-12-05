@@ -4,12 +4,14 @@ import com.lew.jlight.core.BaseEntity;
 
 import java.util.Date;
 
-public class OperateLog extends BaseEntity{
-    private String operateLogId;
+public class WebLog extends BaseEntity{
+    private String webLogId;
 
     private String loginAccount;
 
     private String method;
+
+    private String methodDesc;
 
     private String methodArgs;
 
@@ -19,12 +21,12 @@ public class OperateLog extends BaseEntity{
 
     private String status;
 
-    public String getOperateLogId() {
-        return operateLogId;
+    public String getWebLogId() {
+        return webLogId;
     }
 
-    public void setOperateLogId(String operateLogId) {
-        this.operateLogId = operateLogId;
+    public void setWebLogId(String webLogId) {
+        this.webLogId = webLogId;
     }
 
     public String getLoginAccount() {
@@ -41,6 +43,14 @@ public class OperateLog extends BaseEntity{
 
     public void setMethod(String method) {
         this.method = method;
+    }
+
+    public String getMethodDesc() {
+        return methodDesc;
+    }
+
+    public void setMethodDesc(String methodDesc) {
+        this.methodDesc = methodDesc;
     }
 
     public Date getOperateTime() {

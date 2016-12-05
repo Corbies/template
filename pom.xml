@@ -18,6 +18,7 @@
         <module>jlight-core</module>
         <module>jlight-web</module>
         <module>jlight-mybatis</module>
+        <module>jlight-assembly</module>
     </modules>
 
     <properties>

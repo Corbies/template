@@ -3,8 +3,8 @@ package com.lew.jlight.web.controller;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
-import com.lew.jlight.web.entity.OperateLog;
-import com.lew.jlight.web.service.OperateLogService;
+import com.lew.jlight.web.entity.WebLog;
+import com.lew.jlight.web.service.WebLogService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,24 +19,24 @@ import javax.annotation.Resource;
 
 
 @Controller
-@RequestMapping("operateLog")
-public class OperateLogController {
+@RequestMapping("webLog")
+public class WebLogController {
 
     @Resource
-    private OperateLogService operateLogService;
+    private WebLogService webLogService;
 
     @GetMapping("list")
     public String list(){
-        return "operateLogList";
+        return "webLogList";
     }
 
     @ResponseBody
     @PostMapping("list")
     public Response list(@RequestBody ParamFilter queryFilter){
-        List<OperateLog> operateLogList = operateLogService.getList(queryFilter);
-        int count = operateLogService.getCount(queryFilter);
+        List<WebLog> webLogList = webLogService.getList(queryFilter);
+        int count = webLogService.getCount(queryFilter);
         Page page = queryFilter.getPage();
         page.setResultCount(count);
-        return new Response(operateLogList,page);
+        return new Response(webLogList,page);
     }
 }
