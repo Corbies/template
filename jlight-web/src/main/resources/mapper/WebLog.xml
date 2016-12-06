@@ -38,6 +38,10 @@
                 and operate_time = #{operateTime}
             </if>
         </where>
+        order by create_time desc
+        <if test="@Ognl@isNotEmpty(page)">
+            limit #{page.firstIndex}, #{page.pageSize}
+        </if>
     </select>
 
     <select id="getCount"  parameterType="java.util.Map" resultType="java.lang.Integer">

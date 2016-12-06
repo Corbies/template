@@ -3,6 +3,7 @@ package com.lew.jlight.web.controller;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
+import com.lew.jlight.web.aop.annotaion.WebLogger;
 import com.lew.jlight.web.entity.LoginLog;
 import com.lew.jlight.web.service.LoginLogService;
 
@@ -32,6 +33,7 @@ public class LoginLogController {
 
     @ResponseBody
     @PostMapping("list")
+    @WebLogger("查询登录日志列表")
     public Response list(@RequestBody ParamFilter queryFilter){
         List<LoginLog> loginLogList = loginLogService.getList(queryFilter);
         int count = loginLogService.getCount(queryFilter);

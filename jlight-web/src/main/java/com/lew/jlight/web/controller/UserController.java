@@ -47,6 +47,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("add")
+    @WebLogger("添加用户")
     public Response add(@RequestBody User user) {
         checkNotNull(user, "用户不能为空");
         userService.add(user);
@@ -56,6 +57,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("edit")
+    @WebLogger("编辑用户")
     public Response edit(@RequestBody User user) {
         userService.update(user);
         return new Response("修改成功");
@@ -63,6 +65,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("delete")
+    @WebLogger("删除用户")
     public Response delete(@RequestBody List<String> userIds) {
         checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
         userService.delete(userIds);
@@ -71,6 +74,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("resetPwd")
+    @WebLogger("重置密码")
     public Response resetPwd(@RequestBody List<String> userIds) {
         checkArgument((userIds != null && userIds.size() > 0), "用户编号不能为空");
         userService.updateDefaultPwd(userIds);
@@ -80,6 +84,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("changePwd")
+    @WebLogger("更改密码")
     public Response changePwd(String originPwd, String confirmPwd, String newPwd) {
         userService.updatePwd(originPwd, newPwd, confirmPwd);
         return new Response("更改密码成功");
@@ -87,6 +92,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("detail")
+    @WebLogger("查询用户详细")
     public Response detail(@RequestBody String userId) {
         Map user = userService.getDetail(userId);
         return new Response(user);

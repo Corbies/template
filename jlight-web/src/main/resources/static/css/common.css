@@ -146,3 +146,61 @@ div.navbar{
     -webkit-border-radius: 3px;
     margin-top: 15px;
 }
+
+.table.table-bordered tbody tr td.User_Action_btn {
+    text-align: left
+}
+
+.commonManager .addCommon {
+    margin: 10px;
+}
+
+.commonManager .addCommon ul {
+    margin: 0
+}
+
+.commonManager .addCommon li {
+    float: left;
+    height: 40px;
+    margin: 5px;
+    line-height: 52px;
+    width: 255px
+}
+
+.commonManager .addCommon li .label_name, .commonManager .addCommon .Remark .label_name {
+    float: left;
+    width: 70px;
+    text-align: right;
+}
+
+.commonManager .addCommon li .radio {
+    float: left;
+    width: 90px;
+    margin-top: 0;
+}
+
+.commonManager .addCommon li .radio label {
+    display: block;
+    margin-top: 3px
+}
+
+.commonManager .addCommon li select {
+    margin-left: 10px;
+    width: 163px
+}
+
+.commonManager .addCommon .Remark {
+
+}
+
+.commonManager .addCommon .reset_style {
+    border-bottom: 1px dashed #ddd;
+    margin-bottom: 10px;
+}
+
+.commonManager .addCommon .reset_style .btn {
+    margin-bottom: 10px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}

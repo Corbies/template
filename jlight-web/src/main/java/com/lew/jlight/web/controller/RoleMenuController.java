@@ -3,6 +3,7 @@ package com.lew.jlight.web.controller;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.util.BeanUtil;
 import com.lew.jlight.core.util.JsonUtil;
+import com.lew.jlight.web.aop.annotaion.WebLogger;
 import com.lew.jlight.web.entity.RoleMenu;
 import com.lew.jlight.web.service.RoleMenuService;
 
@@ -26,6 +27,7 @@ public class RoleMenuController {
 
     @ResponseBody
     @PostMapping("getList")
+    @WebLogger("查询菜单权限列表")
     public Response getList(@RequestBody String json) {
         Map<String, String> param = JsonUtil.parseStringMap(json);
         assert param != null;
@@ -36,6 +38,7 @@ public class RoleMenuController {
     
     @ResponseBody
     @PostMapping("add")
+    @WebLogger("添加角色-菜单权限")
     public Response add(@RequestBody String json) {
         Map<String, String> paramMap = JsonUtil.parseStringMap(json);
         assert paramMap != null;

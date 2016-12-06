@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
+import com.lew.jlight.web.aop.annotaion.WebLogger;
 import com.lew.jlight.web.entity.Role;
 import com.lew.jlight.web.service.RoleService;
 import com.lew.jlight.web.service.UserRoleService;
@@ -43,6 +44,7 @@ public class RoleController {
 
     @ResponseBody
     @PostMapping("list")
+    @WebLogger("查询角色列表")
     public Response list(@RequestBody ParamFilter queryFilter) {
         List<Role> roleList = roleService.getList(queryFilter);
         int count = roleService.getCount(queryFilter);
@@ -53,6 +55,7 @@ public class RoleController {
 
     @ResponseBody
     @PostMapping("save")
+    @WebLogger("添加角色")
     public Object save(@RequestBody Role role) {
         checkNotNull(role, "角色信息不能为空");
         Response response = new Response();
@@ -75,6 +78,7 @@ public class RoleController {
 
     @ResponseBody
     @RequestMapping("update")
+    @WebLogger("编辑角色")
     public Response update(@RequestBody Role role) {
         checkNotNull(role, "角色信息不能为空");
         roleService.update(role);
@@ -83,6 +87,7 @@ public class RoleController {
 
     @ResponseBody
     @PostMapping("delete")
+    @WebLogger("删除角色")
     public Response delete(@RequestBody List<String> roleIds) {
         checkArgument((roleIds != null && roleIds.size() > 0), "不能为空");
         roleService.delete(roleIds);
@@ -92,6 +97,7 @@ public class RoleController {
 
     @ResponseBody
     @PostMapping("detail")
+    @WebLogger("查询角色详细")
     public Response detail(@RequestBody  String roleId) {
         Role role = roleService.getByRoleId(roleId);
         return new Response(role);

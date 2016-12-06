@@ -15,10 +15,10 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>jlight-assembly</module>
         <module>jlight-core</module>
         <module>jlight-web</module>
         <module>jlight-mybatis</module>
-        <module>jlight-assembly</module>
     </modules>
 
     <properties>

@@ -39,6 +39,7 @@
                 and parent_id = #{parentId}
             </if>
         </where>
+        order by create_time desc
         <if test="@Ognl@isNotEmpty(page)">
             limit #{page.firstIndex}, #{page.pageSize}
         </if>

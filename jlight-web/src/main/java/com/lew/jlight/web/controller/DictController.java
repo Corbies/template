@@ -17,6 +17,7 @@ import com.google.common.base.Preconditions;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
+import com.lew.jlight.web.aop.annotaion.WebLogger;
 import com.lew.jlight.web.entity.Dict;
 import com.lew.jlight.web.service.DictService;
 
@@ -35,6 +36,7 @@ public class DictController {
 
     @ResponseBody
     @PostMapping("list")
+    @WebLogger("查询字典列表")
     public Response list(@RequestBody ParamFilter queryFilter) {
         List<Dict> list = dictService.getList(queryFilter);
         int count = dictService.getCount(queryFilter);
@@ -45,6 +47,7 @@ public class DictController {
 
     @ResponseBody
     @PostMapping("add")
+    @WebLogger("添加字典")
     public Object add(@RequestBody Dict dict) {
         Preconditions.checkNotNull(dict, "不能为空");
         Response response = new Response();
@@ -59,6 +62,7 @@ public class DictController {
     
     @ResponseBody
     @GetMapping("detail")
+    @WebLogger("查询字典详细")
     public Response detail(String id) {
         Preconditions.checkNotNull(id, "不能为空");
         Dict dict = dictService.getById(id);
@@ -69,6 +73,7 @@ public class DictController {
 
 	@ResponseBody
     @PostMapping("delete")
+    @WebLogger("删除字典")
     public Response delete(@RequestBody List<String> ids) {
 		checkArgument((ids != null && ids.size() > 0), "不能为空");
         dictService.delete(ids);

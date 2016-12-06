@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
+import com.lew.jlight.web.aop.annotaion.WebLogger;
 import com.lew.jlight.web.entity.Menu;
 import com.lew.jlight.web.service.MenuService;
 
@@ -35,6 +36,7 @@ public class MenuController {
 
     @ResponseBody
     @PostMapping("list")
+    @WebLogger("查询菜单列表")
     public Response list(@RequestBody ParamFilter queryFilter) {
         List<Menu> menuList = menuService.getList(queryFilter);
         int count = menuService.getCount(queryFilter);
@@ -45,6 +47,7 @@ public class MenuController {
 
     @ResponseBody
     @PostMapping("add")
+    @WebLogger("添加菜单")
     public Response add(@RequestBody Menu menu) {
         checkNotNull(menu, "菜单信息不能为空");
         Response response = new Response();
@@ -61,6 +64,7 @@ public class MenuController {
 
     @ResponseBody
     @PostMapping("edit")
+    @WebLogger("编辑菜单")
     public Response edit(@RequestBody Menu menu ) {
         checkNotNull(menu, "菜单信息不能为空");
         menuService.update(menu);
@@ -69,6 +73,7 @@ public class MenuController {
 
     @ResponseBody
     @GetMapping("detail")
+    @WebLogger("查询菜单详细")
     public Response detail(String menuId) {
         Menu menu = menuService.detail(menuId);
         return new Response(menu);
@@ -84,6 +89,7 @@ public class MenuController {
 
     @ResponseBody
     @PostMapping("delete")
+    @WebLogger("删除菜单")
     public Response delete(@RequestBody List<String> menuIds) {
         checkArgument((menuIds != null && menuIds.size() > 0), "角色编号不能为空");
         menuService.delete(menuIds);

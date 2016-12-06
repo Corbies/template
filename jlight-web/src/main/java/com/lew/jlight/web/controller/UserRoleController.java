@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.lew.jlight.core.Response;
+import com.lew.jlight.web.aop.annotaion.WebLogger;
 import com.lew.jlight.web.service.UserRoleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ public class UserRoleController {
 
     @ResponseBody
     @PostMapping("add")
+    @WebLogger("添加用户-角色")
     public Response add( String[] roleIds,String userId){
         checkNotNull(roleIds,"角色信息不能为空");
         checkArgument(!Strings.isNullOrEmpty(userId),"用户编号不能为空");

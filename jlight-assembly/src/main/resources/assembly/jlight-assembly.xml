@@ -22,7 +22,7 @@
             <outputDirectory>config</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>src/main/assembly</directory>
+            <directory>${project.build.directory}/assembly</directory>
             <includes>
                 <include>*.bat</include>
                 <include>*.sh</include>
