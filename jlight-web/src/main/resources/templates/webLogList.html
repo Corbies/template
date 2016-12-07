@@ -3,11 +3,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" th:href="@{/assets/select-mutiple/css/select-multiple.css}"/>
-    <header th:replace="import"></header>
+    <header th:replace="importCommon"></header>
+    <header th:replace="importDate"></header>
     <script th:src="@{/js/system/controller/webLogCtrl.js}"></script>
     <title>登录日志</title>
 </head>
 <body ng-controller="webLogCtrl">
+<div id="container"></div>
 <div class="page-content">
     <div class="commonManager">
         <form id="form1" name="form1" method="post" action="">
@@ -21,9 +23,7 @@
                     </li>
                     <li><label class="lf">操作日期</label>
                         <label>
-                            <input name="trueName" ng-model="queryFilter.param.operateTime"
-                                   type="text"
-                                   class="text_add"/>
+                            <input readonly="true" class="text_add eg-date" ng-model="queryFilter.param.operateTime" type="text"/>
                         </label>
                     </li>
                     <button id="btn_search" ng-click="webLogSearch = !webLogSearch" type="button"

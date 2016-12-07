@@ -35,7 +35,7 @@
                 and login_account = #{loginAccount}
             </if>
             <if test="@Ognl@isNotEmpty(operateTime)">
-                and operate_time = #{operateTime}
+                <![CDATA[  and DATE_FORMAT(operate_time, '%Y-%m-%d') = #{operateTime}]]>
             </if>
         </where>
         order by create_time desc
@@ -54,7 +54,7 @@
                 and login_account = #{loginAccount}
             </if>
             <if test="@Ognl@isNotEmpty(operateTime)">
-                and operate_time = #{operateTime}
+                <![CDATA[  and DATE_FORMAT(operate_time, '%Y-%m-%d') = #{operateTime}]]>
             </if>
         </where>
     </select>

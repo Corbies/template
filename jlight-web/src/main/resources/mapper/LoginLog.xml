@@ -28,6 +28,9 @@
             <if test="@Ognl@isNotEmpty(loginAccount)">
                 login_account = #{loginAccount}
             </if>
+            <if test="@Ognl@isNotEmpty(loginTime)">
+                <![CDATA[  and DATE_FORMAT(login_time, '%Y-%m-%d') = #{loginTime}]]>
+            </if>
         </where>
         order by create_time desc
         <if test="@Ognl@isNotEmpty(page)">
@@ -43,6 +46,9 @@
             </if>
             <if test="@Ognl@isNotEmpty(loginAccount)">
                 and login_account = #{loginAccount}
+            </if>
+            <if test="@Ognl@isNotEmpty(loginTime)">
+                <![CDATA[  and DATE_FORMAT(login_time, '%Y-%m-%d') = #{loginTime}]]>
             </if>
         </where>
     </select>

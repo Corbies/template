@@ -237,7 +237,30 @@ base.factory("$jsonToFormData",function() {
           };
         }
       };
-}]);
+}])
+//日期插件指令
+.directive('egDate', [function(){
+        return {
+            replace: true,
+            restrict: 'EAC',
+            scope: {
+
+            },
+            link: function(scope, element, attrs) {
+			$(element).datetimepicker({
+                  language:  'zh-CN',
+                  format: "yyyy-mm-dd",
+				  weekStart: 1,
+				  todayBtn:  0,
+				  autoclose: 1,
+				  todayHighlight: 1,
+				  startView: 2,
+				  minView: 2,
+				  forceParse: 0
+			});
+            }
+        };
+    }]);
 
 function alertError(msg){
 	layer.alert(msg+"! \r\n", {
