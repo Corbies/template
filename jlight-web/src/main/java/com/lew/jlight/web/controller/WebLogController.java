@@ -3,7 +3,6 @@ package com.lew.jlight.web.controller;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
-import com.lew.jlight.web.aop.annotaion.WebLogger;
 import com.lew.jlight.web.entity.WebLog;
 import com.lew.jlight.web.service.WebLogService;
 
@@ -35,9 +34,7 @@ public class WebLogController {
     @PostMapping("list")
     public Response list(@RequestBody ParamFilter queryFilter){
         List<WebLog> webLogList = webLogService.getList(queryFilter);
-        int count = webLogService.getCount(queryFilter);
         Page page = queryFilter.getPage();
-        page.setResultCount(count);
         return new Response(webLogList,page);
     }
 }

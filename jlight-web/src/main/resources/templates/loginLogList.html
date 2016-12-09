@@ -20,7 +20,8 @@
                     </li>
                     <li><label class="lf">登录日期</label>
                         <label>
-                            <input readonly="true" class="text_add eg-date" ng-model="queryFilter.param.loginTime" type="text"/>
+                            <input readonly="true" class="eg-date" ng-model="queryFilter.param.loginTime" type="text"/>
+                            <span class="date-icon"><i class="icon-calendar"></i></span>
                         </label>
                     </li>
                     <button id="btn_search" ng-click="loginLogSearch = !loginLogSearch" type="button"

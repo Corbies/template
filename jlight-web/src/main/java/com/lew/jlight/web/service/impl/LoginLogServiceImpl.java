@@ -1,8 +1,5 @@
 package com.lew.jlight.web.service.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import com.lew.jlight.mybatis.AbstractService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.LoginLogDao;
 import com.lew.jlight.web.entity.LoginLog;
@@ -14,8 +11,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @Service
-public class LoginLogServiceImpl extends AbstractService<LoginLog> implements LoginLogService {
+public class LoginLogServiceImpl implements LoginLogService {
 
     @Resource
     private LoginLogDao loginLogDao;

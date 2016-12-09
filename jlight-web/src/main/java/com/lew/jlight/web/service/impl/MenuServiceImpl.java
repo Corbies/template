@@ -1,7 +1,5 @@
 package com.lew.jlight.web.service.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -9,7 +7,6 @@ import com.google.common.collect.Maps;
 import com.lew.jlight.core.IdGenerator;
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.util.BeanUtil;
-import com.lew.jlight.mybatis.AbstractService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.MenuDao;
 import com.lew.jlight.web.dao.RoleDao;
@@ -34,8 +31,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @Service
-public class MenuServiceImpl extends AbstractService<Menu> implements MenuService {
+public class MenuServiceImpl implements MenuService {
 
     private static final Comparator<Menu> resourceComparator = (o1, o2) -> {
         int seq1 = o1.getSeq() != null ? o1.getSeq() : Integer.MAX_VALUE;

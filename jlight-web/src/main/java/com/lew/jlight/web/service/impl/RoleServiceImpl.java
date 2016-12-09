@@ -1,12 +1,9 @@
 package com.lew.jlight.web.service.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
 import com.lew.jlight.core.IdGenerator;
-import com.lew.jlight.mybatis.AbstractService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.RoleDao;
 import com.lew.jlight.web.dao.RoleMenuDao;
@@ -21,8 +18,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @Service
-public class RoleServiceImpl extends AbstractService<Role> implements RoleService {
+public class RoleServiceImpl implements RoleService {
 
     @Resource
     private RoleDao roleDao;

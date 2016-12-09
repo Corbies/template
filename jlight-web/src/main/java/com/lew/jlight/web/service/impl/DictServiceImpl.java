@@ -1,9 +1,7 @@
 package com.lew.jlight.web.service.impl;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
-import com.lew.jlight.mybatis.AbstractService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.DictDao;
 import com.lew.jlight.web.entity.Dict;
@@ -21,7 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
-public class DictServiceImpl extends AbstractService<Dict> implements DictService {
+public class DictServiceImpl implements DictService {
 
     @Resource
     private DictDao dictDao;

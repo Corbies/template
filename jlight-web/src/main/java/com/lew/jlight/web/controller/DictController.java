@@ -1,10 +1,13 @@
 package com.lew.jlight.web.controller;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import com.google.common.base.Preconditions;
 
-import java.util.List;
-
-import javax.annotation.Resource;
+import com.lew.jlight.core.Response;
+import com.lew.jlight.core.page.Page;
+import com.lew.jlight.mybatis.ParamFilter;
+import com.lew.jlight.web.aop.annotaion.WebLogger;
+import com.lew.jlight.web.entity.Dict;
+import com.lew.jlight.web.service.DictService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.base.Preconditions;
-import com.lew.jlight.core.Response;
-import com.lew.jlight.core.page.Page;
-import com.lew.jlight.mybatis.ParamFilter;
-import com.lew.jlight.web.aop.annotaion.WebLogger;
-import com.lew.jlight.web.entity.Dict;
-import com.lew.jlight.web.service.DictService;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 
 @Controller
@@ -39,9 +40,7 @@ public class DictController {
     @WebLogger("查询字典列表")
     public Response list(@RequestBody ParamFilter queryFilter) {
         List<Dict> list = dictService.getList(queryFilter);
-        int count = dictService.getCount(queryFilter);
         Page page = queryFilter.getPage();
-        page.setResultCount(count);
         return new Response(list, page);
     }
 
@@ -66,8 +65,7 @@ public class DictController {
     public Response detail(String id) {
         Preconditions.checkNotNull(id, "不能为空");
         Dict dict = dictService.getById(id);
-        Response response = new Response(dict);
-        return response;
+        return new Response(dict);
     }
 
 

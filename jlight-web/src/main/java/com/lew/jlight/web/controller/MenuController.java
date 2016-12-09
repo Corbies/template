@@ -1,6 +1,7 @@
 package com.lew.jlight.web.controller;
 
 import com.google.common.base.Strings;
+
 import com.lew.jlight.core.Response;
 import com.lew.jlight.core.page.Page;
 import com.lew.jlight.mybatis.ParamFilter;
@@ -39,9 +40,7 @@ public class MenuController {
     @WebLogger("查询菜单列表")
     public Response list(@RequestBody ParamFilter queryFilter) {
         List<Menu> menuList = menuService.getList(queryFilter);
-        int count = menuService.getCount(queryFilter);
         Page page = queryFilter.getPage();
-        page.setResultCount(count);
         return new Response(menuList, page);
     }
 
@@ -52,7 +51,6 @@ public class MenuController {
         checkNotNull(menu, "菜单信息不能为空");
         Response response = new Response();
         if (Strings.isNullOrEmpty(menu.getMenuId())) {
-            String parentId = menu.getParentId();
             menuService.add(menu);
             response.setMsg("添加成功");
         } else {

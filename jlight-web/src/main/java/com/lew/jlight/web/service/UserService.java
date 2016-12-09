@@ -1,14 +1,13 @@
 package com.lew.jlight.web.service;
 
 
-import com.lew.jlight.mybatis.BaseService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.User;
 
 import java.util.List;
 import java.util.Map;
 
-public interface UserService extends BaseService {
+public interface UserService {
 
     List getList(ParamFilter param);
 

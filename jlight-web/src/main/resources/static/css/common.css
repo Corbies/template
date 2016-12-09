@@ -7,7 +7,7 @@ form .ng-invalid-custom-validate{
 }
 
 .search_style .search_content li {
-    width: 239px;
+    width: 250px;
     float: left;
     height: 32px;
     line-height: 32px;
@@ -116,6 +116,8 @@ div.navbar{
 .queryBtn{
     background-color: #1BADF6 !important;
     border-color: #1BADF6 !important;
+    position: relative;
+    top: 3px;
 }
 .queryBtn:hover{
     background-color: #076289 !important;
@@ -203,4 +205,9 @@ div.navbar{
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+}
+
+.date-icon{
+    position: relative;
+    right: 21px;
 }

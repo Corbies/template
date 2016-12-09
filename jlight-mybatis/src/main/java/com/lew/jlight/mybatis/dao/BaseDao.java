@@ -147,6 +147,8 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
         }
         if (page != null) {
             filters.put("page", page);
+            int count = this.getCount(filters);
+            page.setResultCount(count);
         }
         return this.sqlSessionTemplate.selectList(statement, filters.size() == 0 ? param : filters);
     }
@@ -173,6 +175,8 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
         }
         if (page != null) {
             filters.put("page", page);
+            int count = this.getCount(filters);
+            page.setResultCount(count);
         }
         return this.sqlSessionTemplate.selectList(statements, filters.size() == 0 ? param : filters);
     }
@@ -180,6 +184,12 @@ public abstract class BaseDao<T extends BaseEntity> implements GenericDao<T> {
     @Override
     public List<T> find(String key, Object param) {
         return this.find(key, param, null);
+    }
+
+
+    private int getCount(Map<String, Object> param) {
+        String statement = this.getEntityClass()+".getCount";
+        return this.sqlSessionTemplate.selectOne(statement, param);
     }
 
     private String getMapperNamespace() {

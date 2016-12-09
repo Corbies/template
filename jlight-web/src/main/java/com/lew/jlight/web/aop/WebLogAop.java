@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import com.lew.jlight.core.IdGenerator;
+import com.lew.jlight.core.util.JsonUtil;
 import com.lew.jlight.web.aop.annotaion.WebLogger;
 import com.lew.jlight.web.entity.WebLog;
 import com.lew.jlight.web.service.WebLogService;
@@ -15,7 +16,10 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -26,6 +30,9 @@ import javax.annotation.Resource;
 @Aspect
 @Component
 public class WebLogAop {
+
+    private Logger logger = LoggerFactory.getLogger(WebLog.class);
+
     @Resource
     private WebLogService webLogService;
 
@@ -54,10 +61,13 @@ public class WebLogAop {
             if (annotation == null) {
                 return joinPoint.proceed();
             }
-            String argStr = null;
-            id = doWebLog(methodName,annotation.value(), Lists.newArrayList(args), null);
+            ServletUtil.getRequest().getRequestURI();
+            logger.info("request uri:",ServletUtil.getRequest().getRequestURI());
+            logger.info("request param ;",JsonUtil.parseObject2Str(args));
+            id = doWebLog(methodName,annotation.value(), JsonUtil.parseObject2Str(args), null);
             returnVal = joinPoint.proceed();
             updateWebLog(id,"成功","操作成功");
+            logger.info("response data : ",JsonUtil.parseObject2Str(returnVal));
         } catch (Exception e) {
             updateWebLog(id,"失败",e.getMessage());
             throw new RuntimeException(e);

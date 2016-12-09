@@ -39,9 +39,7 @@ public class UserController {
     @WebLogger("查询用户列表")
     public Response list(@RequestBody  ParamFilter queryFilter) {
         List userList = userService.getList(queryFilter);
-        int count = userService.getCount(queryFilter);
         Page page = queryFilter.getPage();
-        page.setResultCount(count);
         return new Response(userList,page);
     }
 

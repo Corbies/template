@@ -1,20 +1,21 @@
 package com.lew.jlight.web.service.impl;
 
-import com.lew.jlight.mybatis.AbstractService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.WebLogDao;
 import com.lew.jlight.web.entity.WebLog;
 import com.lew.jlight.web.service.WebLogService;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @Service
-public class WebLogServiceImpl extends AbstractService<WebLog> implements WebLogService {
+public class WebLogServiceImpl implements WebLogService {
 
     @Resource
     private WebLogDao webLogDao;

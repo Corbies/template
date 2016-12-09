@@ -47,9 +47,7 @@ public class RoleController {
     @WebLogger("查询角色列表")
     public Response list(@RequestBody ParamFilter queryFilter) {
         List<Role> roleList = roleService.getList(queryFilter);
-        int count = roleService.getCount(queryFilter);
         Page page = queryFilter.getPage();
-        page.setResultCount(count);
         return new Response(roleList, page);
     }
 

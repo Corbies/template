@@ -247,17 +247,17 @@ base.factory("$jsonToFormData",function() {
 
             },
             link: function(scope, element, attrs) {
-			$(element).datetimepicker({
-                  language:  'zh-CN',
-                  format: "yyyy-mm-dd",
-				  weekStart: 1,
-				  todayBtn:  0,
-				  autoclose: 1,
-				  todayHighlight: 1,
-				  startView: 2,
-				  minView: 2,
-				  forceParse: 0
-			});
+				$(element).datetimepicker({
+					  language:  'zh-CN',
+					  format: "yyyy-mm-dd",
+					  weekStart: 1,
+					  todayBtn:  0,
+					  autoclose: 1,
+					  todayHighlight: 1,
+					  startView: 2,
+					  minView: 2,
+					  forceParse: 0
+				});
             }
         };
     }]);

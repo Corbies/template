@@ -1,14 +1,11 @@
 package com.lew.jlight.web.service.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
 import com.lew.jlight.core.IdGenerator;
 import com.lew.jlight.core.util.DigestUtil;
 import com.lew.jlight.core.util.RegexUtil;
-import com.lew.jlight.mybatis.AbstractService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.dao.UserDao;
 import com.lew.jlight.web.dao.UserRoleDao;
@@ -28,8 +25,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @Service
-public class UserServiceImpl extends AbstractService<User> implements UserService {
+public class UserServiceImpl  implements UserService {
 
     @Resource
     private UserDao userDao;

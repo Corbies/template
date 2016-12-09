@@ -1,14 +1,13 @@
 package com.lew.jlight.web.service;
 
 
-import java.util.List;
-
-import com.lew.jlight.mybatis.BaseService;
 import com.lew.jlight.mybatis.ParamFilter;
 import com.lew.jlight.web.entity.Dict;
 import com.lew.jlight.web.entity.pojo.JSTree;
 
-public interface DictService extends BaseService {
+import java.util.List;
+
+public interface DictService{
 
 	void add(Dict dict);
 

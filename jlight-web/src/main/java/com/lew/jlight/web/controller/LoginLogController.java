@@ -36,9 +36,7 @@ public class LoginLogController {
     @WebLogger("查询登录日志列表")
     public Response list(@RequestBody ParamFilter queryFilter){
         List<LoginLog> loginLogList = loginLogService.getList(queryFilter);
-        int count = loginLogService.getCount(queryFilter);
         Page page = queryFilter.getPage();
-        page.setResultCount(count);
         return new Response(loginLogList,page);
     }
 }

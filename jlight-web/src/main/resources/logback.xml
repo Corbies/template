@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<include resource="org/springframework/boot/logging/logback/base.xml" />
-	<logger name="org.springframework.web" level="INFO"/>
-	<logger name="org.springframework.jdbc" level="DEBUG"/>
+	<jmxConfigurator />
+
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>TRACE</level>
+		</filter>
+	</appender>
+
+	<appender name="serverAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/server.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/server.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- 保留 30天数据，默认无限-->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.springframework.web" level="WARN"/>
+	<logger name="org.springframework.jdbc" level="WARN"/>
+	<logger name="org.apache.shiro" level="WARN"/>
+
 	<logger name="com.lew.jlight" level="DEBUG"/>
 
+	<!-- root -->
+	<root level="ERROR">
+		<appender-ref ref="consoleAppender" />
+		<appender-ref ref="serverAppender" />
+	</root>
 </configuration>
