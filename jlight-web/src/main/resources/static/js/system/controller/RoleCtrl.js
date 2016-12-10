@@ -67,9 +67,9 @@ roleApp.controller('roleCtrl', ['$rootScope', '$scope','baseService','roleServic
 			content : $('#Assigned_Roles_style'),
 			btn : [ '保存', '取消' ],
 			yes : function(index, layero) {
-				var resIds = getCheckboxTreeSelNode("tree");
-				var json = {'roleId':roleId,'resIds':resIds};
-				baseService.post(_ctx+"/roleMenu/add",json).then(function(response){
+				var menuIds = getCheckboxTreeSelNode("tree");
+                var param = {"roleId":roleId,"menuIds":menuIds};
+				baseService.postForm(_ctx+"/roleMenu/add",param).then(function(response){
 					layer.alert('保存成功！');
 					layer.close(index);
 				});

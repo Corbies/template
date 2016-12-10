@@ -3,6 +3,7 @@ package com.lew.jlight.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Random;
@@ -11,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class IdGenerator {
     private final static Logger logger = LoggerFactory.getLogger(IdGenerator.class);
     private final static int MAX_NUM = 9999;
+    private final String processId;
     private static int mac = 0;
     private static String longMac;
     private final AtomicInteger count = new AtomicInteger(0);
@@ -18,6 +20,8 @@ public class IdGenerator {
     private IdGenerator() {
         mac = this.getMac();
         longMac = this.getLongMac();
+        String name = ManagementFactory.getRuntimeMXBean().getName();
+        processId = name.split("@")[0];
     }
 
     public static IdGenerator getInstance() {
@@ -49,8 +53,8 @@ public class IdGenerator {
 
 
     public String nextId() {
-        long id = this.getMac() + System.currentTimeMillis() + count.incrementAndGet();
-        return String.valueOf(id);
+        long timeMillis = System.currentTimeMillis();
+        return String.valueOf(mac) + timeMillis + getAtomicNum();
     }
 
     private int getAtomicNum() {
@@ -62,6 +66,6 @@ public class IdGenerator {
     }
 
     private static class GeneratorInstance {
-        public static IdGenerator idGenerator = new IdGenerator();
+        static IdGenerator idGenerator = new IdGenerator();
     }
 }

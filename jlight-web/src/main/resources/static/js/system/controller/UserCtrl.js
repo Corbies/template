@@ -190,7 +190,7 @@ userApp.controller('userCtrl', ['$rootScope', '$scope','userService',function ($
 				   var selectVal = $(this).val();
 				   roleIds.push(selectVal);
 			   });
-			   var param = {"roleIds":roleIds,"userId":userId};
+			   var param = {"userId":userId,"roleIds":roleIds};
 				userService.saveUserRole(param).then(function(response){
 					layer.alert(response.msg, {
 						title : '提示框',

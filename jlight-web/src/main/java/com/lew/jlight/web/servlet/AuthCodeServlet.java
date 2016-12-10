@@ -13,11 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * 验证码Servlet
- *
- * @author One_Eleven
- */
+
 public class AuthCodeServlet extends HttpServlet {
 
     /**

@@ -10,6 +10,7 @@ indexApp.controller('indexCtrl', ['$rootScope', '$scope','indexService',function
 	};
 	//修改密码
 	$scope.changePwd = function(){
+		$scope.compositePwd = {};
 		layer.open({
 		type: 1,
 		title:'修改密码',

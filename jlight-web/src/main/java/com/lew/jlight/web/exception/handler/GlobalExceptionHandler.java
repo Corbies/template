@@ -18,7 +18,11 @@ public class GlobalExceptionHandler {
     public Response exceptionHandler(RuntimeException e) {
         Response resp = new Response();
         resp.setCode(1);
-        resp.setMsg(e.getMessage());
+        String errorMsg = e.getMessage();
+        if(errorMsg.indexOf(":")>-1){
+            errorMsg = errorMsg.split(":")[1];
+        }
+        resp.setMsg(errorMsg);
         return resp;
     }
 

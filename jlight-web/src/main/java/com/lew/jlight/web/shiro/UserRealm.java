@@ -1,6 +1,12 @@
 package com.lew.jlight.web.shiro;
 
-import javax.annotation.Resource;
+import com.google.common.collect.Sets;
+
+import com.lew.jlight.web.entity.User;
+import com.lew.jlight.web.service.LoginService;
+import com.lew.jlight.web.service.UserService;
+import com.lew.jlight.web.util.ServletUtil;
+import com.lew.jlight.web.util.UserContextUtil;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -17,12 +23,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Component;
 
-import com.google.common.collect.Sets;
-import com.lew.jlight.web.entity.User;
-import com.lew.jlight.web.service.LoginService;
-import com.lew.jlight.web.service.UserService;
-import com.lew.jlight.web.util.ServletUtil;
-import com.lew.jlight.web.util.UserContextUtil;
+import javax.annotation.Resource;
 
 @Component
 public class UserRealm extends AuthorizingRealm {
@@ -64,12 +65,14 @@ public class UserRealm extends AuthorizingRealm {
         UsernamePasswordToken upt = (UsernamePasswordToken) token;
         String account = upt.getUsername();
         User user = loginService.doLogin(account, ServletUtil.getIpAddr()); // 登录日志
+
         if(user == null){
 			throw new UnknownAccountException("账号不存在");
 		}
 		if(user.getIsLock()){
 			throw new LockedAccountException("用户已经被锁定");
 		}
+        upt.setPassword(user.getPassword().toCharArray());
 		// 用info 中的password 比较  token 中的password  密码比较
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(account, user.getPassword(), ByteSource.Util.bytes(account), getName());
 		UserContextUtil.setAttribute("currentUser", user);

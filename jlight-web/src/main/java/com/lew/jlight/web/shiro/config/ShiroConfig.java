@@ -45,7 +45,8 @@ public class ShiroConfig{
     @Bean
     public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator daap = new DefaultAdvisorAutoProxyCreator();
-        daap.setProxyTargetClass(true); return daap;
+        daap.setProxyTargetClass(true);
+        return daap;
     } 
     
     @Bean("shiroFilter")
@@ -115,7 +116,6 @@ public class ShiroConfig{
     public UserRealm userRealm() {
     	UserRealm userRealm = new UserRealm();
     	userRealm.setPermissionResolver(urlPermissionResolver());
-    	userRealm.setCredentialsMatcher(credentialsMatcher());;
         return userRealm;
     }
     
@@ -127,15 +127,6 @@ public class ShiroConfig{
     }
 		
     @Bean
-	public CredentialsMatcher credentialsMatcher (){
-		RetryLimitHashedCredentialsMatcher credentialsMatcher = new  RetryLimitHashedCredentialsMatcher(cacheManager());
-		credentialsMatcher.setHashAlgorithmName(Constants.ALGORITHM_NAME);
-		credentialsMatcher.setHashIterations(Constants.HASH_ITERATIONS);
-		credentialsMatcher.setStoredCredentialsHexEncoded(true);
-		return credentialsMatcher;
-	}
-    
-    @Bean 
     public UrlPermissionResolver urlPermissionResolver(){
     	return new UrlPermissionResolver();
     }

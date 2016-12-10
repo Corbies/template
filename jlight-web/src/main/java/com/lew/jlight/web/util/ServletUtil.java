@@ -3,8 +3,14 @@ package com.lew.jlight.web.util;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
+import com.lew.jlight.core.util.JsonUtil;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -22,6 +28,8 @@ import javax.servlet.http.HttpSession;
  * @author liew
  */
 public class ServletUtil {
+
+    private static Logger logger = LoggerFactory.getLogger(ServletUtil.class);
 
     private static Set<String> suffixSet = Sets.newHashSet("js",".css",".html",".jpg",".png",".gif", ".jpeg");
 
@@ -65,62 +73,37 @@ public class ServletUtil {
     private static final String HTTP_REMOTE_ADDR = "org.framework.web.ServletConstants.RemoteAddr";
 
 
-    @SuppressWarnings("rawtypes")
-    private static ThreadLocal<Map> servletContext = new ThreadLocal<Map>() {
-        @Override
-        protected Map initialValue() {
-            return new HashMap();
-        }
-    };
-    /**
-     * 获得当前的 HttpServletRequest
-     */
-    @SuppressWarnings("rawtypes")
+    private static ThreadLocal<Map> servletContext = ThreadLocal.withInitial(() -> new HashMap());
+
     public static HttpServletRequest getRequest() {
-        return (HttpServletRequest) ((Map) servletContext.get()).get(HTTP_REQUEST);
+        return (HttpServletRequest) servletContext.get().get(HTTP_REQUEST);
     }
 
-    /**
-     * 设置当前的 HttpServletRequest 为 request
-     */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
     public static void setRequest(HttpServletRequest request) {
-        ((Map) servletContext.get()).put(HTTP_REQUEST, request);
+        servletContext.get().put(HTTP_REQUEST, request);
     }
 
-    /**
-     * 获得当前的 HttpServletResponse
-     */
-    @SuppressWarnings("rawtypes")
+
     public static HttpServletResponse getResponse() {
-        return (HttpServletResponse) ((Map) servletContext.get()).get(HTTP_RESPONSE);
+        return (HttpServletResponse) servletContext.get().get(HTTP_RESPONSE);
     }
 
-    /**
-     * 设置当前的 HttpServletResponse 为 response
-     */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
     public static void setResponse(HttpServletResponse response) {
-        ((Map) servletContext.get()).put(HTTP_RESPONSE, response);
+        servletContext.get().put(HTTP_RESPONSE, response);
     }
 
-    /**
-     * 设置当前的 HttpSession 为 session
-     */
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public static void setSession(HttpSession session) {
-        ((Map) servletContext.get()).put(HTTP_SESSION, session);
+        servletContext.get().put(HTTP_SESSION, session);
     }
 
-    /**
-     * 获得当前的 HttpSession
-     */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
     public static HttpSession getSession(boolean create) {
         HttpServletRequest request = getRequest();
         HttpSession session = request != null ? request.getSession(create) : null;
         if ((session != null)) {
-            ((Map) servletContext.get()).put(HTTP_SESSION, session);
+            servletContext.get().put(HTTP_SESSION, session);
             return session;
         }
         return null;
@@ -139,16 +122,16 @@ public class ServletUtil {
      */
     @SuppressWarnings({"rawtypes"})
     public static String getRemoteAddr() {
-        String ip = (String) ((Map) servletContext.get()).get(HTTP_REMOTE_ADDR);
+        String ip = (String) servletContext.get().get(HTTP_REMOTE_ADDR);
         if (ip != null) {
             return ip;
         }
-        return ip;
+        return null;
 
     }
 
     public static void clearServletContext() {
-        ((Map) servletContext.get()).clear();
+        servletContext.get().clear();
     }
 
 
@@ -184,6 +167,26 @@ public class ServletUtil {
             return new URL(req.getRequestURL().toString()).getPort();
         } catch (MalformedURLException excp) {
             return 80;
+        }
+    }
+
+    public static boolean isAjax(HttpServletRequest request){
+        return "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"));
+    }
+
+    public static void write(HttpServletResponse response, Map<String,Object> retMap){
+        PrintWriter pw = null;
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            pw = response.getWriter();
+            pw.write(JsonUtil.parseObject2Str(retMap));
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }finally{
+            if(null != pw){
+                pw.flush();
+                pw.close();
+            }
         }
     }
 

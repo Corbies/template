@@ -11,6 +11,7 @@ import com.lew.jlight.web.service.UserRoleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Resource;
 
@@ -32,16 +33,17 @@ public class UserRoleServiceImpl  implements UserRoleService {
 
     @Override
     public void add(String[] roleIds,String userId) {
-        checkArgument(roleIds!=null,"角色编号不能为空");
         checkArgument(!Strings.isNullOrEmpty(userId),"用户编号不能为空");
         userRoleDao.delete("deleteByUserId",userId);
-        if(roleIds.length>0){
+        if(!Objects.isNull(roleIds)&& roleIds.length>0){
             for(String roleId : roleIds){
                 UserRole userRole = new UserRole();
                 userRole.setUserId(userId);
                 userRole.setRoleId(roleId);
                 userRoleDao.save(userRole);
             }
+        }else{
+            userRoleDao.delete("deleteByUserId",userId);
         }
     }
 }

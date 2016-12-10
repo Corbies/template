@@ -11,11 +11,8 @@ import com.lew.jlight.web.dao.UserDao;
 import com.lew.jlight.web.dao.UserRoleDao;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.service.UserService;
-import com.lew.jlight.web.util.Constants;
 import com.lew.jlight.web.util.UserContextUtil;
 
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,7 +93,7 @@ public class UserServiceImpl  implements UserService {
         String account = user.getAccount();
         User model = userDao.findUnique("getByAccount", account);
         checkArgument(model == null, "用户已存在");
-        String password = new SimpleHash(Constants.ALGORITHM_NAME, user.getPassword(), ByteSource.Util.bytes(account), Constants.HASH_ITERATIONS).toHex();
+        String password = DigestUtil.sha256().digest(user.getPassword());
         user.setErrorCount(BigInteger.ZERO.intValue());
         String userId = IdGenerator.getInstance().nextId();
         user.setUserId(userId);

@@ -16,7 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class IdGeneratorTest {
 
     private CountDownLatch countDownLatch = new CountDownLatch(1000);
-private List list = Lists.newCopyOnWriteArrayList();
+    private List list = Lists.newCopyOnWriteArrayList();
+
     @Test
     public void testNextId() throws Exception {
         String id =IdGenerator.getInstance().nextId();

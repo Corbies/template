@@ -1,7 +1,7 @@
 package com.lew.jlight.web.shiro.filter;
 
 import com.lew.jlight.core.Response;
-import com.lew.jlight.web.util.HttpServletUtil;
+import com.lew.jlight.web.util.ServletUtil;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
@@ -40,11 +40,11 @@ public class ResourceCheckFilter extends AccessControlFilter {
 	protected boolean onAccessDenied(ServletRequest request,
 			ServletResponse response) throws Exception {
 		HttpServletResponse resp = (HttpServletResponse)response;
-		if(HttpServletUtil.isAjax(WebUtils.toHttp(request))){
+		if(ServletUtil.isAjax(WebUtils.toHttp(request))){
 			Map<String, Object> retMap = new HashMap<>();
 			retMap.put("status", Response.ERROR);
 			retMap.put("msg", "no permission");
-    		HttpServletUtil.write(WebUtils.toHttp(response), retMap);
+    		ServletUtil.write(WebUtils.toHttp(response), retMap);
 		}else{
 			resp.sendRedirect(this.errorUrl);
 		}

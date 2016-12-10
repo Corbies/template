@@ -9,7 +9,7 @@ public interface RoleMenuService {
 
     List<RoleMenu> getList(String roleId);
 
-    void update(String roleId, List<String> menuId);
+    void update(String roleId, String[] menuIds);
 
 	List<String> getMenuByRole(String roleId);
 }

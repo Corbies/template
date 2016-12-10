@@ -56,7 +56,6 @@ public class LoginController {
         }
         UsernamePasswordToken token = new UsernamePasswordToken(account, password);
         Subject subject = SecurityUtils.getSubject();
-
         ServletUtil.getRequest().setAttribute("account",account);
         try {
             subject.login(token);

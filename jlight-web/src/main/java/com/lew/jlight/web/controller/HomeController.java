@@ -30,7 +30,6 @@ public class HomeController {
         modelMap.put("account",user.getAccount());
         modelMap.put("lastLoginIp",user.getLoginIp());
         modelMap.put("role",role.getName());
-
         return "home";
     }
 }

@@ -2,6 +2,8 @@ package com.lew.jlight.web.service.impl;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.lew.jlight.core.util.BeanUtil;
@@ -74,23 +76,21 @@ public class RoleMenuServiceImpl implements RoleMenuService {
     }
 
     @Override
-    public void update(String roleId, List<String> resIds) {
+    public void update(String roleId, String[] menuIds) {
         checkArgument(!Strings.isNullOrEmpty(roleId),"菜单编号不能为空");
-
         Role model = roleDao.findUnique("getRoleByRoleId", roleId);
         checkNotNull(model,"角色对象不存在");
-        if (BeanUtil.isEmpty(resIds)) {
+        if (BeanUtil.isEmpty(menuIds)) {
             // 删除所有的角色-菜单数据
             roleMenuDao.update("deleteByRoleId", roleId);
         } else {
             // 先删除原来的角色-菜单,再批量插入
             roleMenuDao.update("deleteByRoleId", roleId);
-            Set<String> resIdsSet = new HashSet<>();
-            resIdsSet.addAll(resIds);
-            for (String menuId : resIdsSet) {
+            Set<String> menuIdsSet = new HashSet<>();
+            menuIdsSet.addAll(Sets.newHashSet(menuIds));
+            for (String menuId : menuIdsSet) {
                 Menu resModel = menuDao.findUnique("getMenuById", menuId);
                 checkNotNull(resModel,"菜单不存在");
-
                 RoleMenu roleMenu = new RoleMenu();
                 roleMenu.setMenuId(menuId);
                 roleMenu.setRoleId(roleId);
