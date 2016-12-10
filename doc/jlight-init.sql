@@ -15,23 +15,6 @@ Date: 2016-12-10 11:49:42
 
 SET FOREIGN_KEY_CHECKS=0;
 
--- ----------------------------
--- Table structure for sys_button
--- ----------------------------
-DROP TABLE IF EXISTS `sys_button`;
-CREATE TABLE `sys_button` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `button_id` varchar(64) NOT NULL COMMENT '按钮编号',
-  `button_name` varchar(30) NOT NULL COMMENT '按钮名称',
-  `button_content` varchar(50) NOT NULL COMMENT '按钮标签内容',
-  `is_delete` tinyint(1) NOT NULL COMMENT '软删除标识',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_button
