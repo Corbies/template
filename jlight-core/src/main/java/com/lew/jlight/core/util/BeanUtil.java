@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -41,25 +42,10 @@ public abstract class BeanUtil {
             if (((Map) obj).isEmpty()) {
                 return true;
             }
-        } else if (obj instanceof Long) {
-            if ((obj == null)) {
-                return true;
-            }
-        } else if (obj instanceof Short) {
-            if (((Short) obj) == null) {
-                return true;
-            }
-        } else {
+        }else {
             return false;
         }
         return false;
-    }
-
-    /**
-     * 判断Map，Collection ,String ,数组是否不为空
-     */
-    public static boolean isNotEmpty(Object obj) {
-        return !isEmpty(obj);
     }
 
     public static boolean isNumber(Object obj) {
@@ -82,24 +68,18 @@ public abstract class BeanUtil {
         return false;
     }
 
-    /**
-     * 判断类是否集成父类
-     */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static boolean isInherit(Class currentClass, Class classParent) {
         return classParent.isAssignableFrom(currentClass);
     }
 
-    public static List<Field> getAllDeclareFields(Class<?> cls) {
+    private static List<Field> getAllDeclareFields(Class<?> cls) {
         List<Field> list = new ArrayList<>();
-        for (Field field : cls.getDeclaredFields()) {
-            list.add(field);
-        }
+        Collections.addAll(list, cls.getDeclaredFields());
         return list;
     }
 
 
-    public static List<String> getAllFieldNames(Class<?> cls) {
+    static List<String> getAllFieldNames(Class<?> cls) {
         List<String> list = new ArrayList<>();
         List<Field> fields = getAllDeclareFields(cls);
         list.addAll(fields.stream().map(Field::getName).collect(Collectors.toList()));
@@ -111,8 +91,7 @@ public abstract class BeanUtil {
         BeanMap.Generator gen = new BeanMap.Generator();
         gen.setBean(object);
         gen.setBeanClass(beanClass);
-        BeanMap beanMap = gen.create();
-        return beanMap;
+        return gen.create();
     }
 
     public static Map toMap(Object value) {

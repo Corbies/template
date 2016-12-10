@@ -57,9 +57,9 @@ public class PageUtil {
                 startPage = 1;
             }
         }
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<>();
         for (int i = startPage; i <= endPage; i++) {
-            result.add(new Integer(i));
+            result.add(i);
         }
         return result;
     }

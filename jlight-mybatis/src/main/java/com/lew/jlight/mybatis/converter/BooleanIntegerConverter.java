@@ -13,14 +13,14 @@ public class BooleanIntegerConverter implements TypeHandler< Boolean > {
 	@Override
 	public void setParameter( PreparedStatement ps, int i, Boolean parameter, JdbcType jdbcType ) throws SQLException {
 		Boolean b = parameter;
-		Integer value = b == true ? 1 : 0;
+		Integer value = b ? 1 : 0;
 		ps.setInt( i, value );
 	}
 
 	@Override
 	public Boolean getResult( ResultSet rs, String columnName ) throws SQLException {
 		Integer value = rs.getInt( columnName );
-		return value == 1 ? true : false;
+		return value == 1;
 	}
 
 	@Override

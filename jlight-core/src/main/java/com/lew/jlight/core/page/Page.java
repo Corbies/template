@@ -1,9 +1,5 @@
 package com.lew.jlight.core.page;
 
-import java.io.Serializable;
-
-
-
 public class Page{
 
 	public static final String KEY_PAGE = "page.pageNo";
