@@ -18,7 +18,7 @@ Jlight是一款基础权限管理系统，其目标主要是降低从零到一�
 - mybatis 3.4.1
 - alibaba Druid 1.0.26
 - thymeleaf 2.1.5.RELEASE
-- lLogback  1.1.7
+- logback  1.1.7
 - guava 19.0
 - ehcache 2.5.3
 
