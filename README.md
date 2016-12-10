@@ -55,4 +55,6 @@ config（Jlight配置文件）、lib（相关依赖包）、jlight.sh、start.ba
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/1210/163356_afbbf240_4226.jpeg "角色页面")
 
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1210/163733_e8b146a4_4226.jpeg "在这里输入图片标题")
+
 
