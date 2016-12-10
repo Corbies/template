@@ -46,3 +46,12 @@ config（Jlight配置文件）、lib（相关依赖包）、jlight.sh、start.ba
 **（注意：Linux环境下脚本使用：./jlight.sh start|stop|restart|status|info）**
 
 ####相关界面
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1210/163213_a72d39e6_4226.jpeg "登录页面")
+
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1210/163223_675283f8_4226.jpeg "主页面")
+
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1210/163340_caa97f09_4226.jpeg "用户页面")
+
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1210/163356_afbbf240_4226.jpeg "角色页面")
+
+
