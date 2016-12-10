@@ -39,6 +39,7 @@ JDK1.8+ 、MySQL5.5+、Maven3.3+
 - 创建数据库jlight，并执行doc/jlight-init.sql
 - 运行jlight-web/com/lew/jlight/web/Application的main函数即可
 - 访问路径：http://localhost
+- 帐号：admin | test  密码：123456
 
 ######打包部署
 - 执行mvn clean package -Pdev(profile参数根据使用环境而定)，执行后在Jlight-web/target目录生成jlight-web-1.0-SNAPSHOT.zip，解压后内容：
