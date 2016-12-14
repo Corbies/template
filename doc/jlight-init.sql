@@ -10,19 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2016-12-10 11:49:42
+Date: 2016-12-15 06:56:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
-
--- ----------------------------
--- Records of sys_button
--- ----------------------------
-INSERT INTO `sys_button` VALUES ('1', '1', '添加', '', '0', '2016-05-21 23:18:31', null, '2016-05-21 23:18:33', null, null);
-INSERT INTO `sys_button` VALUES ('2', '2', '删除', '', '0', '2016-05-21 23:18:50', null, '2016-05-21 23:18:52', null, null);
-INSERT INTO `sys_button` VALUES ('3', '3', '编辑', '', '0', '2016-05-21 23:19:07', null, '2016-05-21 23:19:09', null, null);
-INSERT INTO `sys_button` VALUES ('4', '5', '查看', '', '0', '2016-05-21 23:19:19', null, '2016-05-21 23:19:22', null, null);
 
 -- ----------------------------
 -- Table structure for sys_dict
@@ -72,7 +63,7 @@ CREATE TABLE `sys_login_log` (
   `update_by` varchar(255) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=646 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=651 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_login_log
@@ -121,8 +112,8 @@ INSERT INTO `sys_menu` VALUES ('34', '19', '删除', '/menu/delete', '1', null, 
 INSERT INTO `sys_menu` VALUES ('35', '20', '删除', '/user/delete', '1', null, '1', null, '2', '用户管理', '0', null, '2016-06-26 15:56:07', null, '2016-06-26 15:56:07', '删除用户');
 INSERT INTO `sys_menu` VALUES ('36', '21', '修改', '/role/edit', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-26 15:56:54', null, '2016-06-26 15:56:54', '修改角色');
 INSERT INTO `sys_menu` VALUES ('37', '22', '删除', '/role/delete', '1', null, '1', null, '3', '角色管理', '0', null, '2016-06-26 15:57:14', null, '2016-06-26 15:57:14', '删除角色');
-INSERT INTO `sys_menu` VALUES ('38', '23', '登录日志', '/loginLog/listPage', '0', null, '1', null, '5', '监控管理', '0', null, '2016-06-26 16:07:57', null, '2016-06-26 16:07:57', '登录日志');
-INSERT INTO `sys_menu` VALUES ('39', '24', '操作日志', '/webLog/list', '0', null, '1', null, '5', '监控管理', '0', null, '2016-06-26 16:11:30', null, '2016-06-26 16:11:30', null);
+INSERT INTO `sys_menu` VALUES ('38', '23', '登录日志', '/loginLog/listPage', '0', 'icon-tasks', '1', null, '5', '监控管理', '0', null, '2016-06-26 16:07:57', null, '2016-06-26 16:07:57', '登录日志');
+INSERT INTO `sys_menu` VALUES ('39', '24', '操作日志', '/webLog/list', '0', 'icon-print', '1', null, '5', '监控管理', '0', null, '2016-06-26 16:11:30', null, '2016-06-26 16:11:30', null);
 INSERT INTO `sys_menu` VALUES ('41', '1478700606660', '字典管理', '/dict/list', '0', 'icon-screenshot', '1', null, '1', '系统管理', '0', null, '2016-11-09 12:42:21', null, '2016-11-09 12:42:21', '字典管理');
 INSERT INTO `sys_menu` VALUES ('42', '1480978838674', '角色分配', '/user/addRoles', '1', null, '1', null, '2', '用户管理', '0', null, '2016-11-13 06:14:31', null, '2016-11-13 06:14:31', '给用户分配角色');
 INSERT INTO `sys_menu` VALUES ('43', '1479219411962', '查询', '/user/list', '1', null, '1', null, '2', '用户管理', '0', null, '2016-11-15 12:49:06', null, '2016-11-15 12:49:06', null);
@@ -135,28 +126,6 @@ INSERT INTO `sys_menu` VALUES ('53', '1480136216606', '测试', '/user/test', '1
 INSERT INTO `sys_menu` VALUES ('54', '1480224173523', '添加', '/dic/add', '1', null, '1', null, '1478700606660', '字典管理', '0', null, '2016-11-27 03:55:08', null, '2016-11-27 03:55:08', '添加');
 INSERT INTO `sys_menu` VALUES ('55', '1480224199655', '修改', '/dic/edit', '1', null, '1', null, '1478700606660', '字典管理', '0', null, '2016-11-27 03:55:35', null, '2016-11-27 03:55:35', '修改');
 INSERT INTO `sys_menu` VALUES ('56', '1480254855433', '删除', '/dic/delete', '1', null, '1', null, '1478700606660', '字典管理', '0', null, '2016-11-27 12:26:30', null, '2016-11-27 12:26:30', null);
-
--- ----------------------------
--- Table structure for sys_param
--- ----------------------------
-DROP TABLE IF EXISTS `sys_param`;
-CREATE TABLE `sys_param` (
-  `id` int(11) NOT NULL,
-  `param_id` varchar(64) NOT NULL COMMENT '参数编号',
-  `name` varchar(30) NOT NULL COMMENT '参数名称',
-  `value` varchar(100) NOT NULL COMMENT '参数值',
-  `is_delete` int(1) NOT NULL COMMENT '删除软标识(0为未删除，1为删除)',
-  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_by` varchar(255) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of sys_param
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -200,7 +169,7 @@ CREATE TABLE `sys_role_menu` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注信息',
   PRIMARY KEY (`id`,`role_id`,`menu_id`),
   KEY `idx_role_id` (`role_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8 COMMENT='角色-资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=1004 DEFAULT CHARSET=utf8 COMMENT='角色-资源表';
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -228,6 +197,9 @@ INSERT INTO `sys_role_menu` VALUES ('980', '1', '20', '0', '2016-11-27 12:26:44'
 INSERT INTO `sys_role_menu` VALUES ('981', '1', '1479219651971', '0', '2016-11-27 12:26:44', null, '2016-11-27 12:26:44', null, null);
 INSERT INTO `sys_role_menu` VALUES ('982', '1', '1479219802326', '0', '2016-11-27 12:26:44', null, '2016-11-27 12:26:44', null, null);
 INSERT INTO `sys_role_menu` VALUES ('983', '1', '21', '0', '2016-11-27 12:26:44', null, '2016-11-27 12:26:44', null, null);
+INSERT INTO `sys_role_menu` VALUES ('1001', '1478540596277', '1', '0', '2016-12-10 08:40:16', null, '2016-12-10 08:40:16', null, null);
+INSERT INTO `sys_role_menu` VALUES ('1002', '1478540596277', '12', '0', '2016-12-10 08:40:16', null, '2016-12-10 08:40:16', null, null);
+INSERT INTO `sys_role_menu` VALUES ('1003', '1478540596277', '2', '0', '2016-12-10 08:40:16', null, '2016-12-10 08:40:16', null, null);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -256,13 +228,13 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id_idx` (`user_id`),
   UNIQUE KEY `account_idx` (`account`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '1', 'admin', '刘国庆', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2016-04-15 11:23:23', null, '751185330@qq.com', '13428281893', '0', '0', '2016-12-10 03:48:49', '0:0:0:0:0:0:0:1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
-INSERT INTO `sys_user` VALUES ('64', '1481344689025', 'test', '测试', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, 'goqeng@gmail.com', '18218676908', '0', '0', '2016-12-10 03:46:20', '0:0:0:0:0:0:0:1', '0', '2016-12-10 03:10:23', null, '2016-12-10 03:10:23', null, null);
+INSERT INTO `sys_user` VALUES ('1', '1', 'admin', 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2016-04-15 11:23:23', null, '123456@qq.com', '13428281893', '0', '0', '2016-12-10 08:40:38', '0:0:0:0:0:0:0:1', '0', '2016-04-15 11:23:38', null, '2016-05-12 17:28:04', null, null);
+INSERT INTO `sys_user` VALUES ('65', '526508814813591700456', 'test', '测试员', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', null, null, '1234562@qq.com', '13428281876', '0', '0', '2016-12-10 08:40:28', '0:0:0:0:0:0:0:1', '0', '2016-12-10 08:39:30', null, '2016-12-10 08:39:30', null, null);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -280,13 +252,13 @@ CREATE TABLE `sys_user_role` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8 COMMENT='用户-角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 COMMENT='用户-角色表';
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES ('1', '1', '1', '0', '2016-04-15 14:48:11', '0', '2016-04-15 14:48:13', '0', null);
-INSERT INTO `sys_user_role` VALUES ('80', '1481344689025', '1478540596277', '0', '2016-12-10 03:10:45', null, '2016-12-10 03:10:45', null, null);
+INSERT INTO `sys_user_role` VALUES ('81', '526508814813591700456', '1478540596277', '0', '2016-12-10 08:40:02', null, '2016-12-10 08:40:02', null, null);
 
 -- ----------------------------
 -- Table structure for sys_web_log
@@ -309,7 +281,7 @@ CREATE TABLE `sys_web_log` (
   `update_by` varchar(64) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=235 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=274 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_web_log
