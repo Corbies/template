@@ -2,6 +2,7 @@ package com.lew.jlight.web.shiro;
 
 import com.google.common.collect.Sets;
 
+import com.lew.jlight.core.util.DigestUtil;
 import com.lew.jlight.web.entity.User;
 import com.lew.jlight.web.service.LoginService;
 import com.lew.jlight.web.service.UserService;
@@ -63,20 +64,21 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken upt = (UsernamePasswordToken) token;
+        String account = upt.getUsername();
         String password = String.valueOf(upt.getPassword());
         User user = loginService.doLogin(account, ServletUtil.getIpAddr()); // 登录日志
 
         if(user == null){
-			throw new UnknownAccountException("账号不存在");
-		}
-		if(user.getIsLock()){
-			throw new LockedAccountException("用户已经被锁定");
-		}
+            throw new UnknownAccountException("账号不存在");
+        }
+        if(user.getIsLock()){
+            throw new LockedAccountException("用户已经被锁定");
+        }
         upt.setPassword(DigestUtil.sha256().digest(password).toCharArray());
-		// 用info 中的password 比较  token 中的password  密码比较
-		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(account, user.getPassword(), ByteSource.Util.bytes(account), getName());
-		UserContextUtil.setAttribute("currentUser", user);
-		return info;
+        // 用info 中的password 比较  token 中的password  密码比较
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(account, user.getPassword(), ByteSource.Util.bytes(account), getName());
+        UserContextUtil.setAttribute("currentUser", user);
+        return info;
     }
 }
 
