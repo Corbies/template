@@ -1,0 +1,5 @@
+com\lew\jlight\mybatis\ParamFilter.class
+Ognl.class
+com\lew\jlight\mybatis\converter\BooleanIntegerConverter.class
+com\lew\jlight\mybatis\dao\BaseDao.class
+com\lew\jlight\mybatis\dao\GenericDao.class

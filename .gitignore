@@ -1,0 +1,19 @@
+# Created by .ignore support plugin (hsz.mobi)
+target/
+doc
+logs
+.idea
+LICENSE
+*.iml
+.idea/.name
+.idea/compiler.xml
+.idea/copyright/
+.idea/misc.xml
+.idea/workspace.xml
+logs/
+wbs-assembly/target/
+wbs-core/target/
+wbs-mybatis/target/
+wbs-web/target/
+
+wbs-web/wbs-web.iml

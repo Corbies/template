@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/wbs-assembly/jlight-assembly.iml" filepath="$PROJECT_DIR$/wbs-assembly/jlight-assembly.iml" />
+      <module fileurl="file://$PROJECT_DIR$/videolive-llvision.iml" filepath="$PROJECT_DIR$/videolive-llvision.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wbs-assembly/wbs-assembly.iml" filepath="$PROJECT_DIR$/wbs-assembly/wbs-assembly.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wbs-core/wbs-core.iml" filepath="$PROJECT_DIR$/wbs-core/wbs-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wbs-mybatis/wbs-mybatis.iml" filepath="$PROJECT_DIR$/wbs-mybatis/wbs-mybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wbs-web/wbs-web.iml" filepath="$PROJECT_DIR$/wbs-web/wbs-web.iml" />
+    </modules>
+  </component>
+</project>

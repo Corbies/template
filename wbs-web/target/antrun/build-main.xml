@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <copy file="D:\corbie\workspase\videolive-llvision\wbs-web\target/classes/config/application-dev.properties" tofile="D:\corbie\workspase\videolive-llvision\wbs-web/target/classes/application.properties" overwrite="true"/>
+  <delete dir="D:\corbie\workspase\videolive-llvision\wbs-web\target/classes/config"/>
+</target>
+</project>
